@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{43DA10D1-A32D-41D1-8A12-A8415DA15668}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>GPX_Viewer</RootNamespace>
+    <AssemblyName>GPX Viewer</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>App.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ObjectListView, Version=2.9.1.1072, Culture=neutral, PublicKeyToken=b1c5bf581481bcd4, processorArchitecture=MSIL">
+      <HintPath>..\packages\ObjectListView.Official.2.9.1\lib\net20\ObjectListView.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Xml.Schema.Linq, Version=2.0.2.56002, Culture=neutral, PublicKeyToken=47d0c84d0ebb13e5, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqToXsd.2.0.2\lib\Xml.Schema.Linq.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AboutBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AboutBox.Designer.cs">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GpsUtils.cs" />
+    <Compile Include="gpx.xsd.cs" />
+    <Compile Include="model\GpxFileModel.cs" />
+    <Compile Include="model\GpxFileSetModel.cs" />
+    <Compile Include="model\GpxModel.cs" />
+    <Compile Include="model\GpxRouteModel.cs" />
+    <Compile Include="model\GpxTrackModel.cs" />
+    <Compile Include="model\GpxTrackpointModel.cs" />
+    <Compile Include="model\GpxTrackSegmentModel.cs" />
+    <Compile Include="model\GpxWaypointModel.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScrolledHTMLDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ScrolledHTMLDialog.designer.cs">
+      <DependentUpon>ScrolledHTMLDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TrainingCenterDatabasev2.xsd.cs" />
+    <Compile Include="Utils.cs" />
+    <EmbeddedResource Include="AboutBox.resx">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="ScrolledHTMLDialog.resx">
+      <DependentUpon>ScrolledHTMLDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="LICENSE" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="icons\add.gif" />
+    <Content Include="icons\collapseall.gif" />
+    <Content Include="icons\copy_edit.gif" />
+    <Content Include="icons\cut_edit.gif" />
+    <Content Include="icons\debug_exc.gif" />
+    <Content Include="icons\expandall.gif" />
+    <Content Include="icons\file_obj.gif" />
+    <Content Include="icons\ge16.png" />
+    <Content Include="icons\GPXInspector.ico" />
+    <Content Include="icons\GPXInspector16.png" />
+    <Content Include="icons\GPXInspector256.png" />
+    <Content Include="icons\GPXInspector32.png" />
+    <Content Include="icons\meBook.gif" />
+    <Content Include="icons\paste_edit.gif" />
+    <Content Include="icons\properties.gif" />
+    <Content Include="icons\refresh.gif" />
+    <Content Include="icons\remove.gif" />
+    <Content Include="icons\removeAll.gif" />
+    <Content Include="icons\removeAll.png" />
+    <Content Include="icons\route.png" />
+    <Content Include="icons\track.png" />
+    <Content Include="icons\trackSegment.png" />
+    <Content Include="icons\waypoint.png" />
+    <Content Include="icons\waypoint32.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
