@@ -20,6 +20,8 @@ namespace GPX_Viewer {
         public GpxFileSetModel FileSet { get; set; }
         public List<GpxFileModel> Files { get; set; }
         public ImageList ImageList { get; set; }
+        public Size ImageSize { get; set; }
+        public PointF DPI { get; set; }
         public MainForm() {
             InitializeComponent();
 
@@ -28,6 +30,15 @@ namespace GPX_Viewer {
         }
 
         private void OnFormLoad(object sender, EventArgs e) {
+            // DPI
+            float dpiX, dpiY;
+            using (Graphics g = this.CreateGraphics()) {
+                dpiX = g.DpiX;
+                dpiY = g.DpiY;
+            }
+            DPI = new PointF(dpiX, dpiY);
+            ImageSize = new Size((int)(16 * dpiX / 96), (int)(16 * dpiY / 96));
+
             // CanExpand getter
             treeListView.CanExpandGetter = delegate (object x) {
                 return x is GpxFileSetModel || (x is GpxFileModel)
@@ -78,6 +89,7 @@ namespace GPX_Viewer {
 #if true
             // Make ImageList
             ImageList = new ImageList();
+            ImageList.ImageSize = ImageSize;
             Assembly assembly = Assembly.GetExecutingAssembly();
             Stream imageStream = assembly.GetManifestResourceStream(
                 "GPX_Viewer.icons.route.png");
@@ -103,17 +115,17 @@ namespace GPX_Viewer {
 #endif
             // Image getter
             this.col1.ImageGetter = delegate (object x) {
-                if (x is GpxTrackModel trk) {
-                    return 0;
+                if (x is GpxTrackModel) {
+                    return "track";
                 }
-                if (x is GpxTrackSegmentModel seg) {
-                    return 1;
+                if (x is GpxRouteModel) {
+                    return "route";
                 }
-                if (x is GpxRouteModel rte) {
-                    return 2;
+                if (x is GpxWaypointModel) {
+                    return "waypoint";
                 }
-                if (x is GpxWaypointModel wpt) {
-                    return 3;
+                if (x is GpxTrackSegmentModel) {
+                    return "trackSegment";
                 }
                 return null;
             };

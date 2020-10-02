@@ -18,6 +18,9 @@ namespace GPX_Viewer.model {
                 info += Trackpoint.name + " ";
             }
             info += Trackpoint.time;
+            if (Parent is GpxTrackSegmentModel segment) {
+                info += " (" + (segment.Trackpoints.IndexOf(this) + 1) + ")";
+            }
             return info;
         }
         public override void showInfo() {

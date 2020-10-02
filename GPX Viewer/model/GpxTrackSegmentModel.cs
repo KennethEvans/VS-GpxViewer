@@ -14,7 +14,7 @@ namespace GPX_Viewer.model {
             Segment = seg;
             Trackpoints = new List<GpxTrackpointModel>();
             foreach (wptType tkp in seg.trkpt) {
-                Trackpoints.Add(new GpxTrackpointModel(Parent, tkp));
+                Trackpoints.Add(new GpxTrackpointModel(this, tkp));
             }
         }
         public override string getLabel() {

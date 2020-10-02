@@ -125,7 +125,6 @@
     <Content Include="icons\debug_exc.gif" />
     <Content Include="icons\expandall.gif" />
     <Content Include="icons\file_obj.gif" />
-    <Content Include="icons\ge16.png" />
     <Content Include="icons\GPXInspector.ico" />
     <Content Include="icons\GPXInspector16.png" />
     <Content Include="icons\GPXInspector256.png" />

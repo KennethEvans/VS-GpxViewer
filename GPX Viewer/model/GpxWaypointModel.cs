@@ -14,6 +14,13 @@ namespace GPX_Viewer.model {
         }
         public override string getLabel() {
             return Waypoint.name != null? Waypoint.name : "";
+#if false
+            string info = Waypoint.name != null ? Waypoint.name : "";
+            if (Parent is GpxRouteModel route) {
+                info += " (" + (route.Waypoints.IndexOf(this) + 1) + ")";
+            }
+            return info;
+#endif
         }
         public override void showInfo() {
             throw new NotImplementedException();
