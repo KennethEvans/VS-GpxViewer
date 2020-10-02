@@ -137,10 +137,10 @@
     <Content Include="icons\remove.gif" />
     <Content Include="icons\removeAll.gif" />
     <Content Include="icons\removeAll.png" />
-    <Content Include="icons\route.png" />
-    <Content Include="icons\track.png" />
-    <Content Include="icons\trackSegment.png" />
-    <Content Include="icons\waypoint.png" />
+    <EmbeddedResource Include="icons\route.png" />
+    <EmbeddedResource Include="icons\track.png" />
+    <EmbeddedResource Include="icons\trackSegment.png" />
+    <EmbeddedResource Include="icons\waypoint.png" />
     <Content Include="icons\waypoint32.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

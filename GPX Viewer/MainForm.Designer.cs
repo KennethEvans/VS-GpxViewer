@@ -23,7 +23,6 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tableLayoutPanelTop = new System.Windows.Forms.TableLayoutPanel();
             this.treeListView = new BrightIdeasSoftware.TreeListView();
@@ -62,6 +61,7 @@
             // 
             this.treeListView.AllColumns.Add(this.col1);
             this.treeListView.CellEditUseWholeCell = false;
+            this.treeListView.CheckBoxes = true;
             this.treeListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.col1});
             this.treeListView.Cursor = System.Windows.Forms.Cursors.Default;
@@ -79,13 +79,13 @@
             // col1
             // 
             this.col1.AspectName = "Label";
-            this.col1.CheckBoxes = true;
             this.col1.FillsFreeSpace = true;
             this.col1.Text = "Files";
             this.col1.Width = 118;
             // 
             // menuStrip1
             // 
+            this.menuStrip1.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(40, 40);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,

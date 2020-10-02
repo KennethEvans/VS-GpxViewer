@@ -75,8 +75,8 @@ namespace GPX_Viewer {
                 return new List<GpxModel>();
             };
 
-#if false
-// Make ImageList
+#if true
+            // Make ImageList
             ImageList = new ImageList();
             Assembly assembly = Assembly.GetExecutingAssembly();
             Stream imageStream = assembly.GetManifestResourceStream(
@@ -100,6 +100,7 @@ namespace GPX_Viewer {
                 ImageList.Images.Add("waypoint", Image.FromStream(imageStream));
             }
             treeListView.SmallImageList = ImageList;
+#endif
             // Image getter
             this.col1.ImageGetter = delegate (object x) {
                 if (x is GpxTrackModel trk) {
@@ -116,7 +117,6 @@ namespace GPX_Viewer {
                 }
                 return null;
             };
-#endif
             // Set the roots to be Files
             treeListView.Roots = Files;
         }
@@ -204,8 +204,9 @@ namespace GPX_Viewer {
             // ImageList
             msg += "ImageList Keys" + NL;
             if (ImageList != null && ImageList.Images != null) {
+                ImageList.ImageCollection images = ImageList.Images;
                 foreach (string key in ImageList.Images.Keys) {
-                    msg += "    " + key + NL;
+                    msg += "    " + key + " (" + images.IndexOfKey(key) + ")" + NL;
                 }
             } else {
                 msg += "    " + "No Image List" + NL;
@@ -213,8 +214,13 @@ namespace GPX_Viewer {
 #endif
             // TableListView Images
             msg += "TableListView Images" + NL;
-            foreach (string key in treeListView.SmallImageList.Images.Keys) {
-                msg += "    " + key + NL;
+            if (treeListView.SmallImageList != null && treeListView.SmallImageList.Images != null) {
+                ImageList.ImageCollection images = treeListView.SmallImageList.Images;
+                foreach (string key in treeListView.SmallImageList.Images.Keys) {
+                    msg += "    " + key + " (" + images.IndexOfKey(key) + ")" + NL;
+                }
+            } else {
+                msg += "    " + "No Image List" + NL;
             }
             Utils.infoMsg(msg);
         }
