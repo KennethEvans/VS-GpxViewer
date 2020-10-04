@@ -14,7 +14,7 @@ namespace GPX_Viewer.model {
         private string label;
         public GpxModel Parent { get; set; }
         public string Label { get { return getLabel(); } set { label = value; } }
-        public bool Checked { get; set; }
+        public bool Checked { get; set; } = true;
 
         public abstract string getLabel();
         public abstract void showInfo();

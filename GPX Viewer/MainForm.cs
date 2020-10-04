@@ -4,18 +4,15 @@ using KEUtils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.Serialization;
 using System.Windows.Forms;
 
 namespace GPX_Viewer {
     public partial class MainForm : Form {
+        private static readonly string DEBUG_FILE_NAME = @"C:\Users\evans\Documents\GPSLink\Test\AAAtest9.gpx";
         public static readonly String NL = Environment.NewLine;
         public GpxFileSetModel FileSet { get; set; }
         public List<GpxFileModel> Files { get; set; }
@@ -26,7 +23,15 @@ namespace GPX_Viewer {
             InitializeComponent();
 
             FileSet = new GpxFileSetModel(null);
-            Files = new List<GpxFileModel>();
+            Files = FileSet.Files;
+#if true
+            // Load a file for testing
+            try {
+                Files.Add(new GpxFileModel(FileSet, DEBUG_FILE_NAME));
+            } catch (Exception ex) {
+                Utils.excMsg("Failed to load debug file", ex);
+            }
+#endif
         }
 
         private void OnFormLoad(object sender, EventArgs e) {
@@ -86,6 +91,10 @@ namespace GPX_Viewer {
                 return new List<GpxModel>();
             };
 
+            treeListView.CheckedAspectName = "Checked";
+            // CheckedAspectName doesn't work with HierarchicalCheckboxes
+            treeListView.HierarchicalCheckboxes = false;
+
 #if true
             // Make ImageList
             ImageList = new ImageList();
@@ -133,43 +142,115 @@ namespace GPX_Viewer {
             treeListView.Roots = Files;
         }
 
-        private void OnFileExitClick(object sender, EventArgs e) {
-            Close();
+        private void resetTree() {
+            treeListView.Roots = Files;
+            treeListView.Refresh();
         }
 
-        private void OnAboutClick(object sender, EventArgs e) {
-            AboutBox dlg = new AboutBox();
-            dlg.ShowDialog();
+        private List<object> getAllTreeObjects() {
+            List<object> objects = new List<object>();
+            foreach (object x in treeListView.Objects) {
+                objects.Add(x);
+                objects.Add(getTreeChildren(x));
+            }
+            return objects;
         }
 
-        private void OnFileOpenGpxClick(object sender, EventArgs e) {
-            OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Filter = "GPX|*.gpx|TCX|*.tcx|GPX and TCX|*.gpx;*.tcx";
-            dlg.Title = "Select files to process";
-            dlg.Multiselect = true;
-            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
-                if (dlg.FileNames == null) {
-                    Utils.warnMsg("Failed to open files to process");
-                    return;
+        private List<object> getTreeChildren(object x) {
+            List<object> objects = new List<object>();
+            foreach (object child in treeListView.GetChildren(x)) {
+                objects.Add(child);
+                objects.Add(getTreeChildren(child));
+            }
+            return objects;
+        }
+
+        private void expandToLevel(int level) {
+            treeListView.CollapseAll();
+            if (level == 0) return;
+            foreach (object x in treeListView.Roots) {
+                treeListView.Expand(x);
+                if (level > 1) {
+                    foreach (object child1 in treeListView.GetChildren(x)) {
+                        treeListView.Expand(child1);
+                        if (level > 2) {
+                            foreach (object child2 in treeListView.GetChildren(child1)) {
+                            }
+                        }
+                    }
                 }
-                string[] fileNames = dlg.FileNames;
-                foreach (string fileName in fileNames) {
-                    Files.Add(new GpxFileModel(FileSet, fileName));
+            }
+            treeListView.TopItemIndex = 0;
+        }
+
+        /// <summary>
+        /// Method to do an action for the given GpxModel with recursion over sub-models.
+        /// </summary>
+        /// <param name="model">The model to start with.</param>
+        /// <param name="obj">A parameter for the action</param>
+        /// <param name="action">The Action<GpxModel, object>.</param>
+        public void recurseModels(GpxModel model, object obj, Action<GpxModel, object> action) {
+            if (model is GpxFileSetModel fileSetModel) {
+                // Don't do action here
+                foreach (GpxFileModel fileModel in fileSetModel.Files) {
+                    action(model, obj);
+                    recurseModels(fileModel, obj, action);
                 }
-                treeListView.Roots = Files;
-                treeListView.Refresh();
+            } else if (model is GpxFileModel fileModel) {
+                action(model, obj);
+                foreach (GpxTrackModel trkModel in fileModel.Tracks) {
+                    action(model, obj);
+                    recurseModels(trkModel, obj, action);
+                }
+                foreach (GpxRouteModel rteModel in fileModel.Routes) {
+                    action(model, obj);
+                    recurseModels(rteModel, obj, action);
+                }
+                foreach (GpxWaypointModel wptModel in fileModel.Waypoints) {
+                    action(model, obj);
+                    recurseModels(wptModel, obj, action);
+                }
+            } else if (model is GpxTrackModel trkModel) {
+                action(model, obj);
+                foreach (GpxTrackSegmentModel segModel in trkModel.Segments) {
+                    recurseModels(segModel, obj, action);
+                }
+            } else if (model is GpxTrackSegmentModel segModel) {
+                action(model, obj);
+                foreach (GpxTrackpointModel tkptModel in segModel.Trackpoints) {
+                    recurseModels(tkptModel, obj, action);
+                }
+            } else if (model is GpxRouteModel rteModel) {
+                action(model, obj);
+                foreach (GpxWaypointModel wptModel in rteModel.Waypoints) {
+                    recurseModels(wptModel, obj, action);
+                }
+            } else if (model is GpxTrackpointModel) {
+                action(model, obj);
+            } else if (model is GpxWaypointModel) {
+                action(model, obj);
             }
         }
 
-        private void OnHelpStatusClick(object sender, EventArgs e) {
+        public void showStatus() {
             IEnumerable roots = treeListView.Roots;
             if (roots == null) {
                 Utils.errMsg("TreeListView has no Roots");
                 return;
             }
+            string msg = "TreeListView" + NL;
+            msg += "    Number of files=" + Files.Count + NL;
+
+#if false
+                msg += "    " + roots.GetType() + NL
+                + "    Roots Hash=" + roots.GetHashCode() + NL
+                + "    Files Hash=" + Files.GetHashCode() + NL
+                + "    " + roots.GetType() + NL
+#endif
+            // Tree statistics
             int nObjs = 0, nFileSet = 0, nFile = 0, nTrk = 0, nSeg = 0;
             int nTkpt = 0, nWpt = 0, nRte = 0;
-            foreach (object x in roots) {
+            foreach (object x in getAllTreeObjects()) {
                 nObjs++;
                 if (x is GpxFileSetModel fileSet) {
                     nFileSet++;
@@ -193,18 +274,68 @@ namespace GPX_Viewer {
                     nRte++;
                 }
             }
-            string msg = "TreeListView" + NL
-                + "    " + roots.GetType() + NL
-                + "    Roots Hash=" + roots.GetHashCode() + NL
-                + "    Files Hash=" + Files.GetHashCode() + NL
-                + "    " + roots.GetType() + NL
+            msg += "TreeNode Statistics" + NL
                 + "    nObjects=" + nObjs + " nFileSets=" + nFileSet
                 + " nFiles=" + nFile + NL
                 + "    nTracks=" + nTrk + " nSegments=" + nSeg
                 + " nTrackPoints=" + nTkpt + NL
                 + "    nWayPoints=" + nWpt + NL
-                + "    nRoutes=" + nRte + NL
-                + "Number of files=" + Files.Count + NL;
+                + "    nRoutes=" + nRte + NL;
+
+            // Model statistics
+            nObjs = nFileSet = nFile = nTrk = nSeg = 0;
+            nTkpt = nWpt = nRte = 0;
+            foreach (GpxModel x in getAllModels(FileSet)) {
+                nObjs++;
+                if (x is GpxFileSetModel fileSet) {
+                    nFileSet++;
+                }
+                if (x is GpxFileModel file) {
+                    nFile++;
+                }
+                if (x is GpxTrackModel track) {
+                    nTrk++;
+                }
+                if (x is GpxTrackSegmentModel segment) {
+                    nSeg++;
+                }
+                if (x is GpxTrackpointModel) {
+                    nTkpt++;
+                }
+                if (x is GpxWaypointModel) {
+                    nWpt++;
+                }
+                if (x is GpxRouteModel) {
+                    nRte++;
+                }
+            }
+            msg += "TreeNode Statistics" + NL
+                + "    nObjects=" + nObjs + " nFileSets=" + nFileSet
+                + " nFiles=" + nFile + NL
+                + "    nTracks=" + nTrk + " nSegments=" + nSeg
+                + " nTrackPoints=" + nTkpt + NL
+                + "    nWayPoints=" + nWpt + NL
+                + "    nRoutes=" + nRte + NL;
+
+
+            // Expanded
+            msg += "Expanded" + NL;
+            int nExpanded = 0;
+            foreach (object obj in treeListView.ExpandedObjects) {
+                nExpanded++;
+            }
+            msg += " Model: nExpanded=" + nExpanded + NL;
+
+            // Checkboxes
+            msg += "Checkboxes" + NL;
+            int nChecked = 0;
+            foreach (object obj in treeListView.CheckedObjects) {
+                nChecked++;
+            }
+            msg += " TreeListView: nChecked=" + nChecked + NL;
+            msg += " Model: nChecked=" + calculateNumberCheckedInModel(FileSet) + NL;
+
+#if false // All image stuff
 #if true
             // Images
             msg += "Embedded Images" + NL;
@@ -234,7 +365,169 @@ namespace GPX_Viewer {
             } else {
                 msg += "    " + "No Image List" + NL;
             }
+#endif // All image stuff
             Utils.infoMsg(msg);
+        }
+
+        public Action<GpxModel, object> checkAll = (model, obj) => {
+            model.Checked = (bool)obj;
+        };
+
+        public int calculateNumberCheckedInModel(GpxModel model) {
+            int nChecked = 0;
+            if (model is GpxFileSetModel fileSetModel) {
+                foreach (GpxFileModel fileModel in fileSetModel.Files) {
+                    nChecked += calculateNumberCheckedInModel(fileModel);
+                }
+            } else if (model is GpxFileModel fileModel) {
+                if (model.Checked) nChecked++;
+                foreach (GpxTrackModel trkModel in fileModel.Tracks) {
+                    nChecked += calculateNumberCheckedInModel(trkModel);
+                }
+                foreach (GpxRouteModel rteModel in fileModel.Routes) {
+                    nChecked += calculateNumberCheckedInModel(rteModel);
+                }
+                foreach (GpxWaypointModel wptModel in fileModel.Waypoints) {
+                    nChecked += calculateNumberCheckedInModel(wptModel);
+                }
+            } else if (model is GpxTrackModel trkModel) {
+                if (model.Checked) nChecked++;
+                foreach (GpxTrackSegmentModel segModel in trkModel.Segments) {
+                    nChecked += calculateNumberCheckedInModel(segModel);
+                }
+            } else if (model is GpxTrackSegmentModel segModel) {
+                if (model.Checked) nChecked++;
+                foreach (GpxTrackpointModel tkptModel in segModel.Trackpoints) {
+                    nChecked += calculateNumberCheckedInModel(tkptModel);
+                }
+            } else if (model is GpxRouteModel rteModel) {
+                if (model.Checked) nChecked++;
+                foreach (GpxWaypointModel wptModel in rteModel.Waypoints) {
+                    nChecked += calculateNumberCheckedInModel(wptModel);
+                }
+            } else if (model is GpxTrackpointModel) {
+                nChecked++;
+            } else if (model is GpxWaypointModel) {
+                nChecked++;
+            }
+            return nChecked;
+        }
+
+        public List<GpxModel> getAllModels(GpxModel model) {
+            List<GpxModel> models = new List<GpxModel>();
+            if (model is GpxFileSetModel fileSetModel) {
+                models.Add(fileSetModel);
+                foreach (GpxFileModel fileModel in fileSetModel.Files) {
+                    models.AddRange(getAllModels(fileModel));
+                }
+            } else if (model is GpxFileModel fileModel) {
+                models.Add(fileModel);
+                foreach (GpxTrackModel trkModel in fileModel.Tracks) {
+                    models.AddRange(getAllModels(trkModel));
+                }
+                foreach (GpxRouteModel rteModel in fileModel.Routes) {
+                    models.AddRange(getAllModels(rteModel));
+                }
+                foreach (GpxWaypointModel wptModel in fileModel.Waypoints) {
+                    models.AddRange(getAllModels(wptModel));
+                }
+            } else if (model is GpxTrackModel trkModel) {
+                models.Add(trkModel);
+                foreach (GpxTrackSegmentModel segModel in trkModel.Segments) {
+                    models.AddRange(getAllModels(segModel));
+                }
+            } else if (model is GpxTrackSegmentModel segModel) {
+                models.Add(segModel);
+                foreach (GpxTrackpointModel tkptModel in segModel.Trackpoints) {
+                    models.AddRange(getAllModels(tkptModel));
+                }
+            } else if (model is GpxRouteModel rteModel) {
+                models.Add(rteModel);
+                foreach (GpxWaypointModel wptModel in rteModel.Waypoints) {
+                    models.AddRange(getAllModels(wptModel));
+                }
+            } else if (model is GpxTrackpointModel tkptModel) {
+                models.Add(tkptModel);
+            } else if (model is GpxWaypointModel wptModel) {
+                models.Add(wptModel);
+            }
+            return models;
+        }
+
+        private void OnFileExitClick(object sender, EventArgs e) {
+            Close();
+        }
+
+        private void OnAboutClick(object sender, EventArgs e) {
+            AboutBox dlg = new AboutBox();
+            dlg.ShowDialog();
+        }
+
+        private void OnFileOpenGpxClick(object sender, EventArgs e) {
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Filter = "GPX|*.gpx|TCX|*.tcx|GPX and TCX|*.gpx;*.tcx";
+            dlg.Title = "Select files to process";
+            dlg.Multiselect = true;
+            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
+                if (dlg.FileNames == null) {
+                    Utils.warnMsg("Failed to open files to process");
+                    return;
+                }
+                string[] fileNames = dlg.FileNames;
+                foreach (string fileName in fileNames) {
+                    Files.Add(new GpxFileModel(FileSet, fileName));
+                }
+                resetTree();
+            }
+        }
+
+        private void OnHelpStatusClick(object sender, EventArgs e) {
+            showStatus();
+        }
+
+        private void OnResetModelFromTree(object sender, EventArgs e) {
+            Utils.infoMsg("Not implemented yet");
+        }
+
+        private void OnResetTreeFromModel(object sender, EventArgs e) {
+            resetTree();
+        }
+
+        private void OnToolsCheckAllFilesClick(object sender, EventArgs e) {
+            foreach (GpxFileModel model in FileSet.Files) {
+                model.Checked = true;
+            }
+            resetTree();
+        }
+
+        private void OnToolsCheckNoFilesClick(object sender, EventArgs e) {
+            foreach (GpxFileModel model in FileSet.Files) {
+                model.Checked = false;
+            }
+            resetTree();
+        }
+
+        private void OnToolsCheckAllClick(object sender, EventArgs e) {
+            recurseModels(FileSet, true, checkAll);
+        }
+
+        private void OnToolsCheckNoneClick(object sender, EventArgs e) {
+            recurseModels(FileSet, false, checkAll);
+        }
+
+        private void OnViewExpandAllClick(object sender, EventArgs e) {
+            treeListView.ExpandAll();
+
+        }
+        private void OnViewExpandNoneClick(object sender, EventArgs e) {
+            treeListView.CollapseAll();
+        }
+
+        private void OnViewExpandToLevelClick(object sender, EventArgs e) {
+            if (sender.ToString().Equals("0")) expandToLevel(0);
+            else if (sender.ToString().Equals("1")) expandToLevel(1);
+            else if (sender.ToString().Equals("2")) expandToLevel(2);
+            else if (sender.ToString().Equals("3")) expandToLevel(3);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Exercise_Analyzer {
+namespace GPSUtils {
     class GpsUtils {
         /**
          * Nominal radius of the earth in miles. The radius actually varies from
