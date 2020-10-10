@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace KEUtils {
     public static class Utils {
-        public static string LF = System.Environment.NewLine;
+        public static string NL = System.Environment.NewLine;
 
         /// <summary>
         /// Error message.
@@ -20,7 +20,7 @@ namespace KEUtils {
         /// <param name="msg"></param>
         /// <param name="ex"></param>
         public static void excMsg(string msg, Exception ex) {
-            MessageBox.Show(msg += LF + "Exception: " + ex + LF
+            MessageBox.Show(msg += NL + "Exception: " + ex + NL
             + ex.Message, "Exception");
         }
 

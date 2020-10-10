@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using www.topografix.com.GPX_1_1;
 
-namespace GPX_Viewer.model {
+namespace GPXViewer.model {
     public class GpxTrackSegmentModel : GpxModel {
         public trksegType Segment { get; set; }
         public List<GpxTrackpointModel> Trackpoints { get; set; }

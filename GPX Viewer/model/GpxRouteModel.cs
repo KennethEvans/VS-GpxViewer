@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using www.topografix.com.GPX_1_1;
 
-namespace GPX_Viewer.model {
+namespace GPXViewer.model {
     public class GpxRouteModel : GpxModel {
-        rteType Route { get; set; }
+        public rteType Route { get; set; }
         public List<GpxWaypointModel> Waypoints { get; set; }
         public GpxRouteModel(GpxModel parent, rteType rte) {
             Parent = parent;

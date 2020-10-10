@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using www.topografix.com.GPX_1_1;
 
-namespace GPX_Viewer.model {
+namespace GPXViewer.model {
     public class GpxFileModel : GpxModel {
         public string FileName { get; set; }
         public gpx Gpx { get; set; }

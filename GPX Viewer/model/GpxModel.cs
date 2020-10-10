@@ -8,7 +8,7 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GPX_Viewer.model {
+namespace GPXViewer.model {
     public abstract class GpxModel {
         public static readonly String NL = Environment.NewLine;
         private string label;

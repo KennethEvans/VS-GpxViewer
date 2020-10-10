@@ -1,4 +1,4 @@
-﻿namespace GPX_Viewer {
+﻿namespace GPXViewer {
     partial class MainForm {
         /// <summary>
         /// Required designer variable.
@@ -31,17 +31,19 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openGPXTCXFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sendToGoogleEarthToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.resetModelFromTreeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resetTreeFromModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.collapseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.expandToLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
+            this.collapseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.allFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,7 +55,6 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanelTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.treeListView)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -122,6 +123,7 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openGPXTCXFileToolStripMenuItem,
+            this.sendToGoogleEarthToolStripMenuItem,
             this.toolStripSeparator1,
             this.resetModelFromTreeToolStripMenuItem,
             this.resetTreeFromModelToolStripMenuItem,
@@ -137,6 +139,13 @@
             this.openGPXTCXFileToolStripMenuItem.Size = new System.Drawing.Size(484, 54);
             this.openGPXTCXFileToolStripMenuItem.Text = "Open GPX/TCX File...";
             this.openGPXTCXFileToolStripMenuItem.Click += new System.EventHandler(this.OnFileOpenGpxClick);
+            // 
+            // sendToGoogleEarthToolStripMenuItem
+            // 
+            this.sendToGoogleEarthToolStripMenuItem.Name = "sendToGoogleEarthToolStripMenuItem";
+            this.sendToGoogleEarthToolStripMenuItem.Size = new System.Drawing.Size(484, 54);
+            this.sendToGoogleEarthToolStripMenuItem.Text = "Send to Google Earth";
+            this.sendToGoogleEarthToolStripMenuItem.Click += new System.EventHandler(this.OnFileSendToGoogleEarth);
             // 
             // toolStripSeparator1
             // 
@@ -178,13 +187,6 @@
             this.viewToolStripMenuItem1.Size = new System.Drawing.Size(106, 48);
             this.viewToolStripMenuItem1.Text = "View";
             // 
-            // collapseToolStripMenuItem
-            // 
-            this.collapseToolStripMenuItem.Name = "collapseToolStripMenuItem";
-            this.collapseToolStripMenuItem.Size = new System.Drawing.Size(448, 54);
-            this.collapseToolStripMenuItem.Text = "Collapse All";
-            this.collapseToolStripMenuItem.Click += new System.EventHandler(this.OnViewExpandNoneClick);
-            // 
             // expandToLevelToolStripMenuItem
             // 
             this.expandToLevelToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -193,29 +195,43 @@
             this.toolStripMenuItem3,
             this.toolStripMenuItem4});
             this.expandToLevelToolStripMenuItem.Name = "expandToLevelToolStripMenuItem";
-            this.expandToLevelToolStripMenuItem.Size = new System.Drawing.Size(448, 54);
+            this.expandToLevelToolStripMenuItem.Size = new System.Drawing.Size(392, 54);
             this.expandToLevelToolStripMenuItem.Text = "Expand to Level";
+            // 
+            // toolStripMenuItem5
+            // 
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(200, 54);
+            this.toolStripMenuItem5.Text = "0";
+            this.toolStripMenuItem5.Click += new System.EventHandler(this.OnViewExpandToLevelClick);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(448, 54);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(200, 54);
             this.toolStripMenuItem2.Text = "1";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.OnViewExpandToLevelClick);
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(448, 54);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(200, 54);
             this.toolStripMenuItem3.Text = "2";
             this.toolStripMenuItem3.Click += new System.EventHandler(this.OnViewExpandToLevelClick);
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(448, 54);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(200, 54);
             this.toolStripMenuItem4.Text = "3";
             this.toolStripMenuItem4.Click += new System.EventHandler(this.OnViewExpandToLevelClick);
+            // 
+            // collapseToolStripMenuItem
+            // 
+            this.collapseToolStripMenuItem.Name = "collapseToolStripMenuItem";
+            this.collapseToolStripMenuItem.Size = new System.Drawing.Size(392, 54);
+            this.collapseToolStripMenuItem.Text = "Collapse All";
+            this.collapseToolStripMenuItem.Click += new System.EventHandler(this.OnViewExpandNoneClick);
             // 
             // toolsToolStripMenuItem
             // 
@@ -233,7 +249,7 @@
             this.everythingToolStripMenuItem,
             this.nothingToolStripMenuItem});
             this.checkToolStripMenuItem.Name = "checkToolStripMenuItem";
-            this.checkToolStripMenuItem.Size = new System.Drawing.Size(265, 54);
+            this.checkToolStripMenuItem.Size = new System.Drawing.Size(448, 54);
             this.checkToolStripMenuItem.Text = "Check";
             // 
             // allFilesToolStripMenuItem
@@ -302,13 +318,6 @@
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.OnAboutClick);
             // 
-            // toolStripMenuItem5
-            // 
-            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(448, 54);
-            this.toolStripMenuItem5.Text = "0";
-            this.toolStripMenuItem5.Click += new System.EventHandler(this.OnViewExpandToLevelClick);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
@@ -361,6 +370,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
+        private System.Windows.Forms.ToolStripMenuItem sendToGoogleEarthToolStripMenuItem;
     }
 }
 

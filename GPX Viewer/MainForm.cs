@@ -1,5 +1,6 @@
 ﻿using About;
-using GPX_Viewer.model;
+using GPXViewer.KML;
+using GPXViewer.model;
 using KEUtils;
 using System;
 using System.Collections;
@@ -8,11 +9,16 @@ using System.Drawing;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization;
+using System.Security.Policy;
 using System.Windows.Forms;
 
-namespace GPX_Viewer {
+namespace GPXViewer {
     public partial class MainForm : Form {
+#if true
+        private static readonly string DEBUG_FILE_NAME = @"C:\Users\evans\Documents\GPSLink\Polar\Kenneth_Evans_2020-10-01_10-39-30_Walking_MT.gpx";
+#else
         private static readonly string DEBUG_FILE_NAME = @"C:\Users\evans\Documents\GPSLink\Test\AAAtest9.gpx";
+#endif
         public static readonly String NL = Environment.NewLine;
         public GpxFileSetModel FileSet { get; set; }
         public List<GpxFileModel> Files { get; set; }
@@ -529,5 +535,15 @@ namespace GPX_Viewer {
             else if (sender.ToString().Equals("2")) expandToLevel(2);
             else if (sender.ToString().Equals("3")) expandToLevel(3);
         }
+
+        private void OnFileSendToGoogleEarth(object sender, EventArgs e) {
+            try {
+                KmlOptions options = new KmlOptions();
+                KmlUtils.createKml(FileSet, options);
+            } catch(Exception ex) {
+                Utils.excMsg("Failed to send checked files to Google Earth", ex);
+            }
+        }
+
     }
 }

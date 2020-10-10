@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms.VisualStyles;
 
-namespace GPX_Viewer.model { 
+namespace GPXViewer.model { 
     public class GpxFileSetModel : GpxModel {
         public List<GpxFileModel> Files { get; set; }
 
