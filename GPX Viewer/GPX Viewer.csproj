@@ -68,6 +68,9 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="GpxTcx.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Kml\KmlOptions.cs" />
     <Compile Include="Kml\KmlUtils.cs" />
     <Compile Include="MainForm.cs">
@@ -94,6 +97,12 @@
     <Compile Include="ScrolledHTMLDialog.designer.cs">
       <DependentUpon>ScrolledHTMLDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="ScrolledTextDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ScrolledTextDialog.designer.cs">
+      <DependentUpon>ScrolledTextDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utils.cs" />
     <EmbeddedResource Include="AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
@@ -113,6 +122,9 @@
     </Compile>
     <EmbeddedResource Include="ScrolledHTMLDialog.resx">
       <DependentUpon>ScrolledHTMLDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ScrolledTextDialog.resx">
+      <DependentUpon>ScrolledTextDialog.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="LICENSE" />
     <None Include="packages.config" />

@@ -2,6 +2,7 @@
 using GPXViewer.KML;
 using GPXViewer.model;
 using KEUtils;
+using ScrolledText;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,12 +20,15 @@ namespace GPXViewer {
 #else
         private static readonly string DEBUG_FILE_NAME = @"C:\Users\evans\Documents\GPSLink\Test\AAAtest9.gpx";
 #endif
+        private static ScrolledTextDialog textDlg;
+
         public static readonly String NL = Environment.NewLine;
         public GpxFileSetModel FileSet { get; set; }
         public List<GpxFileModel> Files { get; set; }
         public ImageList ImageList { get; set; }
         public Size ImageSize { get; set; }
         public PointF DPI { get; set; }
+        
         public MainForm() {
             InitializeComponent();
 
@@ -460,6 +464,20 @@ namespace GPXViewer {
             return models;
         }
 
+        public void gpxTxcCallback(string info) {
+            if (textDlg == null) {
+                MainForm app = (MainForm)FindForm().FindForm();
+                textDlg = new ScrolledTextDialog(
+                    Utils.getDpiAdjustedSize(app, new Size(600, 400)),
+                    info);
+                textDlg.Text = "GpxViewer Log";
+                textDlg.Show();
+            } else {
+                textDlg.Visible = true;
+            }
+            textDlg.appendTextAndNL(info);
+        }
+
         private void OnFileExitClick(object sender, EventArgs e) {
             Close();
         }
@@ -545,5 +563,10 @@ namespace GPXViewer {
             }
         }
 
+        private void OnToolsShowLogClick(object sender, EventArgs e) {
+            if(textDlg != null) {
+                textDlg.Visible = true;
+            }
+        }
     }
 }

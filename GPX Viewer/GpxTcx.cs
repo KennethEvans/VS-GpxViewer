@@ -9,10 +9,6 @@ using www.topografix.com.GPX_1_1;
 
 namespace GPXViewer {
     public partial class MainForm : Form {
-        public void writeInfo(string line) {
-            // TBD
-        }
-
         public static void formatTcxGpx() {
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Filter = "GPX and TCX|*.gpx;*.tcx|GPX|*.gpx|TCX|*.tcx";
@@ -135,7 +131,7 @@ namespace GPXViewer {
             if (ext.ToLower().Equals(".tcx")) {
                 try {
                     GpsUtils data = GpsUtils.processTcx(fileName);
-                    mainForm.writeInfo(NL + data.info());
+                    mainForm.gpxTxcCallback(NL + data.info());
                 } catch (Exception ex) {
                     Utils.excMsg("Error getting TCX single file info", ex);
                     return;
@@ -143,7 +139,7 @@ namespace GPXViewer {
             } else if (ext.ToLower().Equals(".gpx")) {
                 try {
                     GpsUtils data = GpsUtils.processGpx(fileName);
-                    mainForm.writeInfo(NL + data.info());
+                    mainForm.gpxTxcCallback(NL + data.info());
                 } catch (Exception ex) {
                     Utils.excMsg("Error getting GPX single file info", ex);
                     return;
@@ -177,7 +173,7 @@ namespace GPXViewer {
                 string saveFileName = getSaveName(fileName, ".recalculated");
                 if (saveFileName != null) {
                     tcx.Save(saveFileName);
-                    mainForm.writeInfo(NL + "Recalculated " + fileName + NL
+                    mainForm.gpxTxcCallback(NL + "Recalculated " + fileName + NL
                         + "  Output is " + saveFileName);
                 } else {
                     return;
@@ -234,7 +230,7 @@ namespace GPXViewer {
                 string saveFileName = getSaveName(tcxFile, ".interpolated");
                 if (saveFileName != null) {
                     tcxInterp.Save(saveFileName);
-                    mainForm.writeInfo(NL + "Recalculated " + tcxFile + NL
+                    mainForm.gpxTxcCallback(NL + "Recalculated " + tcxFile + NL
                         + "  from " + gpxFile + NL
                         + "  Output is " + saveFileName
                         + NL + "  " + res.Message);
@@ -276,7 +272,7 @@ namespace GPXViewer {
                 string saveFileName = getSaveName(tcxFile, ".trimmed");
                 if (saveFileName != null) {
                     res.TCX.Save(saveFileName);
-                    mainForm.writeInfo(NL + "Trimmed " + tcxFile + NL
+                    mainForm.gpxTxcCallback(NL + "Trimmed " + tcxFile + NL
                         + "  Output is " + saveFileName
                         + NL + "  " + res.Message);
                 } else {
@@ -317,7 +313,7 @@ namespace GPXViewer {
                 string saveFileName = getSaveName(tcxFile, ".timechange");
                 if (saveFileName != null) {
                     res.TCX.Save(saveFileName);
-                    mainForm.writeInfo(NL + "Changed times in " + tcxFile + NL
+                    mainForm.gpxTxcCallback(NL + "Changed times in " + tcxFile + NL
                         + "  Output is " + saveFileName
                         + NL + "  " + res.Message);
                 } else {
@@ -357,14 +353,14 @@ namespace GPXViewer {
                     return;
                 }
                 if (res.Message.StartsWith("Unmodified")) {
-                    mainForm.writeInfo(NL + "Did not change " + gpxFile + NL);
+                    mainForm.gpxTxcCallback(NL + "Did not change " + gpxFile + NL);
                     return;
                 }
                 // Overwrite the existing file and restore the modified time
                 DateTime lastModifiedTime = File.GetLastWriteTime(gpxFile);
                 res.GPX.Save(gpxFile);
                 File.SetLastWriteTime(gpxFile, lastModifiedTime);
-                mainForm.writeInfo(NL + "Overwrote " + gpxFile + NL
+                mainForm.gpxTxcCallback(NL + "Overwrote " + gpxFile + NL
                     + res.Message);
             } catch (Exception ex) {
                 Utils.excMsg("Error fixing Gpx for " + gpxFile, ex);
@@ -372,27 +368,27 @@ namespace GPXViewer {
             }
         }
 
-        private void OnToolsFormatTCX_GPXClick(object sender, EventArgs e) {
+        private void OnGpxTcxFormatTCX_GPXClick(object sender, EventArgs e) {
             formatTcxGpx();
         }
 
-        private void OnToolsFormatXmlClick(object sender, EventArgs e) {
+        private void OnGpxTcxFormatXmlClick(object sender, EventArgs e) {
             formatXml();
         }
 
-        private void OnToolsSingleFileInfoClick(object sender, EventArgs e) {
+        private void OnGpxTcxSingleFileInfoClick(object sender, EventArgs e) {
             getSingleFileInfo(this);
         }
 
-        private void OnToolsChangeTimesTcxClick(object sender, EventArgs e) {
+        private void OnGpxTcxChangeTimesTcxClick(object sender, EventArgs e) {
             changeTimesTcx(this);
         }
 
-        private void OnToolsRecalculateTcxClick(object sender, EventArgs e) {
+        private void OnGpxTcxRecalculateTcxClick(object sender, EventArgs e) {
             recalculateTcx(this);
         }
 
-        private void OnToolsInterpolateTcxClick(object sender, EventArgs e) {
+        private void OnGpxTcxInterpolateTcxClick(object sender, EventArgs e) {
             ToolStripMenuItem item = (ToolStripMenuItem)sender;
             GpsUtils.InterpolateMode mode;
             if (item.Text.StartsWith("Match")) {
@@ -405,11 +401,11 @@ namespace GPXViewer {
             interpolateTcxFromGpx(this, mode);
         }
 
-        private void OnToolsDeleteTcxTrackpointsClick(object sender, EventArgs e) {
+        private void OnGpxTcxDeleteTcxTrackpointsClick(object sender, EventArgs e) {
             deleteTcxTrackpoints(this);
         }
 
-        private void OnToolsFixPolarGpxClick(object sender, EventArgs e) {
+        private void OnGpxTcxFixPolarGpxClick(object sender, EventArgs e) {
             string msg = "Existing files will be overwritten with the fixed version."
                 + NL + "The modified time will be retained.";
             DialogResult res = MessageBox.Show(msg + "\n" + "OK to continue?",
