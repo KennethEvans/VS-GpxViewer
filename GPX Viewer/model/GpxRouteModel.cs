@@ -23,5 +23,13 @@ namespace GPXViewer.model {
         public override void showInfo() {
             throw new NotImplementedException();
         }
+
+        public override void delete() {
+            if (Parent != null && Parent is GpxFileModel fileModel &&
+            fileModel.Waypoints != null) {
+                fileModel.Routes.Remove(this);
+            }
+            Route = null;
+        }
     }
 }

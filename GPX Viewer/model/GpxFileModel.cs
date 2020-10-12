@@ -46,5 +46,17 @@ namespace GPXViewer.model {
             string msg = this + NL + FileName;
             Utils.infoMsg(msg);
         }
+
+        public override void delete() {
+            if (Parent != null && Parent is GpxFileSetModel fileSetModel &&
+              fileSetModel.Files != null) {
+                fileSetModel.Files.Remove(this);
+            }
+            FileName = null;
+            Gpx = null;
+            Tracks = null;
+            Waypoints = null;
+            Routes = null;
+        }
     }
 }

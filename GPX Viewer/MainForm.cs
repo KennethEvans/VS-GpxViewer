@@ -15,7 +15,7 @@ using System.Windows.Forms;
 
 namespace GPXViewer {
     public partial class MainForm : Form {
-#if true
+#if false
         private static readonly string DEBUG_FILE_NAME = @"C:\Users\evans\Documents\GPSLink\Polar\Kenneth_Evans_2020-10-01_10-39-30_Walking_MT.gpx";
 #else
         private static readonly string DEBUG_FILE_NAME = @"C:\Users\evans\Documents\GPSLink\Test\AAAtest9.gpx";
@@ -28,7 +28,7 @@ namespace GPXViewer {
         public ImageList ImageList { get; set; }
         public Size ImageSize { get; set; }
         public PointF DPI { get; set; }
-        
+
         public MainForm() {
             InitializeComponent();
 
@@ -185,6 +185,12 @@ namespace GPXViewer {
                         treeListView.Expand(child1);
                         if (level > 2) {
                             foreach (object child2 in treeListView.GetChildren(child1)) {
+                                treeListView.Expand(child2);
+                                if (level > 3) {
+                                    foreach (object child3 in treeListView.GetChildren(child1)) {
+                                        treeListView.Expand(child3);
+                                    }
+                                }
                             }
                         }
                     }
@@ -548,25 +554,38 @@ namespace GPXViewer {
         }
 
         private void OnViewExpandToLevelClick(object sender, EventArgs e) {
-            if (sender.ToString().Equals("0")) expandToLevel(0);
-            else if (sender.ToString().Equals("1")) expandToLevel(1);
-            else if (sender.ToString().Equals("2")) expandToLevel(2);
-            else if (sender.ToString().Equals("3")) expandToLevel(3);
+            try {
+                expandToLevel(Int32.Parse(sender.ToString()));
+            } catch (Exception ex) {
+                Utils.excMsg("Error determining expand level", ex);
+            }
         }
 
         private void OnFileSendToGoogleEarth(object sender, EventArgs e) {
             try {
                 KmlOptions options = new KmlOptions();
                 KmlUtils.createKml(FileSet, options);
-            } catch(Exception ex) {
+            } catch (Exception ex) {
                 Utils.excMsg("Failed to send checked files to Google Earth", ex);
             }
         }
 
         private void OnToolsShowLogClick(object sender, EventArgs e) {
-            if(textDlg != null) {
+            if (textDlg != null) {
                 textDlg.Visible = true;
             }
+        }
+
+        private void OnToolsRemoveAllSelectedClick(object sender, EventArgs e) {
+            foreach (object x in treeListView.SelectedObjects) {
+                if (x is GpxModel model) model.delete();
+            }
+            resetTree();
+        }
+
+        private void OnToolsRemoveAllFilesClick(object sender, EventArgs e) {
+            FileSet.Files.Clear();
+            resetTree();
         }
     }
 }

@@ -26,5 +26,13 @@ namespace GPXViewer.model {
         public override void showInfo() {
             throw new NotImplementedException();
         }
+
+        public override void delete() {
+            if (Parent != null && Parent is GpxTrackSegmentModel trackSegmentModel &&
+              trackSegmentModel.Trackpoints != null) {
+                trackSegmentModel.Trackpoints.Remove(this);
+            }
+            Trackpoint = null;
+        }
     }
 }

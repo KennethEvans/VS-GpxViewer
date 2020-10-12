@@ -17,6 +17,7 @@ namespace GPXViewer.model {
         public bool Checked { get; set; } = true;
 
         public abstract string getLabel();
+        public abstract void delete();
         public abstract void showInfo();
 
         public override string ToString() {

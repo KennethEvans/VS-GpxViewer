@@ -21,5 +21,9 @@ namespace GPXViewer.model {
         public override void showInfo() {
             throw new NotImplementedException();
         }
+
+        public override void delete() {
+            Files = null;
+        }
     }
 }
