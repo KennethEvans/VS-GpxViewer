@@ -8,10 +8,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Security.Policy;
 using System.Windows.Forms;
+using www.topografix.com.GPX_1_1;
 
 namespace GPXViewer {
     public partial class MainForm : Form {
@@ -23,6 +25,7 @@ namespace GPXViewer {
         private static ScrolledTextDialog textDlg;
 
         public static readonly String NL = Environment.NewLine;
+        private static readonly string SAVE_FILE_Tag = ".GPXV";
         public GpxFileSetModel FileSet { get; set; }
         public List<GpxFileModel> Files { get; set; }
         public ImageList ImageList { get; set; }
@@ -586,6 +589,32 @@ namespace GPXViewer {
         private void OnToolsRemoveAllFilesClick(object sender, EventArgs e) {
             FileSet.Files.Clear();
             resetTree();
+        }
+
+        private void OnFileSaveSelectedFilesClick(object sender, EventArgs e) {
+            string fileName = null;
+            if (treeListView.SelectedObjects.Count == 0) {
+                Utils.errMsg("No files selected");
+                return;
+            }
+            try {
+                foreach (object x in treeListView.SelectedObjects) {
+                    if (x is GpxFileModel fileModel) {
+                        fileName = fileModel.FileName;
+                        gpx gpx = fileModel.Gpx;
+                        if (gpx == null) {
+                            Utils.errMsg("Gpx is not defined for " + fileName);
+                            continue;
+                        }
+                        string saveFilename = getSaveName(fileName, SAVE_FILE_Tag);
+                        if (saveFilename != null) gpx.Save(saveFilename);
+                    }
+                }
+            } catch (Exception ex) {
+                string msg = "Error saving files";
+                if (fileName != null) msg += NL + "Current file is " + fileName;
+                Utils.excMsg(msg, ex);
+            }
         }
     }
 }

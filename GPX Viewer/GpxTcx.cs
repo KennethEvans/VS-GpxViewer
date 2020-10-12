@@ -35,15 +35,11 @@ namespace GPXViewer {
             if (ext.ToLower().Equals(".tcx")) {
                 TrainingCenterDatabase tcx = TrainingCenterDatabase.Load(fileName);
                 string saveFilename = getSaveName(fileName, ".formatted");
-                if (saveFilename != null) {
-                    tcx.Save(saveFilename);
-                }
+                if (saveFilename != null) tcx.Save(saveFilename);
             } else if (ext.ToLower().Equals(".gpx")) {
                 gpx gpxType = gpx.Load(fileName);
                 string saveFilename = getSaveName(fileName, ".formatted");
-                if (saveFilename != null) {
-                    gpxType.Save(saveFilename);
-                }
+                if (saveFilename != null) gpxType.Save(saveFilename);
             } else {
                 Utils.errMsg("Not a supported extension: " + ext);
                 return;
@@ -75,12 +71,16 @@ namespace GPXViewer {
             }
             XDocument doc = XDocument.Load(fileName);
             string saveFilename = getSaveName(fileName, ".formatted-xml");
-            if (saveFilename != null) {
-                // (Use second argument to get unformatted)
-                doc.Save(saveFilename);
-            }
+            if (saveFilename != null) doc.Save(saveFilename);
         }
 
+        /// <summary>
+        /// Prompts for a filename using a SaveFileDialog.
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="tag">String to be added before the extension,
+        /// e.g. ".test".</param>
+        /// <returns>The filename or null on cancel or failure.</returns>
         public static string getSaveName(string fileName, string tag) {
             SaveFileDialog dlg = new SaveFileDialog();
             dlg.Title = "Select saved file";
