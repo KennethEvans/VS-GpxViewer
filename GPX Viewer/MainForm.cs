@@ -114,22 +114,22 @@ namespace GPXViewer {
             ImageList.ImageSize = ImageSize;
             Assembly assembly = Assembly.GetExecutingAssembly();
             Stream imageStream = assembly.GetManifestResourceStream(
-                "GPX_Viewer.icons.route.png");
+                "GPXViewer.icons.route.png");
             if (imageStream != null) {
                 ImageList.Images.Add("route", Image.FromStream(imageStream));
             }
             imageStream = assembly.GetManifestResourceStream(
-                "GPX_Viewer.icons.track.png");
+                "GPXViewer.icons.track.png");
             if (imageStream != null) {
                 ImageList.Images.Add("track", Image.FromStream(imageStream));
             }
             imageStream = assembly.GetManifestResourceStream(
-                "GPX_Viewer.icons.trackSegment.png");
+                "GPXViewer.icons.trackSegment.png");
             if (imageStream != null) {
                 ImageList.Images.Add("trackSegment", Image.FromStream(imageStream));
             }
             imageStream = assembly.GetManifestResourceStream(
-                "GPX_Viewer.icons.waypoint.png");
+                "GPXViewer.icons.waypoint.png");
             if (imageStream != null) {
                 ImageList.Images.Add("waypoint", Image.FromStream(imageStream));
             }
@@ -328,7 +328,7 @@ namespace GPXViewer {
                     nRte++;
                 }
             }
-            msg += "TreeNode Statistics" + NL
+            msg += "Model Statistics" + NL
                 + "    nObjects=" + nObjs + " nFileSets=" + nFileSet
                 + " nFiles=" + nFile + NL
                 + "    nTracks=" + nTrk + " nSegments=" + nSeg
@@ -354,7 +354,7 @@ namespace GPXViewer {
             msg += " TreeListView: nChecked=" + nChecked + NL;
             msg += " Model: nChecked=" + calculateNumberCheckedInModel(FileSet) + NL;
 
-#if false // All image stuff
+#if true // All image stuff
 #if true
             // Images
             msg += "Embedded Images" + NL;
@@ -473,20 +473,6 @@ namespace GPXViewer {
             return models;
         }
 
-        public void gpxTxcCallback(string info) {
-            if (textDlg == null) {
-                MainForm app = (MainForm)FindForm().FindForm();
-                textDlg = new ScrolledTextDialog(
-                    Utils.getDpiAdjustedSize(app, new Size(600, 400)),
-                    info);
-                textDlg.Text = "GpxViewer Log";
-                textDlg.Show();
-            } else {
-                textDlg.Visible = true;
-            }
-            textDlg.appendTextAndNL(info);
-        }
-
         private void OnFileExitClick(object sender, EventArgs e) {
             Close();
         }
@@ -601,7 +587,10 @@ namespace GPXViewer {
                 foreach (object x in treeListView.SelectedObjects) {
                     if (x is GpxFileModel fileModel) {
                         fileName = fileModel.FileName;
-                        gpx gpx = fileModel.Gpx;
+                        gpx gpx = (gpx)fileModel.Gpx.Clone();
+                        string version = Assembly.GetExecutingAssembly().
+                            GetName().Version.ToString();
+                        gpx.creator = "GPXViewer " + version;
                         if (gpx == null) {
                             Utils.errMsg("Gpx is not defined for " + fileName);
                             continue;

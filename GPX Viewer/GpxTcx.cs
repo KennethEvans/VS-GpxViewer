@@ -1,14 +1,30 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using KEGpsUtils;
 using KEUtils;
+using ScrolledText;
 using www.garmin.com.xmlschemas.TrainingCenterDatabase.v2;
 using www.topografix.com.GPX_1_1;
 
 namespace GPXViewer {
     public partial class MainForm : Form {
+        public void gpxTxcCallback(string info) {
+            if (textDlg == null) {
+                MainForm app = (MainForm)FindForm().FindForm();
+                textDlg = new ScrolledTextDialog(
+                    Utils.getDpiAdjustedSize(app, new Size(600, 400)),
+                    info);
+                textDlg.Text = "GpxViewer Log";
+                textDlg.Show();
+            } else {
+                textDlg.Visible = true;
+            }
+            textDlg.appendTextAndNL(info);
+        }
+
         public static void formatTcxGpx() {
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Filter = "GPX and TCX|*.gpx;*.tcx|GPX|*.gpx|TCX|*.tcx";
