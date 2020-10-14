@@ -77,9 +77,19 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButtonOpenGpx = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonRemoveSelected = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonRemoveAll = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonSendToGoogleEarth = new System.Windows.Forms.ToolStripButton();
             this.tableLayoutPanelTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.treeListView)).BeginInit();
             this.menuStrip1.SuspendLayout();
+            this.toolStripContainer1.ContentPanel.SuspendLayout();
+            this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
+            this.toolStripContainer1.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanelTop
@@ -91,12 +101,12 @@
             this.tableLayoutPanelTop.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanelTop.Controls.Add(this.treeListView, 0, 0);
             this.tableLayoutPanelTop.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanelTop.Location = new System.Drawing.Point(0, 49);
+            this.tableLayoutPanelTop.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanelTop.Name = "tableLayoutPanelTop";
             this.tableLayoutPanelTop.RowCount = 1;
             this.tableLayoutPanelTop.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanelTop.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanelTop.Size = new System.Drawing.Size(1627, 916);
+            this.tableLayoutPanelTop.Size = new System.Drawing.Size(1627, 865);
             this.tableLayoutPanelTop.TabIndex = 0;
             // 
             // treeListView
@@ -113,7 +123,7 @@
             this.treeListView.Name = "treeListView";
             this.treeListView.ShowGroups = false;
             this.treeListView.ShowImagesOnSubItems = true;
-            this.treeListView.Size = new System.Drawing.Size(1621, 910);
+            this.treeListView.Size = new System.Drawing.Size(1621, 859);
             this.treeListView.TabIndex = 0;
             this.treeListView.UseCompatibleStateImageBehavior = false;
             this.treeListView.View = System.Windows.Forms.View.Details;
@@ -128,7 +138,7 @@
             // 
             // menuStrip1
             // 
-            this.menuStrip1.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
+            this.menuStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(40, 40);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
@@ -289,7 +299,7 @@
             this.allFilesToolStripMenuItem2,
             this.allSelectedToolStripMenuItem});
             this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(448, 54);
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(399, 54);
             this.removeToolStripMenuItem.Text = "Remove";
             // 
             // allFilesToolStripMenuItem2
@@ -314,7 +324,7 @@
             this.everythingToolStripMenuItem,
             this.nothingToolStripMenuItem});
             this.checkToolStripMenuItem.Name = "checkToolStripMenuItem";
-            this.checkToolStripMenuItem.Size = new System.Drawing.Size(448, 54);
+            this.checkToolStripMenuItem.Size = new System.Drawing.Size(399, 54);
             this.checkToolStripMenuItem.Text = "Check";
             // 
             // allFilesToolStripMenuItem
@@ -363,24 +373,24 @@
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(445, 6);
+            this.toolStripSeparator7.Size = new System.Drawing.Size(396, 6);
             // 
             // findFilesNearToolStripMenuItem
             // 
             this.findFilesNearToolStripMenuItem.Name = "findFilesNearToolStripMenuItem";
-            this.findFilesNearToolStripMenuItem.Size = new System.Drawing.Size(448, 54);
+            this.findFilesNearToolStripMenuItem.Size = new System.Drawing.Size(399, 54);
             this.findFilesNearToolStripMenuItem.Text = "Find Files Near...";
             this.findFilesNearToolStripMenuItem.Click += new System.EventHandler(this.OnToolsFindFilesNearClick);
             // 
             // toolStripSeparator8
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(445, 6);
+            this.toolStripSeparator8.Size = new System.Drawing.Size(396, 6);
             // 
             // showLogToolStripMenuItem
             // 
             this.showLogToolStripMenuItem.Name = "showLogToolStripMenuItem";
-            this.showLogToolStripMenuItem.Size = new System.Drawing.Size(448, 54);
+            this.showLogToolStripMenuItem.Size = new System.Drawing.Size(399, 54);
             this.showLogToolStripMenuItem.Text = "Show Log...";
             this.showLogToolStripMenuItem.Click += new System.EventHandler(this.OnToolsShowLogClick);
             // 
@@ -505,13 +515,88 @@
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.OnAboutClick);
             // 
+            // toolStripContainer1
+            // 
+            this.toolStripContainer1.BottomToolStripPanelVisible = false;
+            // 
+            // toolStripContainer1.ContentPanel
+            // 
+            this.toolStripContainer1.ContentPanel.AutoScroll = true;
+            this.toolStripContainer1.ContentPanel.Controls.Add(this.tableLayoutPanelTop);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1627, 865);
+            this.toolStripContainer1.LeftToolStripPanelVisible = false;
+            this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
+            this.toolStripContainer1.Name = "toolStripContainer1";
+            this.toolStripContainer1.RightToolStripPanelVisible = false;
+            this.toolStripContainer1.Size = new System.Drawing.Size(1627, 965);
+            this.toolStripContainer1.TabIndex = 2;
+            this.toolStripContainer1.Text = "toolStripContainer1";
+            // 
+            // toolStripContainer1.TopToolStripPanel
+            // 
+            this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.menuStrip1);
+            this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip1);
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(40, 40);
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButtonOpenGpx,
+            this.toolStripButtonRemoveSelected,
+            this.toolStripButtonRemoveAll,
+            this.toolStripButtonSendToGoogleEarth});
+            this.toolStrip1.Location = new System.Drawing.Point(8, 49);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(336, 51);
+            this.toolStrip1.TabIndex = 2;
+            // 
+            // toolStripButtonOpenGpx
+            // 
+            this.toolStripButtonOpenGpx.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonOpenGpx.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonOpenGpx.Image")));
+            this.toolStripButtonOpenGpx.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonOpenGpx.Name = "toolStripButtonOpenGpx";
+            this.toolStripButtonOpenGpx.Size = new System.Drawing.Size(58, 44);
+            this.toolStripButtonOpenGpx.Text = "Open GPX Files";
+            this.toolStripButtonOpenGpx.Click += new System.EventHandler(this.OnFileOpenGpxClick);
+            // 
+            // toolStripButtonRemoveSelected
+            // 
+            this.toolStripButtonRemoveSelected.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonRemoveSelected.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonRemoveSelected.Image")));
+            this.toolStripButtonRemoveSelected.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonRemoveSelected.Name = "toolStripButtonRemoveSelected";
+            this.toolStripButtonRemoveSelected.Size = new System.Drawing.Size(58, 44);
+            this.toolStripButtonRemoveSelected.Text = "Remove Selected";
+            this.toolStripButtonRemoveSelected.Click += new System.EventHandler(this.OnToolsRemoveAllSelectedClick);
+            // 
+            // toolStripButtonRemoveAll
+            // 
+            this.toolStripButtonRemoveAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonRemoveAll.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonRemoveAll.Image")));
+            this.toolStripButtonRemoveAll.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonRemoveAll.Name = "toolStripButtonRemoveAll";
+            this.toolStripButtonRemoveAll.Size = new System.Drawing.Size(58, 44);
+            this.toolStripButtonRemoveAll.Text = "Remove All";
+            this.toolStripButtonRemoveAll.Click += new System.EventHandler(this.OnToolsRemoveAllFilesClick);
+            // 
+            // toolStripButtonSendToGoogleEarth
+            // 
+            this.toolStripButtonSendToGoogleEarth.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonSendToGoogleEarth.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonSendToGoogleEarth.Image")));
+            this.toolStripButtonSendToGoogleEarth.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonSendToGoogleEarth.Name = "toolStripButtonSendToGoogleEarth";
+            this.toolStripButtonSendToGoogleEarth.Size = new System.Drawing.Size(58, 44);
+            this.toolStripButtonSendToGoogleEarth.Text = "Send to Google Earth";
+            this.toolStripButtonSendToGoogleEarth.Click += new System.EventHandler(this.OnFileSendToGoogleEarth);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1627, 965);
-            this.Controls.Add(this.tableLayoutPanelTop);
-            this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.toolStripContainer1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
@@ -522,8 +607,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.treeListView)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.toolStripContainer1.ContentPanel.ResumeLayout(false);
+            this.toolStripContainer1.ContentPanel.PerformLayout();
+            this.toolStripContainer1.TopToolStripPanel.ResumeLayout(false);
+            this.toolStripContainer1.TopToolStripPanel.PerformLayout();
+            this.toolStripContainer1.ResumeLayout(false);
+            this.toolStripContainer1.PerformLayout();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -581,6 +673,12 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripMenuItem findFilesNearToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
+        private System.Windows.Forms.ToolStripContainer toolStripContainer1;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton toolStripButtonOpenGpx;
+        private System.Windows.Forms.ToolStripButton toolStripButtonRemoveSelected;
+        private System.Windows.Forms.ToolStripButton toolStripButtonRemoveAll;
+        private System.Windows.Forms.ToolStripButton toolStripButtonSendToGoogleEarth;
     }
 }
 

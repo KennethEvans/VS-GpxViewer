@@ -185,13 +185,14 @@
     <Content Include="icons\GPXInspector16.png" />
     <Content Include="icons\GPXInspector256.png" />
     <Content Include="icons\GPXInspector32.png" />
+    <EmbeddedResource Include="icons\kml.png" />
     <Content Include="icons\meBook.gif" />
+    <EmbeddedResource Include="icons\open.png" />
     <Content Include="icons\paste_edit.gif" />
     <Content Include="icons\properties.gif" />
     <Content Include="icons\refresh.gif" />
-    <Content Include="icons\remove.gif" />
-    <Content Include="icons\removeAll.gif" />
-    <Content Include="icons\removeAll.png" />
+    <EmbeddedResource Include="icons\remove.png" />
+    <EmbeddedResource Include="icons\removeAll.png" />
     <EmbeddedResource Include="icons\route.png" />
     <EmbeddedResource Include="icons\track.png" />
     <EmbeddedResource Include="icons\trackSegment.png" />

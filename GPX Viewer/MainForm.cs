@@ -29,8 +29,10 @@ namespace GPXViewer {
         private static readonly string SAVE_FILE_Tag = ".GPXV";
         public GpxFileSetModel FileSet { get; set; }
         public List<GpxFileModel> Files { get; set; }
-        public ImageList ImageList { get; set; }
-        public Size ImageSize { get; set; }
+        public ImageList ToolsImageList { get; set; }
+        public Size ToolsImageSize { get; set; }
+        public ImageList TreeImageList { get; set; }
+        public Size TreeImageSize { get; set; }
         public PointF DPI { get; set; }
 
         public MainForm() {
@@ -56,7 +58,8 @@ namespace GPXViewer {
                 dpiY = g.DpiY;
             }
             DPI = new PointF(dpiX, dpiY);
-            ImageSize = new Size((int)(16 * dpiX / 96), (int)(16 * dpiY / 96));
+            TreeImageSize = new Size((int)(16 * dpiX / 96), (int)(16 * dpiY / 96));
+            ToolsImageSize = new Size((int)(16 * dpiX / 96), (int)(16 * dpiY / 96));
 
             // CanExpand getter
             treeListView.CanExpandGetter = delegate (object x) {
@@ -110,31 +113,62 @@ namespace GPXViewer {
             treeListView.HierarchicalCheckboxes = false;
 
 #if true
-            // Make ImageList
-            ImageList = new ImageList();
-            ImageList.ImageSize = ImageSize;
+            // Make ToolsImageList
+            ToolsImageList = new ImageList();
+            ToolsImageList.ImageSize = ToolsImageSize;
             Assembly assembly = Assembly.GetExecutingAssembly();
             Stream imageStream = assembly.GetManifestResourceStream(
+                "GPXViewer.icons.open.png");
+            if (imageStream != null) {
+                ToolsImageList.Images.Add("open", Image.FromStream(imageStream));
+            }
+            imageStream = assembly.GetManifestResourceStream(
+                "GPXViewer.icons.remove.png");
+            if (imageStream != null) {
+                ToolsImageList.Images.Add("remove", Image.FromStream(imageStream));
+            }
+            imageStream = assembly.GetManifestResourceStream(
+                "GPXViewer.icons.removeAll.png");
+            if (imageStream != null) {
+                ToolsImageList.Images.Add("removeAll", Image.FromStream(imageStream));
+            }
+            imageStream = assembly.GetManifestResourceStream(
+                "GPXViewer.icons.kml.png");
+            if (imageStream != null) {
+                ToolsImageList.Images.Add("kml", Image.FromStream(imageStream));
+            }
+            toolStrip1.ImageList = ToolsImageList;
+            toolStripButtonOpenGpx.ImageKey = "open";
+            toolStripButtonRemoveSelected.ImageKey = "remove";
+            toolStripButtonRemoveAll.ImageKey = "removeAll";
+            toolStripButtonSendToGoogleEarth.ImageKey = "kml";
+#endif
+#if true
+            // Make TreeImageList
+            TreeImageList = new ImageList();
+            TreeImageList.ImageSize = TreeImageSize;
+            assembly = Assembly.GetExecutingAssembly();
+            imageStream = assembly.GetManifestResourceStream(
                 "GPXViewer.icons.route.png");
             if (imageStream != null) {
-                ImageList.Images.Add("route", Image.FromStream(imageStream));
+                TreeImageList.Images.Add("route", Image.FromStream(imageStream));
             }
             imageStream = assembly.GetManifestResourceStream(
                 "GPXViewer.icons.track.png");
             if (imageStream != null) {
-                ImageList.Images.Add("track", Image.FromStream(imageStream));
+                TreeImageList.Images.Add("track", Image.FromStream(imageStream));
             }
             imageStream = assembly.GetManifestResourceStream(
                 "GPXViewer.icons.trackSegment.png");
             if (imageStream != null) {
-                ImageList.Images.Add("trackSegment", Image.FromStream(imageStream));
+                TreeImageList.Images.Add("trackSegment", Image.FromStream(imageStream));
             }
             imageStream = assembly.GetManifestResourceStream(
                 "GPXViewer.icons.waypoint.png");
             if (imageStream != null) {
-                ImageList.Images.Add("waypoint", Image.FromStream(imageStream));
+                TreeImageList.Images.Add("waypoint", Image.FromStream(imageStream));
             }
-            treeListView.SmallImageList = ImageList;
+            treeListView.SmallImageList = TreeImageList;
 #endif
             // Image getter
             this.col1.ImageGetter = delegate (object x) {
@@ -364,11 +398,22 @@ namespace GPXViewer {
             foreach (string name in names) {
                 msg += "    " + name + NL;
             }
-            // ImageList
-            msg += "ImageList Keys" + NL;
-            if (ImageList != null && ImageList.Images != null) {
-                ImageList.ImageCollection images = ImageList.Images;
-                foreach (string key in ImageList.Images.Keys) {
+            // Tools ImageList
+            msg += "Tools ImageList Keys" + NL;
+            if (ToolsImageList != null && ToolsImageList.Images != null) {
+                ImageList.ImageCollection images = ToolsImageList.Images;
+                foreach (string key in ToolsImageList.Images.Keys) {
+                    msg += "    " + key + " (" + images.IndexOfKey(key) + ")" + NL;
+                }
+            } else {
+                msg += "    " + "No Image List" + NL;
+            }
+            msg += "    ImageScalingSize=" + toolStrip1.ImageScalingSize + NL;
+            // Tree ImageList
+            msg += "Tree ImageList Keys" + NL;
+            if (TreeImageList != null && TreeImageList.Images != null) {
+                ImageList.ImageCollection images = TreeImageList.Images;
+                foreach (string key in TreeImageList.Images.Keys) {
                     msg += "    " + key + " (" + images.IndexOfKey(key) + ")" + NL;
                 }
             } else {
