@@ -1,14 +1,15 @@
 ﻿using GPXViewer.model;
+using KEGpsUtils;
 using KEUtils;
 using SharpKml.Base;
 using SharpKml.Dom;
 using SharpKml.Dom.GX;
-using SharpKml.Engine;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using www.topografix.com.GPX_1_1;
 using static GPXViewer.KML.KmlOptions;
@@ -17,13 +18,11 @@ namespace GPXViewer.KML {
     class KmlUtils {
         public static readonly String NL = Environment.NewLine;
 
-#if false
-        /** The number of points for the find circle copied to the clipboard. */
+        /// The number of points for the find circle copied to the clipboard.
         private static readonly int N_CIRCLE_POINTS = 101;
-        /** The delta used to determine d(lat)/d(radius) and d(lon)/d(radius). */
+        /// The delta used to determine d(lat)/d(radius) and d(lon)/d(radius).
         private static readonly double DELTA_LATLON = .0001;
-#endif
-        /** Set of hard-coded line colorSetColors. it will cycle through these. */
+        /// Set of hard-coded line colorSetColors. it will cycle through these.
         private static readonly String[] colorSetColors = {"0000ff", "00ff00",
         "ff0000", "ffff00", "ff00ff", "00ffff", "0077ff", "ff0077"};
         /** Array to hold the track colors, values depend on the mode. */
@@ -664,81 +663,73 @@ namespace GPXViewer.KML {
             // System.out.println("nColors=" + nColors);
         }
 
-#if false
-       /**
-         * Get the coordinates of a placemark placed in the system clipboard.
-         * 
-         * @return { latitude, longitude, elevation [meters] } or null on failure.
-         */
+        /// <summary>
+        /// Gets the coordinates of a placemark placed in the system clipboard.
+        /// </summary>
+        /// <returns>{ latitude, longitude, elevation [meters] } or null on failure.
+        /// </returns>
         public static double[] coordinatesFromClipboardPlacemark() {
             // Get the placemark from the clipboard
-            Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-            DataFlavor flavor = DataFlavor.stringFlavor;
-            Transferable contents = clipboard.getContents(null);
-            if (contents == null || !contents.isDataFlavorSupported(flavor)) {
-                return null;
-            }
-            String text = null;
-            try {
-                text = (String)contents.getTransferData(flavor);
-            } catch (UnsupportedFlavorException ex) {
-                Utils.excMsgAsync("Clipboard does not contain a placemark", ex);
-                return null;
-            } catch (IOException ex) {
-                Utils.excMsgAsync("Clipboard does not contain a placemark", ex);
+            string text = null;
+            if (Clipboard.ContainsText(TextDataFormat.Text)) {
+                text = Clipboard.GetText(TextDataFormat.Text);
+                // Do whatever you need to do with clipboardText
+            } else {
+                Utils.errMsg("The Clipboard does not contain text");
                 return null;
             }
             if (text == null || text.Length == 0) {
+                Utils.errMsg("The Clipboard does not contain meaningful text");
                 return null;
             }
             // Parse the coordinates
             double[] coords = { Double.NaN, Double.NaN, Double.NaN };
-            String regex = "(<coordinates>.*</coordinates>)";
-            Pattern pattern = Pattern.compile(regex);
-            Matcher matcher = pattern.matcher(text);
-            if (matcher.find()) {
-                String match = matcher.group();
+            string pattern = "(<coordinates>.*</coordinates>)";
+            Regex regex = new Regex(pattern);
+            MatchCollection matches = regex.Matches(text);
+            if (matches.Count == 0) {
+                Utils.errMsg("Could not parse placemark from Clipboard. "
+                    + "May not be a placemark.");
+                return null;
+            }
+            string value;
+            foreach (Match match in matches) {
+                value = match.Value;
                 int len = match.Length;
-                if (match.startsWith("<coordinates>")
-                    && match.endsWith("</coordinates>")) {
-                    match = match.Substring(13, len - 14);
-                    String[] tokens = match.split(",");
+                if (value.StartsWith("<coordinates>")
+                    && value.EndsWith("</coordinates>")) {
+                    value = value.Substring(13, len - 14);
+                    String[] tokens = value.Split(',');
                     for (int i = 0; i < 3; i++) {
                         try {
-                            coords[i] = Double.parseDouble(tokens[i]);
-                        } catch (NumberFormatException ex) {
+                            coords[i] = Convert.ToDouble(tokens[i]);
+                        } catch (Exception) {
                             // Do nothing
                         }
                     }
                 } else {
                     Utils.errMsg(
-                        "Could not find coordinates from " + "clipboard placemark");
+                        "Could not find coordinates from Clipboard placemark");
                     return null;
                 }
-            } else {
-                Utils.errMsg("Could not parse placemark from Clipboard. "
-                    + "May not be a placemark.");
-                return null;
             }
             return coords;
         }
 
-        /**
-         * Copies a Google Earth Placemark to the system clipboard as well as an
-         * optional circle about the Placemark denoting the given radius. The
-         * clipboard contents can be pasted into Google Earth.
-         * 
-         * @param documentName The name of the KML Document or null to not make a
-         *            Document. There does not have to be a document if only a
-         *            Placemark is used.
-         * @param lat The latitude.
-         * @param lon The longitude.
-         * @param ele The elevation.
-         */
-        public static void copyPlacemarkToClipboard(String documentName,
-            String name, String lat, String lon, String ele) {
-            Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-            String text = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+        /// <summary>
+        /// Copies a Google Earth Placemark to the system clipboard. The clipboard
+        /// contents can be pasted into Google Earth.
+        /// </summary>
+        /// <param name="documentName">The name of the KML Document or null
+        /// to not make a Document.There does not have to be a document if only
+        /// a Placemark is used.</param>
+        /// <param name="name">he name of the placemark.</param>
+        /// <param name="lat">The latitude.</param>
+        /// <param name="lon">The longitude.</param>
+        /// <param name="ele">The elevation.</param>
+        public static void copyPlacemarkToClipboard(string documentName,
+            string name, string lat, string lon, string ele) {
+            string text = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
             text += "<kml xmlns=\"http://www.opengis.net/kml/2.2\" "
                 + "xmlns:gx=\"http://www.google.com/kml/ext/2.2\" "
                 + "xmlns:kml=\"http://www.opengis.net/kml/2.2\" " + ""
@@ -748,7 +739,6 @@ namespace GPXViewer.KML {
                 text += "<Document>\n";
                 text += "  <name>" + documentName + "</name>\n";
             }
-
             // Point
             text += "  <Placemark>\n";
             text += "    <name>" + name + "</name>\n";
@@ -762,88 +752,84 @@ namespace GPXViewer.KML {
                 text += "</Document>\n";
             }
             text += "</kml>\n";
-            StringSelection selection = new StringSelection(text);
-            clipboard.setContents(selection, null);
+            Clipboard.SetText(text);
         }
 
-/**
- * Copies a Google Earth Placemark to the system clipboard with a circle
- * about the coordinates with the given radius. The clipboard contents can
- * be pasted into Google Earth.
- * 
- * @param documentName The name of the KML Document or null to not make a
- *            Document. There does not have to be a document if only a
- *            Placemark is used.
- * @param lat The latitude.
- * @param lon The longitude.
- * @param ele The elevation.
- * @param radius The radius in meters of a circle to be drawn about the
- *            center or Double.NaN to not draw one.
- */
-public static void copyPlacemarkCircleToClipboard(String documentName,
-    String name, String lat, String lon, String ele, double radius) {
-    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-    String text = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-    text += "<kml xmlns=\"http://www.opengis.net/kml/2.2\" "
-        + "xmlns:gx=\"http://www.google.com/kml/ext/2.2\" "
-        + "xmlns:kml=\"http://www.opengis.net/kml/2.2\" " + ""
-        + "xmlns:atom=\"http://www.w3.org/2005/Atom\" "
-        + "xmlns:xal=\"urn:oasis:names:tc:ciq:xsdschema:xAL:2.0\">\n";
-    if (documentName != null) {
-        text += "<Document>\n";
-        text += "  <name>" + documentName + "</name>\n";
-    }
-
-    // Circle
-    if (radius != Double.NaN && radius > 0) {
-        double lat0 = 0, lon0 = 0;
-        try {
-            lat0 = Double.parseDouble(lat);
-        } catch (NumberFormatException ex) {
-            // Do nothing
-        }
-        try {
-            lon0 = Double.parseDouble(lon);
-        } catch (NumberFormatException ex) {
-            // Do nothing
-        }
-        double rlat = GpxUtils.greatCircleDistance(lat0, lon0,
-            lat0 + DELTA_LATLON, lon0);
-        double rlon = GpxUtils.greatCircleDistance(lat0, lon0, lat0,
-            lon0 + DELTA_LATLON);
-        double a = DELTA_LATLON / rlon * radius;
-        double b = DELTA_LATLON / rlat * radius;
-        if (!Double.isNaN(a) && !Double.isInfinite(a) && !Double.isNaN(b)
-            && !Double.isInfinite(b)) {
-            text += "  <Placemark>\n";
-            text += "    <name>" + name + "</name>\n";
-            text += "    <MultiGeometry>\n";
-            text += "      <LineString>\n";
-            text += "        <coordinates>";
-            double delta = 2 * Math.PI / N_CIRCLE_POINTS;
-            double lat1, lon1;
-            for (int i = 0; i <= N_CIRCLE_POINTS; i++) {
-                lat1 = lat0 + b * Math.sin(i * delta);
-                lon1 = lon0 + a * Math.cos(i * delta);
-                if (i != 0) {
-                    text += ",";
-                }
-                text += String.format("%.6f", lon1) + ","
-                    + String.format("%.6f", lat1) + ",0";
+        /// <summary>
+        /// Copies a Google Earth Placemark to the system clipboard with a
+        /// circle about the coordinates with the given radius. The clipboard
+        /// contents can be pasted into Google Earth.
+        /// </summary>
+        /// <param name="documentName">The name of the KML Document or null
+        /// to not make a Document.There does not have to be a document if only
+        /// a Placemark is used.</param>
+        /// <param name="name">he name of the placemark.</param>
+        /// <param name="lat">The latitude.</param>
+        /// <param name="lon">The longitude.</param>
+        /// <param name="ele">The elevation.</param>
+        /// <param name="radius">The radius in meters of a circle to be drawn
+        /// about the center or Double.NaN to not draw one.</param>
+        public static void copyPlacemarkCircleToClipboard(string documentName,
+    string name, string lat, string lon, string ele, double radius) {
+            string text = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+            text += "<kml xmlns=\"http://www.opengis.net/kml/2.2\" "
+                + "xmlns:gx=\"http://www.google.com/kml/ext/2.2\" "
+                + "xmlns:kml=\"http://www.opengis.net/kml/2.2\" " + ""
+                + "xmlns:atom=\"http://www.w3.org/2005/Atom\" "
+                + "xmlns:xal=\"urn:oasis:names:tc:ciq:xsdschema:xAL:2.0\">\n";
+            if (documentName != null) {
+                text += "<Document>\n";
+                text += "  <name>" + documentName + "</name>\n";
             }
-            text += "</coordinates>\n";
-            text += "      </LineString>\n";
-            text += "    </MultiGeometry>\n";
+
+            // Circle
+            if (radius != Double.NaN && radius > 0) {
+                double lat0 = 0, lon0 = 0;
+                try {
+                    lat0 = Convert.ToDouble(lat);
+                } catch (Exception) {
+                    // Do nothing
+                }
+                try {
+                    lon0 = Convert.ToDouble(lon);
+                } catch (FormatException) {
+                    // Do nothing
+                }
+                double rlat = GpsUtils.greatCircleDistance(lat0, lon0,
+                    lat0 + DELTA_LATLON, lon0);
+                double rlon = GpsUtils.greatCircleDistance(lat0, lon0, lat0,
+                    lon0 + DELTA_LATLON);
+                double a = DELTA_LATLON / rlon * radius;
+                double b = DELTA_LATLON / rlat * radius;
+                if (!Double.IsNaN(a) && !Double.IsInfinity(a) && !Double.IsNaN(b)
+                    && !Double.IsInfinity(b)) {
+                    text += "  <Placemark>\n";
+                    text += "    <name>" + name + "</name>\n";
+                    text += "    <MultiGeometry>\n";
+                    text += "      <LineString>\n";
+                    text += "        <coordinates>";
+                    double delta = 2 * Math.PI / N_CIRCLE_POINTS;
+                    double lat1, lon1;
+                    for (int i = 0; i <= N_CIRCLE_POINTS; i++) {
+                        lat1 = lat0 + b * Math.Sin(i * delta);
+                        lon1 = lon0 + a * Math.Cos(i * delta);
+                        if (i != 0) {
+                            text += ",";
+                        }
+                        text += String.Format("{0:0.000000}", lon1) + ","
+                            + String.Format("{0:0.000000}", lat1) + ",0";
+                    }
+                    text += "</coordinates>\n";
+                    text += "      </LineString>\n";
+                    text += "    </MultiGeometry>\n";
+                }
+                text += "  </Placemark>\n";
+            }
+            if (documentName != null) {
+                text += "</Document>\n";
+            }
+            text += "</kml>\n";
+            Clipboard.SetText(text);
         }
-        text += "  </Placemark>\n";
-    }
-    if (documentName != null) {
-        text += "</Document>\n";
-    }
-    text += "</kml>\n";
-    StringSelection selection = new StringSelection(text);
-    clipboard.setContents(selection, null);
-}
-#endif
     }
 }

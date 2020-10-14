@@ -1,4 +1,5 @@
 ﻿using About;
+using GPXViewer.Dialogs;
 using GPXViewer.KML;
 using GPXViewer.model;
 using KEUtils;
@@ -473,6 +474,10 @@ namespace GPXViewer {
             return models;
         }
 
+        private void OnFormClosing(object sender, FormClosingEventArgs e) {
+            Properties.FindNear.Default.Save();
+        }
+
         private void OnFileExitClick(object sender, EventArgs e) {
             Close();
         }
@@ -603,6 +608,20 @@ namespace GPXViewer {
                 string msg = "Error saving files";
                 if (fileName != null) msg += NL + "Current file is " + fileName;
                 Utils.excMsg(msg, ex);
+            }
+        }
+
+        private void OnToolsFindFilesNearClick(object sender, EventArgs e) {
+            FindFilesNearDialog dlg = new FindFilesNearDialog();
+            DialogResult result = dlg.ShowDialog();
+            if (result == DialogResult.OK) {
+                Cursor.Current = Cursors.WaitCursor;
+                List<string> files = dlg.FoundFiles;
+                foreach (string fileName in files) {
+                    Files.Add(new GpxFileModel(FileSet, fileName));
+                }
+                resetTree();
+                Cursor.Current = Cursors.Default;
             }
         }
     }

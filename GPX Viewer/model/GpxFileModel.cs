@@ -1,10 +1,5 @@
 ﻿using KEUtils;
-using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using www.topografix.com.GPX_1_1;
 
 namespace GPXViewer.model {
