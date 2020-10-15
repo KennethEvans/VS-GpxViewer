@@ -1,4 +1,7 @@
-﻿using KEUtils;
+﻿
+using KEGpsUtils;
+using KEUtils;
+using System;
 using System.Collections.Generic;
 using www.topografix.com.GPX_1_1;
 
@@ -42,6 +45,12 @@ namespace GPXViewer.model {
             msg += "nTracks=" + Tracks.Count + NL;
             msg += "nWaypoints=" + Waypoints.Count + NL;
             msg += "nRoutes=" + Routes.Count + NL;
+            // Get information from GpsUtils
+            try {
+                msg += NL + GpsUtils.processGpx(FileName, Gpx).info();
+            } catch(Exception ex) {
+                // Do nothing;
+            }
             return msg;
         }
 
