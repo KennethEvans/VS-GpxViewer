@@ -8,9 +8,13 @@ namespace GPXViewer.model {
         public List<GpxTrackpointModel> Trackpoints { get; set; }
         public GpxTrackSegmentModel(GpxModel parent, trksegType seg) {
             Parent = parent;
-            Segment = seg;
+            if (seg == null) {
+                Segment = new trksegType();
+            } else {
+                Segment = seg;
+            }
             Trackpoints = new List<GpxTrackpointModel>();
-            foreach (wptType tkp in seg.trkpt) {
+            foreach (wptType tkp in Segment.trkpt) {
                 Trackpoints.Add(new GpxTrackpointModel(this, tkp));
             }
         }
@@ -20,8 +24,12 @@ namespace GPXViewer.model {
             }
             return "Segment";
         }
-        public override void showInfo() {
-            throw new NotImplementedException();
+        public override string info() {
+            //synchronize();
+            string msg = this.GetType() + NL + this + NL;
+            msg += "nTrackpoints=" + Trackpoints.Count + NL;
+            msg += "nTrkpt=" + Segment.trkpt.Count + NL;
+            return msg;
         }
 
         public override void delete() {
@@ -31,6 +39,51 @@ namespace GPXViewer.model {
             }
             Segment = null;
             Trackpoints = null;
+        }
+
+        public override bool add(GpxModel oldModel, GpxModel newModel, PasteMode mode) {
+            bool retVal = true;
+            int index;
+            switch (mode) {
+                case PasteMode.BEGINNING: {
+                        if (newModel is GpxTrackpointModel segModel) {
+                            Trackpoints.Insert(0, segModel);
+                        }
+                        break;
+                    }
+                case PasteMode.BEFORE: {
+                        if (newModel is GpxTrackpointModel trkModel) {
+                            index = Trackpoints.IndexOf((GpxTrackpointModel)oldModel);
+                            if (index == -1) {
+                                retVal = false;
+                            } else {
+                                Trackpoints.Insert(index, trkModel);
+                            }
+                        }
+                        break;
+                    }
+                case PasteMode.AFTER: {
+                        if (newModel is GpxTrackpointModel trkModel) {
+                            index = Trackpoints.IndexOf((GpxTrackpointModel)oldModel);
+                            Trackpoints.Insert(index, trkModel);
+                        }
+                        break;
+                    }
+                case PasteMode.END: {
+                        if (newModel is GpxTrackpointModel trkModel) {
+                            Trackpoints.Add(trkModel);
+                        }
+                        break;
+                    }
+            }
+            return retVal;
+        }
+
+        public override void synchronize() {
+            Segment.trkpt.Clear();
+            foreach (GpxTrackpointModel model in Trackpoints) {
+                Segment.trkpt.Add(model.Trackpoint);
+            }
         }
     }
 }

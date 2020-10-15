@@ -37,9 +37,12 @@ namespace GPXViewer.model {
             return FileName;
         }
 
-        public override void showInfo() {
-            string msg = this + NL + FileName;
-            Utils.infoMsg(msg);
+        public override string info() {
+            string msg = this.GetType() + NL + this + NL;
+            msg += "nTracks=" + Tracks.Count + NL;
+            msg += "nWaypoints=" + Waypoints.Count + NL;
+            msg += "nRoutes=" + Routes.Count + NL;
+            return msg;
         }
 
         public override void delete() {
@@ -52,6 +55,97 @@ namespace GPXViewer.model {
             Tracks = null;
             Waypoints = null;
             Routes = null;
+        }
+
+        public override bool add(GpxModel oldModel, GpxModel newModel, PasteMode mode) {
+            bool retVal = true;
+            int index = -1;
+            switch (mode) {
+                case PasteMode.BEGINNING: {
+                        if (newModel is GpxTrackModel trkModel) {
+                            Tracks.Insert(0, trkModel);
+                        }
+                        if (newModel is GpxRouteModel rteModel) {
+                            Routes.Insert(0, rteModel);
+                        }
+                        if (newModel is GpxWaypointModel wptModel) {
+                            Waypoints.Insert(0, wptModel);
+                        }
+                        break;
+                    }
+                case PasteMode.BEFORE: {
+                        if (newModel is GpxTrackModel trkModel) {
+                            index = Tracks.IndexOf((GpxTrackModel)oldModel);
+                            if (index == -1) {
+                                retVal = false;
+                            } else {
+                                Tracks.Insert(index, trkModel);
+                            }
+                        }
+                        if (newModel is GpxRouteModel rteModel) {
+                            index = Routes.IndexOf((GpxRouteModel)oldModel);
+                            if (index == -1) {
+                                retVal = false;
+                            } else {
+                                Routes.Insert(index, rteModel);
+                            }
+                        }
+                        if (newModel is GpxWaypointModel wptModel) {
+                            index = Waypoints.IndexOf((GpxWaypointModel)oldModel);
+                            if (index == -1) {
+                                retVal = false;
+                            } else {
+                                Waypoints.Insert(index, wptModel);
+                            }
+                        }
+                        break;
+                    }
+                case PasteMode.AFTER: {
+                        if (newModel is GpxTrackModel trkModel) {
+                            index = Tracks.IndexOf((GpxTrackModel)oldModel);
+                            Tracks.Insert(index, trkModel);
+                        }
+                        if (newModel is GpxRouteModel rteModel) {
+                            index = Routes.IndexOf((GpxRouteModel)oldModel);
+                            Routes.Insert(index, rteModel);
+                        }
+                        if (newModel is GpxWaypointModel wptModel) {
+                            index = Waypoints.IndexOf((GpxWaypointModel)oldModel);
+                            Waypoints.Insert(index, wptModel);
+                        }
+                        break;
+                    }
+                case PasteMode.END: {
+                        if (newModel is GpxTrackModel trkModel) {
+                            Tracks.Add(trkModel);
+                        }
+                        if (newModel is GpxRouteModel rteModel) {
+                            Routes.Add(rteModel);
+                        }
+                        if (newModel is GpxWaypointModel wptModel) {
+                            Waypoints.Add(wptModel);
+                        }
+                        break;
+                    }
+            }
+            return retVal;
+        }
+
+        public override void synchronize() {
+            Gpx.trk.Clear();
+            foreach (GpxTrackModel model in Tracks) {
+                Gpx.trk.Add(model.Track);
+                model.synchronize();
+            }
+            Gpx.rte.Clear();
+            foreach (GpxRouteModel model in Routes) {
+                Gpx.rte.Add(model.Route);
+                model.synchronize();
+            }
+            Gpx.wpt.Clear();
+            foreach (GpxWaypointModel model in Waypoints) {
+                Gpx.wpt.Add(model.Waypoint);
+            }
         }
     }
 }

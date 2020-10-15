@@ -15,6 +15,7 @@ using System.Runtime.Serialization;
 using System.Security.Policy;
 using System.Windows.Forms;
 using www.topografix.com.GPX_1_1;
+using static GPXViewer.model.GpxModel;
 
 namespace GPXViewer {
     public partial class MainForm : Form {
@@ -23,6 +24,12 @@ namespace GPXViewer {
 #else
         private static readonly string DEBUG_FILE_NAME = @"C:\Users\evans\Documents\GPSLink\Test\AAAtest9.gpx";
 #endif
+        public enum Task {
+            SORT, REVERSE, NEWFILE, NEWTRK, NEWSEG, NEWTKPT, NEWRTE, NEWWPT
+        };
+        public static readonly int INITIAL_TREE_LEVEL = 0;
+        private int treeLevel = INITIAL_TREE_LEVEL;
+
         private static ScrolledTextDialog textDlg;
 
         public static readonly String NL = Environment.NewLine;
@@ -60,6 +67,9 @@ namespace GPXViewer {
             DPI = new PointF(dpiX, dpiY);
             TreeImageSize = new Size((int)(16 * dpiX / 96), (int)(16 * dpiY / 96));
             ToolsImageSize = new Size((int)(16 * dpiX / 96), (int)(16 * dpiY / 96));
+
+            // ContextMenu
+            treeListView.ContextMenuStrip = contextMenuStrip1;
 
             // CanExpand getter
             treeListView.CanExpandGetter = delegate (object x) {
@@ -118,11 +128,6 @@ namespace GPXViewer {
             ToolsImageList.ImageSize = ToolsImageSize;
             Assembly assembly = Assembly.GetExecutingAssembly();
             Stream imageStream = assembly.GetManifestResourceStream(
-                "GPXViewer.icons.open.png");
-            if (imageStream != null) {
-                ToolsImageList.Images.Add("open", Image.FromStream(imageStream));
-            }
-            imageStream = assembly.GetManifestResourceStream(
                 "GPXViewer.icons.remove.png");
             if (imageStream != null) {
                 ToolsImageList.Images.Add("remove", Image.FromStream(imageStream));
@@ -133,14 +138,25 @@ namespace GPXViewer {
                 ToolsImageList.Images.Add("removeAll", Image.FromStream(imageStream));
             }
             imageStream = assembly.GetManifestResourceStream(
+                "GPXViewer.icons.expand.png");
+            if (imageStream != null) {
+                ToolsImageList.Images.Add("expand", Image.FromStream(imageStream));
+            }
+            imageStream = assembly.GetManifestResourceStream(
+                "GPXViewer.icons.collapse.png");
+            if (imageStream != null) {
+                ToolsImageList.Images.Add("collapse", Image.FromStream(imageStream));
+            }
+            imageStream = assembly.GetManifestResourceStream(
                 "GPXViewer.icons.kml.png");
             if (imageStream != null) {
                 ToolsImageList.Images.Add("kml", Image.FromStream(imageStream));
             }
             toolStrip1.ImageList = ToolsImageList;
-            toolStripButtonOpenGpx.ImageKey = "open";
             toolStripButtonRemoveSelected.ImageKey = "remove";
             toolStripButtonRemoveAll.ImageKey = "removeAll";
+            toolStripButtonExpand.ImageKey = "expand";
+            toolStripButtonCollapse.ImageKey = "collapse";
             toolStripButtonSendToGoogleEarth.ImageKey = "kml";
 #endif
 #if true
@@ -519,6 +535,62 @@ namespace GPXViewer {
             return models;
         }
 
+        private void doTask(Task task, GpxModel model) {
+            if (model == null) return;
+            GpxModel parent = model.Parent;
+            switch (task) {
+                case Task.NEWFILE:
+                    OnFileOpenGpxClick(null, null);
+                    break;
+                case Task.NEWTRK:
+                    if (model is GpxFileModel fileModel) {
+                        GpxTrackModel newModel = new GpxTrackModel(model, null);
+                        fileModel.add(null, newModel, PasteMode.END);
+                    } else if (model is GpxTrackModel) {
+                        GpxTrackModel newModel = new GpxTrackModel(parent, null);
+                        parent.add(model, newModel, PasteMode.END);
+                    }
+                    break;
+                case Task.NEWSEG:
+                    if (model is GpxTrackModel trackModel) {
+                        GpxTrackSegmentModel newModel = new GpxTrackSegmentModel(model, null);
+                        trackModel.add(null, newModel, PasteMode.END);
+                    } else if (model is GpxTrackSegmentModel) {
+                        GpxTrackSegmentModel newModel = new GpxTrackSegmentModel(parent, null);
+                        parent.add(model, newModel, PasteMode.END);
+                    }
+                    break;
+                case Task.NEWTKPT:
+                    if (model is GpxTrackSegmentModel trackSegmentModel) {
+                        GpxTrackpointModel newModel = new GpxTrackpointModel(model, null);
+                        trackSegmentModel.add(null, newModel, PasteMode.END);
+                    } else if (model is GpxTrackpointModel) {
+                        GpxTrackpointModel newModel = new GpxTrackpointModel(parent, null);
+                        parent.add(model, newModel, PasteMode.END);
+                    }
+                    break;
+                case Task.NEWRTE:
+                    if (model is GpxFileModel fileModel1) {
+                        GpxRouteModel newModel = new GpxRouteModel(model, null);
+                        fileModel1.add(null, newModel, PasteMode.END);
+                    } else if (model is GpxRouteModel) {
+                        GpxRouteModel newModel = new GpxRouteModel(parent, null);
+                        parent.add(model, newModel, PasteMode.END);
+                    }
+                    break;
+                case Task.NEWWPT:
+                    if (model is GpxRouteModel routeModel) {
+                        GpxWaypointModel newModel = new GpxWaypointModel(model, null);
+                        routeModel.add(null, newModel, PasteMode.END);
+                    } else if (model is GpxWaypointModel) {
+                        GpxWaypointModel newModel = new GpxWaypointModel(parent, null);
+                        parent.add(model, newModel, PasteMode.END);
+                    }
+                    break;
+            }
+            resetTree();
+        }
+
         private void OnFormClosing(object sender, FormClosingEventArgs e) {
             Properties.FindNear.Default.Save();
         }
@@ -586,10 +658,11 @@ namespace GPXViewer {
 
         private void OnViewExpandAllClick(object sender, EventArgs e) {
             treeListView.ExpandAll();
-
+            treeLevel = 3;
         }
         private void OnViewExpandNoneClick(object sender, EventArgs e) {
             treeListView.CollapseAll();
+            treeLevel = 0;
         }
 
         private void OnViewExpandToLevelClick(object sender, EventArgs e) {
@@ -600,6 +673,17 @@ namespace GPXViewer {
             }
         }
 
+        private void OnExpandCollapseButtonClick(object sender, EventArgs e) {
+            if (sender.ToString().Equals("Expand")) {
+                treeLevel++;
+                if (treeLevel > 3) treeLevel = 3;
+                expandToLevel(treeLevel);
+            } else if (sender.ToString().Equals("Collapse")) {
+                treeLevel--;
+                if (treeLevel < 0) treeLevel = 0;
+                expandToLevel(treeLevel);
+            }
+        }
         private void OnFileSendToGoogleEarth(object sender, EventArgs e) {
             try {
                 KmlOptions options = new KmlOptions();
@@ -667,6 +751,120 @@ namespace GPXViewer {
                 }
                 resetTree();
                 Cursor.Current = Cursors.Default;
+            }
+        }
+
+        private void OnCellRightClick(object sender,
+            BrightIdeasSoftware.CellRightClickEventArgs e) {
+            bool doItem = treeListView.SelectedItem != null;
+            // Can't access SelectedItems here.
+            bool doSelected = true;
+            contextMenuItemAdd.Enabled = doItem;
+            contextMenuItemInfo.Enabled = doItem;
+            contextMenuItemRemove.Enabled = doItem;
+            contextMenuItemRemoveSelected.Enabled = doSelected;
+            object x = e.Model;
+            if (x != null) {
+                contextMenuItemAddFile.Visible = x is GpxFileModel;
+                contextMenuItemAddTrack.Visible = x is GpxFileModel ||
+                    x is GpxTrackModel;
+                contextMenuItemAddSegment.Visible = x is GpxTrackModel ||
+                    x is GpxTrackSegmentModel;
+                contextMenuItemAddTrackpoint.Visible = x is GpxTrackSegmentModel ||
+                    x is GpxTrackpointModel;
+                contextMenuItemAddRoute.Visible = x is GpxFileModel ||
+                    x is GpxRouteModel;
+                contextMenuItemAddWaypoint.Visible = x is GpxFileModel ||
+                    x is GpxRouteModel || x is GpxWaypointModel;
+            }
+            e.MenuStrip = contextMenuStrip1;
+            //Utils.infoMsg("OnCellRightClick e.Model=" + e.Model.GetType()
+            //    + " e.MenuStrip=" + e.MenuStrip);
+        }
+
+        private void OnContextMenuInfoClicked(object sender, EventArgs e) {
+            //Utils.infoMsg("OnContextMenuInfoClicked e=" + e);
+            object x = treeListView.SelectedObject;
+            if (x == null) {
+                Utils.errMsg("Must be only one item selected to use this option");
+                return;
+            }
+            if (x is GpxModel model) {
+                //Utils.infoMsg("Label=" + model.Label);
+                Utils.infoMsg(model.info());
+            }
+        }
+
+        private void OnContextMenuRemoveClick(object sender, EventArgs e) {
+            object x = treeListView.SelectedObject;
+            if (x == null) {
+                Utils.errMsg("Must be only one item selected to use this option");
+                return;
+            }
+            if (x is GpxModel model) {
+                model.delete();
+                resetTree();
+            }
+        }
+
+        private void OnContextMenuAddFileClick(object sender, EventArgs e) {
+            object x = treeListView.SelectedObject;
+            if (x == null || !(x is GpxModel model)) {
+                Utils.errMsg("No model selected");
+                return;
+            }
+            doTask(Task.NEWFILE, model);
+        }
+
+        private void OnContextMenuAddTrackClick(object sender, EventArgs e) {
+            object x = treeListView.SelectedObject;
+            if (x == null || !(x is GpxModel model)) {
+                Utils.errMsg("No model selected");
+                return;
+            }
+            doTask(Task.NEWTRK, model);
+        }
+
+        private void OnContextMenuAddSegmentClick(object sender, EventArgs e) {
+            object x = treeListView.SelectedObject;
+            if (x == null || !(x is GpxModel model)) {
+                Utils.errMsg("No model selected");
+                return;
+            }
+            doTask(Task.NEWSEG, model);
+        }
+
+        private void OnContextMenuAddTrackpointClick(object sender, EventArgs e) {
+            object x = treeListView.SelectedObject;
+            if (x == null || !(x is GpxModel model)) {
+                Utils.errMsg("No model selected");
+                return;
+            }
+            doTask(Task.NEWTKPT, model);
+        }
+
+        private void OnContextMenuAddRouteClick(object sender, EventArgs e) {
+            object x = treeListView.SelectedObject;
+            if (x == null || !(x is GpxModel model)) {
+                Utils.errMsg("No model selected");
+                return;
+            }
+            doTask(Task.NEWRTE, model);
+        }
+
+        private void OnContextMenuAddWaypointClick(object sender, EventArgs e) {
+            object x = treeListView.SelectedObject;
+            if (x == null || !(x is GpxModel model)) {
+                Utils.errMsg("No model selected");
+                return;
+            }
+            doTask(Task.NEWWPT, model);
+        }
+
+        private void OnToolsSynchronizeClick(object sender, EventArgs e) {
+            foreach(GpxFileModel fileModel in Files) {
+                // Should be recursive
+                fileModel.synchronize();
             }
         }
     }

@@ -6,7 +6,12 @@ namespace GPXViewer.model {
         public wptType Waypoint { get; set; }
         public GpxWaypointModel(GpxModel parent, wptType wpt) {
             Parent = parent;
-            Waypoint = wpt;
+            if (wpt == null) {
+                Waypoint = new wptType();
+                Waypoint.name = "New Waypoint";
+            } else {
+                Waypoint = wpt;
+            }
         }
         public override string getLabel() {
             return Waypoint.name != null ? Waypoint.name : "";
@@ -18,8 +23,25 @@ namespace GPXViewer.model {
             return info;
 #endif
         }
-        public override void showInfo() {
-            throw new NotImplementedException();
+        public override string info() {
+            string msg = this.GetType() + NL + this + NL;
+            msg += "latitude=" + Waypoint.lat + " longitude=" + Waypoint.lon + NL;
+            msg += "elevation=" + Waypoint.ele + NL;
+            msg += "time=" + Waypoint.time + NL;
+            msg += "description=" + Waypoint.desc + NL;
+            msg += "symbol=" + Waypoint.sym + NL;
+            msg += "cmt=" + Waypoint.cmt + NL;
+            msg += "fix=" + Waypoint.fix + NL;
+            msg += "geoidheight=" + Waypoint.geoidheight + NL;
+            msg += "hdop=" + Waypoint.hdop + NL;
+            msg += "nLinks=" + Waypoint.link.Count + NL;
+            msg += "magvar=" + Waypoint.magvar + NL;
+            msg += "pdop=" + Waypoint.pdop + NL;
+            msg += "sat=" + Waypoint.sat + NL;
+            msg += "src=" + Waypoint.src + NL;
+            msg += "type=" + Waypoint.type + NL;
+            msg += "vdop=" + Waypoint.vdop + NL;
+            return msg;
         }
 
         public override void delete() {
@@ -28,6 +50,14 @@ namespace GPXViewer.model {
                 fileModel.Waypoints.Remove(this);
             }
             Waypoint = null;
+        }
+
+        public override bool add(GpxModel oldModel, GpxModel newModel, PasteMode mode) {
+            throw new NotImplementedException();
+        }
+
+        public override void synchronize() {
+            throw new NotImplementedException();
         }
     }
 }

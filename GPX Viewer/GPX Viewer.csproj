@@ -175,11 +175,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icons\add.gif" />
-    <Content Include="icons\collapseall.gif" />
+    <EmbeddedResource Include="icons\collapse.png" />
     <Content Include="icons\copy_edit.gif" />
     <Content Include="icons\cut_edit.gif" />
     <Content Include="icons\debug_exc.gif" />
-    <Content Include="icons\expandall.gif" />
+    <EmbeddedResource Include="icons\expand.png" />
     <Content Include="icons\file_obj.gif" />
     <Content Include="icons\GPXInspector.ico" />
     <Content Include="icons\GPXInspector16.png" />
@@ -187,8 +187,7 @@
     <Content Include="icons\GPXInspector32.png" />
     <EmbeddedResource Include="icons\kml.png" />
     <Content Include="icons\meBook.gif" />
-    <EmbeddedResource Include="icons\open.png" />
-    <Content Include="icons\paste_edit.gif" />
+    <Content Include="icons\open.png" />
     <Content Include="icons\properties.gif" />
     <Content Include="icons\refresh.gif" />
     <EmbeddedResource Include="icons\remove.png" />
