@@ -795,9 +795,9 @@ namespace GPXViewer.KML {
                 } catch (FormatException) {
                     // Do nothing
                 }
-                double rlat = GpsUtils.greatCircleDistance(lat0, lon0,
+                double rlat = GpsData.greatCircleDistance(lat0, lon0,
                     lat0 + DELTA_LATLON, lon0);
-                double rlon = GpsUtils.greatCircleDistance(lat0, lon0, lat0,
+                double rlon = GpsData.greatCircleDistance(lat0, lon0, lat0,
                     lon0 + DELTA_LATLON);
                 double a = DELTA_LATLON / rlon * radius;
                 double b = DELTA_LATLON / rlat * radius;

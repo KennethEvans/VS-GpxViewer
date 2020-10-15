@@ -47,8 +47,8 @@ namespace GPXViewer.model {
             msg += "nRoutes=" + Routes.Count + NL;
             // Get information from GpsUtils
             try {
-                msg += NL + GpsUtils.processGpx(FileName, Gpx).info();
-            } catch(Exception ex) {
+                msg += NL + GpsData.processGpx(FileName, Gpx).info();
+            } catch(Exception) {
                 // Do nothing;
             }
             return msg;

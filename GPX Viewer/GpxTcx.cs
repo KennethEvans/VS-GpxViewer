@@ -146,7 +146,7 @@ namespace GPXViewer {
             }
             if (ext.ToLower().Equals(".tcx")) {
                 try {
-                    GpsUtils data = GpsUtils.processTcx(fileName);
+                    GpsData data = GpsData.processTcx(fileName);
                     mainForm.gpxTxcCallback(NL + data.info());
                 } catch (Exception ex) {
                     Utils.excMsg("Error getting TCX single file info", ex);
@@ -154,7 +154,7 @@ namespace GPXViewer {
                 }
             } else if (ext.ToLower().Equals(".gpx")) {
                 try {
-                    GpsUtils data = GpsUtils.processGpx(fileName);
+                    GpsData data = GpsData.processGpx(fileName);
                     mainForm.gpxTxcCallback(NL + data.info());
                 } catch (Exception ex) {
                     Utils.excMsg("Error getting GPX single file info", ex);
@@ -185,7 +185,7 @@ namespace GPXViewer {
 
         public static void recalculateTcx(string fileName, MainForm mainForm) {
             try {
-                TrainingCenterDatabase tcx = GpsUtils.recalculateTcx(fileName);
+                TrainingCenterDatabase tcx = GpsData.recalculateTcx(fileName);
                 string saveFileName = getSaveName(fileName, ".recalculated");
                 if (saveFileName != null) {
                     tcx.Save(saveFileName);
@@ -200,7 +200,7 @@ namespace GPXViewer {
             }
         }
 
-        public static void interpolateTcxFromGpx(MainForm mainForm, GpsUtils.InterpolateMode mode) {
+        public static void interpolateTcxFromGpx(MainForm mainForm, GpsData.InterpolateMode mode) {
             string tcxFile = null, gpxFile = null;
             OpenFileDialog dlg1 = new OpenFileDialog();
             dlg1.Filter = "TCX|*.tcx";
@@ -230,10 +230,10 @@ namespace GPXViewer {
         }
 
         public static void interpolateTcxFromGpx(string tcxFile, string gpxFile,
-            MainForm mainForm, GpsUtils.InterpolateMode mode) {
+            MainForm mainForm, GpsData.InterpolateMode mode) {
             try {
                 TcxResult res =
-                    GpsUtils.interpolateTcxFromGpx(tcxFile, gpxFile, mode);
+                    GpsData.interpolateTcxFromGpx(tcxFile, gpxFile, mode);
                 if (res.TCX == null) {
                     Utils.errMsg("Interpolate Tcx From Gpx failed:" + NL
                         + "for " + Path.GetFileName(tcxFile) + NL
@@ -278,7 +278,7 @@ namespace GPXViewer {
         public static void deleteTcxTrackpoints(string tcxFile, MainForm mainForm) {
             try {
                 TcxResult res =
-                    GpsUtils.deleteTcxTrackpoints(tcxFile);
+                    GpsData.deleteTcxTrackpoints(tcxFile);
                 if (res.TCX == null) {
                     Utils.errMsg("Delete trackpoints from TCX failed:" + NL
                         + "for " + Path.GetFileName(tcxFile) + NL
@@ -319,7 +319,7 @@ namespace GPXViewer {
         public static void changeTimesTcx(string tcxFile, MainForm mainForm) {
             try {
                 TcxResult res =
-                    GpsUtils.changeTimesTcx(tcxFile);
+                    GpsData.changeTimesTcx(tcxFile);
                 if (res.TCX == null) {
                     Utils.errMsg("Change times in TCX failed:" + NL
                         + "for " + Path.GetFileName(tcxFile) + NL
@@ -361,7 +361,7 @@ namespace GPXViewer {
         public static void fixPolarGpx(string gpxFile, MainForm mainForm) {
             try {
                 GpxResult res =
-                    GpsUtils.fixPolarGpx(gpxFile);
+                    GpsData.fixPolarGpx(gpxFile);
                 if (res.GPX == null) {
                     Utils.errMsg("Fixing GPX failed:" + NL
                         + "for " + Path.GetFileName(gpxFile) + NL
@@ -406,11 +406,11 @@ namespace GPXViewer {
 
         private void OnGpxTcxInterpolateTcxClick(object sender, EventArgs e) {
             ToolStripMenuItem item = (ToolStripMenuItem)sender;
-            GpsUtils.InterpolateMode mode;
+            GpsData.InterpolateMode mode;
             if (item.Text.StartsWith("Match")) {
-                mode = GpsUtils.InterpolateMode.MatchLatLon;
+                mode = GpsData.InterpolateMode.MatchLatLon;
             } else if (item.Text.StartsWith("Use")) {
-                mode = GpsUtils.InterpolateMode.UseInterval;
+                mode = GpsData.InterpolateMode.UseInterval;
             } else {
                 return;
             }

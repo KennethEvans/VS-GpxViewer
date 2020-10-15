@@ -79,7 +79,7 @@ namespace GPXViewer.Dialogs {
                             foreach (wptType wpt in seg.trkpt) {
                                 lat = (double)wpt.lat;
                                 lon = (double)wpt.lon;
-                                if (GpsUtils.greatCircleDistance(lat0, lon0, lat, lon) <= radius) {
+                                if (GpsData.greatCircleDistance(lat0, lon0, lat, lon) <= radius) {
                                     return true;
                                 }
                             }
@@ -92,7 +92,7 @@ namespace GPXViewer.Dialogs {
                     foreach (wptType wpt in waypoints) {
                         lat = (double)wpt.lat;
                         lon = (double)wpt.lon;
-                        if (GpsUtils.greatCircleDistance(lat0, lon0, lat, lon) <= radius) {
+                        if (GpsData.greatCircleDistance(lat0, lon0, lat, lon) <= radius) {
                             return true;
                         }
                     }
@@ -162,9 +162,9 @@ namespace GPXViewer.Dialogs {
             }
             // Convert the radius to meters
             if (units.Equals("ft")) {
-                return radius /= GpsUtils.M2FT;
+                return radius /= GpsData.M2FT;
             } else if (units.Equals("mi")) {
-                return radius /= GpsUtils.M2MI;
+                return radius /= GpsData.M2MI;
             } else if (units.Equals("meters")) {
                 return radius;
             } else if (units.Equals("km")) {
