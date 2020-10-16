@@ -35,6 +35,9 @@
   <PropertyGroup>
     <ApplicationManifest>App.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>GPXInspector.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="GeoTimeZone, Version=4.1.0.0, Culture=neutral, PublicKeyToken=e20ab7d0d9479841, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -176,6 +179,7 @@
   <ItemGroup>
     <EmbeddedResource Include="icons\collapse.png" />
     <EmbeddedResource Include="icons\expand.png" />
+    <Content Include="GPXInspector.ico" />
     <Content Include="icons\GPXInspector.ico" />
     <Content Include="icons\GPXInspector16.png" />
     <Content Include="icons\GPXInspector256.png" />
