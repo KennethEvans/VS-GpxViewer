@@ -27,6 +27,7 @@ namespace GPXViewer.model {
         public override string info() {
             //synchronize();
             string msg = this.GetType() + NL + this + NL;
+            msg += "parent=" + Parent + NL;
             msg += "nTrackpoints=" + Trackpoints.Count + NL;
             msg += "nTrkpt=" + Segment.trkpt.Count + NL;
             return msg;
@@ -46,32 +47,36 @@ namespace GPXViewer.model {
             int index;
             switch (mode) {
                 case PasteMode.BEGINNING: {
-                        if (newModel is GpxTrackpointModel segModel) {
-                            Trackpoints.Insert(0, segModel);
+                        if (newModel is GpxTrackpointModel trkpModel) {
+                            trkpModel.Parent = this;
+                            Trackpoints.Insert(0, trkpModel);
                         }
                         break;
                     }
                 case PasteMode.BEFORE: {
-                        if (newModel is GpxTrackpointModel trkModel) {
+                        if (newModel is GpxTrackpointModel trkpModel) {
                             index = Trackpoints.IndexOf((GpxTrackpointModel)oldModel);
                             if (index == -1) {
                                 retVal = false;
                             } else {
-                                Trackpoints.Insert(index, trkModel);
+                                trkpModel.Parent = this;
+                                Trackpoints.Insert(index, trkpModel);
                             }
                         }
                         break;
                     }
                 case PasteMode.AFTER: {
-                        if (newModel is GpxTrackpointModel trkModel) {
+                        if (newModel is GpxTrackpointModel trkpModel) {
                             index = Trackpoints.IndexOf((GpxTrackpointModel)oldModel);
-                            Trackpoints.Insert(index, trkModel);
+                            trkpModel.Parent = this;
+                            Trackpoints.Insert(index + 1, trkpModel);
                         }
                         break;
                     }
                 case PasteMode.END: {
-                        if (newModel is GpxTrackpointModel trkModel) {
-                            Trackpoints.Add(trkModel);
+                        if (newModel is GpxTrackpointModel trkpModel) {
+                            trkpModel.Parent = this;
+                            Trackpoints.Add(trkpModel);
                         }
                         break;
                     }
@@ -84,6 +89,15 @@ namespace GPXViewer.model {
             foreach (GpxTrackpointModel model in Trackpoints) {
                 Segment.trkpt.Add(model.Trackpoint);
             }
+        }
+
+        public override GpxModel clone() {
+            GpxTrackSegmentModel newModel = null;
+            trksegType trkseg = (trksegType)Segment.Clone();
+            if (trkseg != null) {
+                newModel = new GpxTrackSegmentModel(null, trkseg);
+            }
+            return newModel;
         }
     }
 }

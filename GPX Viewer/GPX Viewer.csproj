@@ -174,29 +174,20 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="icons\add.gif" />
     <EmbeddedResource Include="icons\collapse.png" />
-    <Content Include="icons\copy_edit.gif" />
-    <Content Include="icons\cut_edit.gif" />
-    <Content Include="icons\debug_exc.gif" />
     <EmbeddedResource Include="icons\expand.png" />
-    <Content Include="icons\file_obj.gif" />
     <Content Include="icons\GPXInspector.ico" />
     <Content Include="icons\GPXInspector16.png" />
     <Content Include="icons\GPXInspector256.png" />
     <Content Include="icons\GPXInspector32.png" />
     <EmbeddedResource Include="icons\kml.png" />
-    <Content Include="icons\meBook.gif" />
     <Content Include="icons\open.png" />
-    <Content Include="icons\properties.gif" />
-    <Content Include="icons\refresh.gif" />
     <EmbeddedResource Include="icons\remove.png" />
     <EmbeddedResource Include="icons\removeAll.png" />
     <EmbeddedResource Include="icons\route.png" />
     <EmbeddedResource Include="icons\track.png" />
     <EmbeddedResource Include="icons\trackSegment.png" />
     <EmbeddedResource Include="icons\waypoint.png" />
-    <Content Include="icons\waypoint32.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

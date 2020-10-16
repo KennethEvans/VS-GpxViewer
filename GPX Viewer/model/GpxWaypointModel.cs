@@ -25,6 +25,7 @@ namespace GPXViewer.model {
         }
         public override string info() {
             string msg = this.GetType() + NL + this + NL;
+            msg += "parent=" + Parent + NL;
             msg += "latitude=" + Waypoint.lat + " longitude=" + Waypoint.lon + NL;
             msg += "elevation=" + Waypoint.ele + NL;
             msg += "time=" + Waypoint.time + NL;
@@ -58,6 +59,15 @@ namespace GPXViewer.model {
 
         public override void synchronize() {
             throw new NotImplementedException();
+        }
+
+        public override GpxModel clone() {
+            GpxWaypointModel newModel = null;
+            wptType wpt = (wptType)Waypoint.Clone();
+            if (wpt != null) {
+                newModel = new GpxWaypointModel(null, wpt);
+            }
+            return newModel;
         }
     }
 }

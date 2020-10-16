@@ -24,6 +24,7 @@ namespace GPXViewer.model {
         }
         public override string info() {
             string msg = this.GetType() + NL + this + NL;
+            msg += "parent=" + Parent + NL;
             msg += "nWaypoints=" + Waypoints.Count + NL;
             msg += "cmt=" + Route.cmt + NL;
             msg += "desc=" + Route.desc + NL;
@@ -49,32 +50,36 @@ namespace GPXViewer.model {
             int index;
             switch (mode) {
                 case PasteMode.BEGINNING: {
-                        if (newModel is GpxWaypointModel segModel) {
-                            Waypoints.Insert(0, segModel);
+                        if (newModel is GpxWaypointModel wptModel) {
+                            wptModel.Parent = this;
+                            Waypoints.Insert(0, wptModel);
                         }
                         break;
                     }
                 case PasteMode.BEFORE: {
-                        if (newModel is GpxWaypointModel trkModel) {
+                        if (newModel is GpxWaypointModel wptModel) {
                             index = Waypoints.IndexOf((GpxWaypointModel)oldModel);
                             if (index == -1) {
                                 retVal = false;
                             } else {
-                                Waypoints.Insert(index, trkModel);
+                                wptModel.Parent = this;
+                                Waypoints.Insert(index, wptModel);
                             }
                         }
                         break;
                     }
                 case PasteMode.AFTER: {
-                        if (newModel is GpxWaypointModel trkModel) {
+                        if (newModel is GpxWaypointModel wptModel) {
                             index = Waypoints.IndexOf((GpxWaypointModel)oldModel);
-                            Waypoints.Insert(index, trkModel);
+                            wptModel.Parent = this;
+                            Waypoints.Insert(index + 1, wptModel);
                         }
                         break;
                     }
                 case PasteMode.END: {
-                        if (newModel is GpxWaypointModel trkModel) {
-                            Waypoints.Add(trkModel);
+                        if (newModel is GpxWaypointModel wptModel) {
+                            wptModel.Parent = this;
+                            Waypoints.Add(wptModel);
                         }
                         break;
                     }
@@ -87,6 +92,15 @@ namespace GPXViewer.model {
             foreach (GpxWaypointModel model in Waypoints) {
                 Route.rtept.Add(model.Waypoint);
             }
+        }
+
+        public override GpxModel clone() {
+            GpxRouteModel newModel = null;
+            rteType rte = (rteType)Route.Clone();
+            if (rte != null) {
+                newModel = new GpxRouteModel(null, rte);
+            }
+            return newModel;
         }
     }
 }

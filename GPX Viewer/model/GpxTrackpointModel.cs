@@ -18,7 +18,7 @@ namespace GPXViewer.model {
             if (Trackpoint.name != null) {
                 info += Trackpoint.name + " ";
             }
-            info += Trackpoint.time;
+            info += Trackpoint.lon + ", " + Trackpoint.lat + ", " + Trackpoint.time;
             if (Parent is GpxTrackSegmentModel segment) {
                 info += " (" + (segment.Trackpoints.IndexOf(this) + 1) + ")";
             }
@@ -26,6 +26,7 @@ namespace GPXViewer.model {
         }
         public override string info() {
             string msg = this.GetType() + NL + this + NL;
+            msg += "parent=" + Parent + NL;
             msg += "latitude=" + Trackpoint.lat + " longitude=" + Trackpoint.lon + NL;
             msg += "elevation=" + Trackpoint.ele + NL;
             msg += "time=" + Trackpoint.time + NL;
@@ -59,6 +60,15 @@ namespace GPXViewer.model {
 
         public override void synchronize() {
             throw new NotImplementedException();
+        }
+
+        public override GpxModel clone() {
+            GpxTrackpointModel newModel = null;
+            wptType trkpt = (wptType)Trackpoint.Clone();
+            if (trkpt != null) {
+                newModel = new GpxTrackpointModel(null, trkpt);
+            }
+            return newModel;
         }
     }
 }

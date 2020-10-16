@@ -31,5 +31,16 @@ namespace GPXViewer.model {
         public override void synchronize() {
             throw new NotImplementedException();
         }
+
+        public override GpxModel clone() {
+            GpxFileSetModel newModel = null;
+            List<GpxFileModel> files = new List<GpxFileModel>();
+            foreach (GpxFileModel model in Files) {
+                files.Add((GpxFileModel)model.clone());
+            }
+            newModel = new GpxFileSetModel(null);
+            newModel.Files = files;
+            return newModel;
+        }
     }
 }

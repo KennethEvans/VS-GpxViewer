@@ -34,7 +34,7 @@ namespace GPXViewer.KML {
         }
 
         public void setDefaults() {
-            KmlFileName = @"C:\Users\evans\Documents\GPSLink\AAA.GPXV.kml";
+            KmlFileName = @"gpxviewer.kml";
             IconScale = 1.0;
 
             TrkColor = "ff0000"; ;

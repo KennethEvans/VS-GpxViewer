@@ -36,6 +36,7 @@ namespace GPXViewer {
         private static readonly string SAVE_FILE_Tag = ".GPXV";
         public GpxFileSetModel FileSet { get; set; }
         public List<GpxFileModel> Files { get; set; }
+        public List<GpxModel> ClipboardList { get; set; }
         public ImageList ToolsImageList { get; set; }
         public Size ToolsImageSize { get; set; }
         public ImageList TreeImageList { get; set; }
@@ -47,6 +48,7 @@ namespace GPXViewer {
 
             FileSet = new GpxFileSetModel(null);
             Files = FileSet.Files;
+            ClipboardList = new List<GpxModel>();
 #if true
             // Load a file for testing
             try {
@@ -588,6 +590,172 @@ namespace GPXViewer {
                     }
                     break;
             }
+            synchronize();
+            resetTree();
+        }
+
+        private void synchronize() {
+            foreach (GpxFileModel fileModel in Files) {
+                // Should be recursive
+                fileModel.synchronize();
+            }
+        }
+
+        private void cut() {
+            if (treeListView.SelectedObjects.Count == 0) {
+                Utils.errMsg("No selected items");
+                return;
+            }
+            ClipboardList.Clear();
+            synchronize();
+            List<GpxModel> removeList = new List<GpxModel>();
+            foreach (object x in treeListView.SelectedObjects) {
+                if (x is GpxModel model) {
+                    ClipboardList.Add(model.clone());
+                    removeList.Add(model);
+                }
+                foreach (GpxModel model1 in removeList) {
+                    model1.delete();
+                }
+            }
+            synchronize();
+            resetTree();
+        }
+
+        private void copy() {
+            if (treeListView.SelectedObjects.Count == 0) {
+                Utils.errMsg("No selected items");
+                return;
+            }
+            ClipboardList.Clear();
+            synchronize();
+            foreach (object x in treeListView.SelectedObjects) {
+                if (x is GpxModel model) {
+                    ClipboardList.Add(model.clone());
+                }
+            }
+        }
+
+        private void paste(PasteMode mode) {
+            if (ClipboardList.Count == 0) {
+                Utils.errMsg("No items to paste");
+                return;
+            }
+            GpxModel targetModel = (GpxModel)treeListView.SelectedObject;
+            if (targetModel == null) {
+                Utils.errMsg("Selected paste location must be one single item");
+                return;
+            }
+            GpxModel targetParent = targetModel.Parent;
+            bool added;
+            int iClipboardItem = 0;
+            foreach (GpxModel clipboardModel in ClipboardList) {
+                iClipboardItem++;
+                added = false;
+                if (targetModel == null) {
+                    if (clipboardModel is GpxFileModel) {
+                        added = FileSet.add((GpxFileModel)targetModel, clipboardModel.clone(),
+                                mode);
+                    }
+                } else if (targetModel is GpxFileModel) {
+                    if (clipboardModel is GpxFileModel) {
+                        added = ((GpxFileSetModel)targetParent).add((GpxFileModel)targetModel,
+                                clipboardModel.clone(), mode);
+                    } else if (mode == PasteMode.BEGINNING || mode == PasteMode.END) {
+                        if (clipboardModel is GpxTrackModel) {
+                            GpxFileModel fileModel = (GpxFileModel)targetModel;
+                            added = fileModel.add(null, (GpxTrackModel)clipboardModel.clone(), mode);
+                        } else if (clipboardModel is GpxRouteModel) {
+                            GpxFileModel fileModel = (GpxFileModel)targetModel;
+                            added = fileModel.add(null, (GpxRouteModel)clipboardModel.clone(), mode);
+                        } else if (clipboardModel is GpxWaypointModel) {
+                            GpxFileModel fileModel = (GpxFileModel)targetModel;
+                            added = fileModel.add(null, (GpxWaypointModel)clipboardModel.clone(), mode);
+                        }
+                    }
+                } else if (targetModel is GpxTrackModel) {
+                    if (clipboardModel is GpxTrackModel) {
+                        added = ((GpxFileModel)targetParent).add((GpxTrackModel)targetModel,
+                                (GpxTrackModel)clipboardModel.clone(), mode);
+                    } else if (mode == PasteMode.BEGINNING || mode == PasteMode.END) {
+                        if (clipboardModel is GpxTrackSegmentModel) {
+                            GpxTrackModel trackModel = (GpxTrackModel)targetModel;
+                            added = trackModel.add(null, (GpxTrackSegmentModel)clipboardModel.clone(), mode);
+                        }
+                    }
+                } else if (targetModel is GpxTrackSegmentModel) {
+                    if (clipboardModel is GpxTrackSegmentModel) {
+                        added = ((GpxTrackModel)targetParent).add((GpxTrackSegmentModel)targetModel,
+                                (GpxTrackSegmentModel)clipboardModel.clone(), mode);
+                    } else if (mode == PasteMode.BEGINNING || mode == PasteMode.END) {
+                        if (clipboardModel is GpxTrackpointModel) {
+                            GpxTrackSegmentModel trackSegmentModel = (GpxTrackSegmentModel)targetModel;
+                            added = trackSegmentModel.add(null, (GpxTrackpointModel)clipboardModel.clone(), mode);
+                        }
+                    }
+                } else if (targetModel is GpxRouteModel) {
+                    if (clipboardModel is GpxRouteModel) {
+                        added = ((GpxFileModel)targetParent).add((GpxRouteModel)targetModel,
+                                (GpxRouteModel)clipboardModel.clone(), mode);
+                    } else if (mode == PasteMode.BEGINNING || mode == PasteMode.END) {
+                        if (clipboardModel is GpxWaypointModel) {
+                            GpxRouteModel routeModel = (GpxRouteModel)targetModel;
+                            added = routeModel.add(null, (GpxWaypointModel)clipboardModel.clone(), mode);
+                        }
+                    }
+                } else if (targetModel is GpxTrackpointModel) {
+                    if (clipboardModel is GpxTrackpointModel) {
+                        if (targetParent is GpxFileModel) {
+                            added = ((GpxFileModel)targetParent).add((GpxTrackpointModel)targetModel,
+                                    (GpxTrackpointModel)clipboardModel.clone(), mode);
+                        } else if (targetParent is GpxTrackSegmentModel) {
+                            added = ((GpxTrackSegmentModel)targetParent).add((GpxTrackpointModel)targetModel,
+                                    (GpxTrackpointModel)clipboardModel.clone(), mode);
+                        }
+                    }
+                } else if (targetModel is GpxWaypointModel) {
+                    if (clipboardModel is GpxWaypointModel) {
+                        if (targetParent is GpxFileModel) {
+                            added = ((GpxFileModel)targetParent).add((GpxWaypointModel)targetModel,
+                                    (GpxWaypointModel)clipboardModel.clone(), mode);
+                        } else if (targetParent is GpxRouteModel) {
+                            added = ((GpxRouteModel)targetParent).add((GpxWaypointModel)targetModel,
+                                    (GpxWaypointModel)clipboardModel.clone(), mode);
+                        }
+                    }
+                }
+                if (!added) {
+                    String from = clipboardModel.GetType().ToString();
+                    int index = from.LastIndexOf("Gpx");
+                    if (index != -1) {
+                        from = from.Substring(index);
+                    }
+                    String to = targetModel.GetType().ToString();
+                    index = to.LastIndexOf("Gpx");
+                    if (index != -1) {
+                        to = to.Substring(index);
+                    }
+                    string msg = "Failed to add " + from + " to " + to
+                        + " for add at " + mode + "." + NL;
+                    if (mode == PasteMode.BEFORE || (mode == PasteMode.AFTER)) {
+                        msg += "(Note that pasting an obect into the parent of" + NL
+                            + "the selected object is not supported for" +
+                            " AFTER and BEFORE.)" + NL;
+                    }
+                    msg += "Press OK to continue with remaining "
+                        + "Clipboard items or Cancel to abort.";
+                    if (iClipboardItem < ClipboardList.Count) {
+                        DialogResult res = MessageBox.Show(msg + "\n" + "OK to continue?",
+                            "Warning", MessageBoxButtons.YesNo);
+                        if (res == DialogResult.No) {
+                            break;
+                        }
+                    } else {
+                        Utils.errMsg(msg);
+                    }
+                }
+            }
+            synchronize();
             resetTree();
         }
 
@@ -703,6 +871,7 @@ namespace GPXViewer {
             foreach (object x in treeListView.SelectedObjects) {
                 if (x is GpxModel model) model.delete();
             }
+            synchronize();
             resetTree();
         }
 
@@ -862,9 +1031,28 @@ namespace GPXViewer {
         }
 
         private void OnToolsSynchronizeClick(object sender, EventArgs e) {
-            foreach(GpxFileModel fileModel in Files) {
-                // Should be recursive
-                fileModel.synchronize();
+            synchronize();
+        }
+
+        private void OnCopyClick(object sender, EventArgs e) {
+            copy();
+        }
+
+        private void OnCutClick(object sender, EventArgs e) {
+            cut();
+        }
+
+        private void OnPasteClick(object sender, EventArgs e) {
+            if (sender.ToString().Equals("Beginning")) {
+                paste(PasteMode.BEGINNING);
+            } else if (sender.ToString().Equals("Before")) {
+                paste(PasteMode.BEFORE);
+            } else if (sender.ToString().Equals("After")) {
+                paste(PasteMode.AFTER);
+            } else if (sender.ToString().Equals("End")) {
+                paste(PasteMode.END);
+            } else {
+                paste(PasteMode.END);
             }
         }
     }

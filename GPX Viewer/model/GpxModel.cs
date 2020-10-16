@@ -26,18 +26,24 @@ namespace GPXViewer.model {
         /// </summary>
         /// <returns></returns>
         public abstract string getLabel();
-        
+
         /// <summary>
         /// Deletes this model and from any lists in its parent.
         /// </summary>
         public abstract void delete();
-        
+
+        /// <summary>
+        /// Clones the model.
+        /// </summary>
+        /// <returns>The clone.</returns>
+        public abstract GpxModel clone();
+
         /// <summary>
         /// Returns information about this model.
         /// </summary>
         /// <returns></returns>
         public abstract string info();
-        
+
         /// <summary>
         /// Adds a new model 
         /// </summary>
@@ -49,7 +55,7 @@ namespace GPXViewer.model {
         /// place the new model relative to the old model.</param>
         /// <returns></returns>
         public abstract bool add(GpxModel oldModel, GpxModel newModel, PasteMode mode);
-        
+
         /// <summary>
         /// Resets the lists from the Xml file from the GpxModel lists. This is
         /// not done when doing add, delete, etc. so the two lists are

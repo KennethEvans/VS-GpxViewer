@@ -15,12 +15,18 @@ namespace GPXViewer.model {
 
         public GpxFileModel(GpxModel parent, string fileName) {
             Parent = parent;
-            reset(fileName);
-        }
-
-        public void reset(string fileName) {
             FileName = fileName;
             Gpx = gpx.Load(fileName);
+            reset();
+        }
+
+        public GpxFileModel(GpxModel parent, string fileName, gpx gpxType) {
+            Parent = parent;
+            FileName = fileName;
+            reset();
+        }
+
+        public void reset() {
             Tracks = new List<GpxTrackModel>();
             Waypoints = new List<GpxWaypointModel>();
             Routes = new List<GpxRouteModel>();
@@ -42,13 +48,14 @@ namespace GPXViewer.model {
 
         public override string info() {
             string msg = this.GetType() + NL + this + NL;
+            msg += "parent=" + Parent + NL;
             msg += "nTracks=" + Tracks.Count + NL;
             msg += "nWaypoints=" + Waypoints.Count + NL;
             msg += "nRoutes=" + Routes.Count + NL;
             // Get information from GpsUtils
             try {
                 msg += NL + GpsData.processGpx(FileName, Gpx).info();
-            } catch(Exception) {
+            } catch (Exception) {
                 // Do nothing;
             }
             return msg;
@@ -72,12 +79,15 @@ namespace GPXViewer.model {
             switch (mode) {
                 case PasteMode.BEGINNING: {
                         if (newModel is GpxTrackModel trkModel) {
+                            trkModel.Parent = this;
                             Tracks.Insert(0, trkModel);
                         }
                         if (newModel is GpxRouteModel rteModel) {
+                            rteModel.Parent = this;
                             Routes.Insert(0, rteModel);
                         }
                         if (newModel is GpxWaypointModel wptModel) {
+                            wptModel.Parent = this;
                             Waypoints.Insert(0, wptModel);
                         }
                         break;
@@ -88,6 +98,7 @@ namespace GPXViewer.model {
                             if (index == -1) {
                                 retVal = false;
                             } else {
+                                trkModel.Parent = this;
                                 Tracks.Insert(index, trkModel);
                             }
                         }
@@ -96,6 +107,7 @@ namespace GPXViewer.model {
                             if (index == -1) {
                                 retVal = false;
                             } else {
+                                rteModel.Parent = this;
                                 Routes.Insert(index, rteModel);
                             }
                         }
@@ -104,6 +116,7 @@ namespace GPXViewer.model {
                             if (index == -1) {
                                 retVal = false;
                             } else {
+                                wptModel.Parent = this;
                                 Waypoints.Insert(index, wptModel);
                             }
                         }
@@ -112,26 +125,32 @@ namespace GPXViewer.model {
                 case PasteMode.AFTER: {
                         if (newModel is GpxTrackModel trkModel) {
                             index = Tracks.IndexOf((GpxTrackModel)oldModel);
-                            Tracks.Insert(index, trkModel);
+                            trkModel.Parent = this;
+                            Tracks.Insert(index + 1, trkModel);
                         }
                         if (newModel is GpxRouteModel rteModel) {
                             index = Routes.IndexOf((GpxRouteModel)oldModel);
-                            Routes.Insert(index, rteModel);
+                            rteModel.Parent = this;
+                            Routes.Insert(index + 1, rteModel);
                         }
                         if (newModel is GpxWaypointModel wptModel) {
                             index = Waypoints.IndexOf((GpxWaypointModel)oldModel);
-                            Waypoints.Insert(index, wptModel);
+                            wptModel.Parent = this;
+                            Waypoints.Insert(index + 1, wptModel);
                         }
                         break;
                     }
                 case PasteMode.END: {
                         if (newModel is GpxTrackModel trkModel) {
+                            trkModel.Parent = this;
                             Tracks.Add(trkModel);
                         }
                         if (newModel is GpxRouteModel rteModel) {
+                            rteModel.Parent = this;
                             Routes.Add(rteModel);
                         }
                         if (newModel is GpxWaypointModel wptModel) {
+                            wptModel.Parent = this;
                             Waypoints.Add(wptModel);
                         }
                         break;
@@ -155,6 +174,15 @@ namespace GPXViewer.model {
             foreach (GpxWaypointModel model in Waypoints) {
                 Gpx.wpt.Add(model.Waypoint);
             }
+        }
+
+        public override GpxModel clone() {
+            GpxFileModel newModel = null;
+            gpx gpxType = (gpx)Gpx.Clone();
+            if (gpxType != null) {
+                newModel = new GpxFileModel(null, FileName, gpxType);
+            }
+            return newModel;
         }
     }
 }

@@ -28,6 +28,7 @@ namespace GPXViewer.model {
         }
         public override string info() {
             string msg = this.GetType() + NL + this + NL;
+            msg += "parent=" + Parent + NL;
             msg += "nSegments=" + Segments.Count + NL;
             msg += "cmt=" + Track.cmt + NL;
             msg += "desc=" + Track.desc + NL;
@@ -55,31 +56,35 @@ namespace GPXViewer.model {
             switch (mode) {
                 case PasteMode.BEGINNING: {
                         if (newModel is GpxTrackSegmentModel segModel) {
+                            segModel.Parent = this;
                             Segments.Insert(0, segModel);
                         }
                         break;
                     }
                 case PasteMode.BEFORE: {
-                        if (newModel is GpxTrackSegmentModel trkModel) {
+                        if (newModel is GpxTrackSegmentModel segModel) {
                             index = Segments.IndexOf((GpxTrackSegmentModel)oldModel);
                             if (index == -1) {
                                 retVal = false;
                             } else {
-                                Segments.Insert(index, trkModel);
+                                segModel.Parent = this;
+                                Segments.Insert(index, segModel);
                             }
                         }
                         break;
                     }
                 case PasteMode.AFTER: {
-                        if (newModel is GpxTrackSegmentModel trkModel) {
+                        if (newModel is GpxTrackSegmentModel segModel) {
                             index = Segments.IndexOf((GpxTrackSegmentModel)oldModel);
-                            Segments.Insert(index, trkModel);
+                            segModel.Parent = this;
+                            Segments.Insert(index + 1, segModel);
                         }
                         break;
                     }
                 case PasteMode.END: {
-                        if (newModel is GpxTrackSegmentModel trkModel) {
-                            Segments.Add(trkModel);
+                        if (newModel is GpxTrackSegmentModel segModel) {
+                            segModel.Parent = this;
+                            Segments.Add(segModel);
                         }
                         break;
                     }
@@ -93,6 +98,15 @@ namespace GPXViewer.model {
                 Track.trkseg.Add(model.Segment);
                 model.synchronize();
             }
+        }
+
+        public override GpxModel clone() {
+            GpxTrackModel newModel = null;
+            trkType trk = (trkType)Track.Clone();
+            if (trk != null) {
+                newModel = new GpxTrackModel(null, trk);
+            }
+            return newModel;
         }
     }
 }
