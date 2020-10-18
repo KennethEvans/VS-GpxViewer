@@ -22,5 +22,17 @@ namespace GPXViewer.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string StartupFiles {
+            get {
+                return ((string)(this["StartupFiles"]));
+            }
+            set {
+                this["StartupFiles"] = value;
+            }
+        }
     }
 }

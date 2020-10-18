@@ -3,6 +3,7 @@ using GPXViewer.Dialogs;
 using GPXViewer.KML;
 using GPXViewer.model;
 using KEUtils;
+using Newtonsoft.Json;
 using ScrolledText;
 using System;
 using System.Collections;
@@ -33,7 +34,7 @@ namespace GPXViewer {
         private static ScrolledTextDialog textDlg;
 
         public static readonly String NL = Environment.NewLine;
-        private static readonly string SAVE_FILE_Tag = ".GPXV";
+        private static readonly string SAVE_FILE_TAG = ".gpxv";
         public GpxFileSetModel FileSet { get; set; }
         public List<GpxFileModel> Files { get; set; }
         public List<GpxModel> ClipboardList { get; set; }
@@ -49,7 +50,7 @@ namespace GPXViewer {
             FileSet = new GpxFileSetModel(null);
             Files = FileSet.Files;
             ClipboardList = new List<GpxModel>();
-#if true
+#if false
             // Load a file for testing
             try {
                 Files.Add(new GpxFileModel(FileSet, DEBUG_FILE_NAME));
@@ -57,6 +58,20 @@ namespace GPXViewer {
                 Utils.excMsg("Failed to load debug file", ex);
             }
 #endif
+            // Load startup files
+            try {
+                string json = Properties.Settings.Default.StartupFiles;
+                if (!String.IsNullOrEmpty(json)) {
+                    List<string> fileNames = JsonConvert.DeserializeObject<List<string>>(json);
+                    foreach (string fileName in fileNames) {
+                        if (File.Exists(fileName)) {
+                            Files.Add(new GpxFileModel(FileSet, fileName));
+                        }
+                    }
+                }
+            } catch (Exception ex) {
+                Utils.excMsg("Error setting startup files", ex);
+            }
         }
 
         private void OnFormLoad(object sender, EventArgs e) {
@@ -898,7 +913,7 @@ namespace GPXViewer {
                             Utils.errMsg("Gpx is not defined for " + fileName);
                             continue;
                         }
-                        string saveFilename = getSaveName(fileName, SAVE_FILE_Tag);
+                        string saveFilename = getSaveName(fileName, SAVE_FILE_TAG);
                         if (saveFilename != null) gpx.Save(saveFilename);
                     }
                 }
@@ -1054,6 +1069,23 @@ namespace GPXViewer {
             } else {
                 paste(PasteMode.END);
             }
+        }
+
+        private void OnSaveSelectedFilesAsStartupPreferences(object sender, EventArgs e) {
+            string json;
+            if (treeListView.SelectedObjects.Count == 0) {
+                json = "";
+                return;
+            }
+            List<string> fileNames = new List<string>();
+            foreach (object x in treeListView.SelectedObjects) {
+                if (x is GpxFileModel fileModel) {
+                    fileNames.Add(fileModel.FileName);
+                }
+            }
+            json = JsonConvert.SerializeObject(fileNames);
+            Properties.Settings.Default.StartupFiles = json;
+            Properties.Settings.Default.Save();
         }
     }
 }
