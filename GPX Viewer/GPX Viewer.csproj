@@ -43,10 +43,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\GpsUtils\GpsUtils\bin\Release\GeoTimeZone.dll</HintPath>
     </Reference>
-    <Reference Include="GpsUtils, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\GpsUtils\GpsUtils\bin\Release\GpsUtils.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\GpsUtils\GpsUtils\bin\Release\Newtonsoft.Json.dll</HintPath>
@@ -164,7 +160,9 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>FindNear.Designer.cs</LastGenOutput>
     </None>
-    <None Include="LICENSE" />
+    <None Include="LICENSE">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -192,6 +190,12 @@
     <EmbeddedResource Include="icons\track.png" />
     <EmbeddedResource Include="icons\trackSegment.png" />
     <EmbeddedResource Include="icons\waypoint.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GpsUtils\GpsUtils.csproj">
+      <Project>{88a8918b-95a5-4e2b-a595-8c80a47b979d}</Project>
+      <Name>GpsUtils</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

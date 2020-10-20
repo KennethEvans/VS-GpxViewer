@@ -10,10 +10,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq.Expressions;
 using System.Reflection;
-using System.Runtime.Serialization;
-using System.Security.Policy;
 using System.Windows.Forms;
 using www.topografix.com.GPX_1_1;
 using static GPXViewer.model.GpxModel;
@@ -21,8 +18,6 @@ using static GPXViewer.model.GpxModel;
 namespace GPXViewer {
     public partial class MainForm : Form {
 #if false
-        private static readonly string DEBUG_FILE_NAME = @"C:\Users\evans\Documents\GPSLink\Polar\Kenneth_Evans_2020-10-01_10-39-30_Walking_MT.gpx";
-#else
         private static readonly string DEBUG_FILE_NAME = @"C:\Users\evans\Documents\GPSLink\Test\AAAtest9.gpx";
 #endif
         public enum Task {
@@ -912,6 +907,9 @@ namespace GPXViewer {
                         if (gpx == null) {
                             Utils.errMsg("Gpx is not defined for " + fileName);
                             continue;
+                        }
+                        if (fileModel.IsTcx) {
+                            fileName = Path.ChangeExtension(fileName, ".gpx");
                         }
                         string saveFilename = getSaveName(fileName, SAVE_FILE_TAG);
                         if (saveFilename != null) gpx.Save(saveFilename);

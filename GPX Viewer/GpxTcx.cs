@@ -53,9 +53,9 @@ namespace GPXViewer {
                 string saveFilename = getSaveName(fileName, ".formatted");
                 if (saveFilename != null) tcx.Save(saveFilename);
             } else if (ext.ToLower().Equals(".gpx")) {
-                gpx gpxType = gpx.Load(fileName);
+                gpx gpx = gpx.Load(fileName);
                 string saveFilename = getSaveName(fileName, ".formatted");
-                if (saveFilename != null) gpxType.Save(saveFilename);
+                if (saveFilename != null) gpx.Save(saveFilename);
             } else {
                 Utils.errMsg("Not a supported extension: " + ext);
                 return;
@@ -118,6 +118,64 @@ namespace GPXViewer {
                 return dlg.FileName;
             } else {
                 return null;
+            }
+        }
+
+        public static void convertGpxToTcx() {
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Filter = "GPX|*.gpx";
+            dlg.Title = "Select files to convert";
+            dlg.Multiselect = true;
+            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
+                if (dlg.FileNames == null) {
+                    Utils.warnMsg("Failed to open files to convert");
+                    return;
+                }
+                string[] fileNames = dlg.FileNames;
+                foreach (string fileName in fileNames) {
+                    convertGpxToTcxSingle(fileName);
+                }
+            }
+        }
+
+        public static void convertGpxToTcxSingle(string fileName) {
+            gpx gpx = gpx.Load(fileName);
+            TrainingCenterDatabase tcx = GpsData.convertGpxToTcx(gpx);
+            if (tcx != null) {
+                fileName = Path.ChangeExtension(fileName, ".tcx");
+                string saveFilename = getSaveName(fileName, ".converted");
+                if (saveFilename != null) {
+                    tcx.Save(saveFilename);
+                }
+            }
+        }
+
+        public static void convertTcxToGpx() {
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Filter = "TCX|*.tcx";
+            dlg.Title = "Select files to convert";
+            dlg.Multiselect = true;
+            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
+                if (dlg.FileNames == null) {
+                    Utils.warnMsg("Failed to open files to convert");
+                    return;
+                }
+                string[] fileNames = dlg.FileNames;
+                foreach (string fileName in fileNames) {
+                    convertTcxToGpxSingle(fileName);
+                }
+            }
+        }
+
+        public static void convertTcxToGpxSingle(string fileName) {
+            TrainingCenterDatabase tcx = TrainingCenterDatabase.Load(fileName);
+            gpx gpx = GpsData.convertTcxToGpx(tcx);
+            if (gpx != null) {
+                fileName = Path.ChangeExtension(fileName, ".gpx");
+                string saveFilename = getSaveName(fileName, ".converted");
+                if (saveFilename != null) {
+                    gpx.Save(saveFilename);
+                }
             }
         }
 
@@ -432,6 +490,12 @@ namespace GPXViewer {
             fixPolarGpx(this);
         }
 
+        private void OnGpxTcxConvertGpxToTcxClick(object sender, EventArgs e) {
+            convertGpxToTcx();
+        }
 
+        private void OnGpxTcxConvertTCXToGpxClick(object sender, EventArgs e) {
+            convertTcxToGpx();
+        }
     }
 }

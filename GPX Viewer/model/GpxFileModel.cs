@@ -3,6 +3,8 @@ using KEGpsUtils;
 using KEUtils;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using www.garmin.com.xmlschemas.TrainingCenterDatabase.v2;
 using www.topografix.com.GPX_1_1;
 
 namespace GPXViewer.model {
@@ -12,15 +14,26 @@ namespace GPXViewer.model {
         public List<GpxTrackModel> Tracks { get; set; }
         public List<GpxWaypointModel> Waypoints { get; set; }
         public List<GpxRouteModel> Routes { get; set; }
+        public bool IsTcx { get; set; } = false;
 
         public GpxFileModel(GpxModel parent, string fileName) {
             Parent = parent;
             FileName = fileName;
-            Gpx = gpx.Load(fileName);
+            if (Path.GetExtension(fileName).ToLower().Equals(".tcx")) {
+                IsTcx = true;
+                TrainingCenterDatabase tcx = TrainingCenterDatabase.Load(fileName);
+                if (tcx != null) {
+                    Gpx = GpsData.convertTcxToGpx(tcx);
+                } else {
+                    Utils.errMsg("Failed to convert to GPX: " + NL + fileName);
+                }
+            } else {
+                Gpx = gpx.Load(fileName);
+            }
             reset();
         }
 
-        public GpxFileModel(GpxModel parent, string fileName, gpx gpxType) {
+        public GpxFileModel(GpxModel parent, string fileName, gpx gpx) {
             Parent = parent;
             FileName = fileName;
             reset();
@@ -48,6 +61,7 @@ namespace GPXViewer.model {
 
         public override string info() {
             string msg = this.GetType() + NL + this + NL;
+            if(IsTcx) msg += "(Converted to GPX)" + NL;
             msg += "parent=" + Parent + NL;
             msg += "nTracks=" + Tracks.Count + NL;
             msg += "nWaypoints=" + Waypoints.Count + NL;
@@ -178,9 +192,9 @@ namespace GPXViewer.model {
 
         public override GpxModel clone() {
             GpxFileModel newModel = null;
-            gpx gpxType = (gpx)Gpx.Clone();
-            if (gpxType != null) {
-                newModel = new GpxFileModel(null, FileName, gpxType);
+            gpx gpx = (gpx)Gpx.Clone();
+            if (gpx != null) {
+                newModel = new GpxFileModel(null, FileName, gpx);
             }
             return newModel;
         }

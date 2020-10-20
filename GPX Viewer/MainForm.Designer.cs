@@ -58,6 +58,7 @@
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.resetTreeFromModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.synchronizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveSelectedFilesAsStartupPreferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.findFilesNearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
@@ -66,6 +67,7 @@
             this.formatTCXGPXToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.formatXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.convertGPXToTCXToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.interpolateTCXFromGPXToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.inaccurateGPSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gPSDropoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -114,7 +116,7 @@
             this.beforeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.afterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.endToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveSelectedFilesAsStartupPreferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.convertTCXToGPXToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanelTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.treeListView)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -412,6 +414,13 @@
             this.synchronizeToolStripMenuItem.Text = "Synchronize";
             this.synchronizeToolStripMenuItem.Click += new System.EventHandler(this.OnToolsSynchronizeClick);
             // 
+            // saveSelectedFilesAsStartupPreferencesToolStripMenuItem
+            // 
+            this.saveSelectedFilesAsStartupPreferencesToolStripMenuItem.Name = "saveSelectedFilesAsStartupPreferencesToolStripMenuItem";
+            this.saveSelectedFilesAsStartupPreferencesToolStripMenuItem.Size = new System.Drawing.Size(733, 54);
+            this.saveSelectedFilesAsStartupPreferencesToolStripMenuItem.Text = "Save Selected Files as Startup Preferences";
+            this.saveSelectedFilesAsStartupPreferencesToolStripMenuItem.Click += new System.EventHandler(this.OnSaveSelectedFilesAsStartupPreferences);
+            // 
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
@@ -442,6 +451,8 @@
             this.formatTCXGPXToolStripMenuItem,
             this.formatXMLToolStripMenuItem,
             this.toolStripSeparator5,
+            this.convertGPXToTCXToolStripMenuItem,
+            this.convertTCXToGPXToolStripMenuItem,
             this.interpolateTCXFromGPXToolStripMenuItem,
             this.deleteTCXTrackpointsToolStripMenuItem,
             this.changeTCXTimesToolStripMenuItem,
@@ -456,21 +467,28 @@
             // formatTCXGPXToolStripMenuItem
             // 
             this.formatTCXGPXToolStripMenuItem.Name = "formatTCXGPXToolStripMenuItem";
-            this.formatTCXGPXToolStripMenuItem.Size = new System.Drawing.Size(523, 54);
+            this.formatTCXGPXToolStripMenuItem.Size = new System.Drawing.Size(544, 54);
             this.formatTCXGPXToolStripMenuItem.Text = "Format TCX/GPX...";
             this.formatTCXGPXToolStripMenuItem.Click += new System.EventHandler(this.OnGpxTcxFormatTCX_GPXClick);
             // 
             // formatXMLToolStripMenuItem
             // 
             this.formatXMLToolStripMenuItem.Name = "formatXMLToolStripMenuItem";
-            this.formatXMLToolStripMenuItem.Size = new System.Drawing.Size(523, 54);
+            this.formatXMLToolStripMenuItem.Size = new System.Drawing.Size(544, 54);
             this.formatXMLToolStripMenuItem.Text = "Format XML...";
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(520, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(541, 6);
             this.toolStripSeparator5.Click += new System.EventHandler(this.OnGpxTcxFormatXmlClick);
+            // 
+            // convertGPXToTCXToolStripMenuItem
+            // 
+            this.convertGPXToTCXToolStripMenuItem.Name = "convertGPXToTCXToolStripMenuItem";
+            this.convertGPXToTCXToolStripMenuItem.Size = new System.Drawing.Size(544, 54);
+            this.convertGPXToTCXToolStripMenuItem.Text = "Convert GPX to TCX...";
+            this.convertGPXToTCXToolStripMenuItem.Click += new System.EventHandler(this.OnGpxTcxConvertGpxToTcxClick);
             // 
             // interpolateTCXFromGPXToolStripMenuItem
             // 
@@ -478,8 +496,8 @@
             this.inaccurateGPSToolStripMenuItem,
             this.gPSDropoutToolStripMenuItem});
             this.interpolateTCXFromGPXToolStripMenuItem.Name = "interpolateTCXFromGPXToolStripMenuItem";
-            this.interpolateTCXFromGPXToolStripMenuItem.Size = new System.Drawing.Size(523, 54);
-            this.interpolateTCXFromGPXToolStripMenuItem.Text = "Interpolate TCX from GPX";
+            this.interpolateTCXFromGPXToolStripMenuItem.Size = new System.Drawing.Size(544, 54);
+            this.interpolateTCXFromGPXToolStripMenuItem.Text = "Interpolate TCX from GPX...";
             this.interpolateTCXFromGPXToolStripMenuItem.Click += new System.EventHandler(this.OnGpxTcxInterpolateTcxClick);
             // 
             // inaccurateGPSToolStripMenuItem
@@ -497,40 +515,40 @@
             // deleteTCXTrackpointsToolStripMenuItem
             // 
             this.deleteTCXTrackpointsToolStripMenuItem.Name = "deleteTCXTrackpointsToolStripMenuItem";
-            this.deleteTCXTrackpointsToolStripMenuItem.Size = new System.Drawing.Size(523, 54);
+            this.deleteTCXTrackpointsToolStripMenuItem.Size = new System.Drawing.Size(544, 54);
             this.deleteTCXTrackpointsToolStripMenuItem.Text = "Delete TCX Trackpoints...";
             this.deleteTCXTrackpointsToolStripMenuItem.Click += new System.EventHandler(this.OnGpxTcxDeleteTcxTrackpointsClick);
             // 
             // changeTCXTimesToolStripMenuItem
             // 
             this.changeTCXTimesToolStripMenuItem.Name = "changeTCXTimesToolStripMenuItem";
-            this.changeTCXTimesToolStripMenuItem.Size = new System.Drawing.Size(523, 54);
+            this.changeTCXTimesToolStripMenuItem.Size = new System.Drawing.Size(544, 54);
             this.changeTCXTimesToolStripMenuItem.Text = "Change TCX Times...";
             this.changeTCXTimesToolStripMenuItem.Click += new System.EventHandler(this.OnGpxTcxChangeTimesTcxClick);
             // 
             // recalculateTCXToolStripMenuItem
             // 
             this.recalculateTCXToolStripMenuItem.Name = "recalculateTCXToolStripMenuItem";
-            this.recalculateTCXToolStripMenuItem.Size = new System.Drawing.Size(523, 54);
+            this.recalculateTCXToolStripMenuItem.Size = new System.Drawing.Size(544, 54);
             this.recalculateTCXToolStripMenuItem.Text = "Recalculate TCX...";
             this.recalculateTCXToolStripMenuItem.Click += new System.EventHandler(this.OnGpxTcxRecalculateTcxClick);
             // 
             // fixGPXToolStripMenuItem
             // 
             this.fixGPXToolStripMenuItem.Name = "fixGPXToolStripMenuItem";
-            this.fixGPXToolStripMenuItem.Size = new System.Drawing.Size(523, 54);
+            this.fixGPXToolStripMenuItem.Size = new System.Drawing.Size(544, 54);
             this.fixGPXToolStripMenuItem.Text = "Fix Polar Access GPX...";
             this.fixGPXToolStripMenuItem.Click += new System.EventHandler(this.OnGpxTcxFixPolarGpxClick);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(520, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(541, 6);
             // 
             // singleFileInfoToolStripMenuItem
             // 
             this.singleFileInfoToolStripMenuItem.Name = "singleFileInfoToolStripMenuItem";
-            this.singleFileInfoToolStripMenuItem.Size = new System.Drawing.Size(523, 54);
+            this.singleFileInfoToolStripMenuItem.Size = new System.Drawing.Size(544, 54);
             this.singleFileInfoToolStripMenuItem.Text = "Single File Info...";
             this.singleFileInfoToolStripMenuItem.Click += new System.EventHandler(this.OnGpxTcxSingleFileInfoClick);
             // 
@@ -890,12 +908,12 @@
             this.endToolStripMenuItem.Text = "End";
             this.endToolStripMenuItem.Click += new System.EventHandler(this.OnPasteClick);
             // 
-            // saveSelectedFilesAsStartupPreferencesToolStripMenuItem
+            // convertTCXToGPXToolStripMenuItem
             // 
-            this.saveSelectedFilesAsStartupPreferencesToolStripMenuItem.Name = "saveSelectedFilesAsStartupPreferencesToolStripMenuItem";
-            this.saveSelectedFilesAsStartupPreferencesToolStripMenuItem.Size = new System.Drawing.Size(733, 54);
-            this.saveSelectedFilesAsStartupPreferencesToolStripMenuItem.Text = "Save Selected Files as Startup Preferences";
-            this.saveSelectedFilesAsStartupPreferencesToolStripMenuItem.Click += new System.EventHandler(this.OnSaveSelectedFilesAsStartupPreferences);
+            this.convertTCXToGPXToolStripMenuItem.Name = "convertTCXToGPXToolStripMenuItem";
+            this.convertTCXToGPXToolStripMenuItem.Size = new System.Drawing.Size(544, 54);
+            this.convertTCXToGPXToolStripMenuItem.Text = "Convert TCX to GPX...";
+            this.convertTCXToGPXToolStripMenuItem.Click += new System.EventHandler(this.OnGpxTcxConvertTCXToGpxClick);
             // 
             // MainForm
             // 
@@ -1018,6 +1036,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
         private System.Windows.Forms.ToolStripMenuItem resetTreeFromModelToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveSelectedFilesAsStartupPreferencesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem convertGPXToTCXToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem convertTCXToGPXToolStripMenuItem;
     }
 }
 

@@ -69,11 +69,11 @@ namespace GPXViewer.Dialogs {
         private bool find(string fileName, double lat0, double lon0,
             double radius, bool doTracks, bool doWaypoints) {
             try {
-                gpx gpxType = gpx.Load(fileName);
+                gpx gpx = gpx.Load(fileName);
                 double lat, lon;
                 if (doTracks) {
                     // Do the tracks
-                    IList<trkType> tracks = gpxType.trk;
+                    IList<trkType> tracks = gpx.trk;
                     foreach (trkType trk in tracks) {
                         foreach (trksegType seg in trk.trkseg) {
                             foreach (wptType wpt in seg.trkpt) {
@@ -88,7 +88,7 @@ namespace GPXViewer.Dialogs {
                 }
                 if (doWaypoints) {
                     // Do the waypoints
-                    IList<wptType> waypoints = gpxType.wpt;
+                    IList<wptType> waypoints = gpx.wpt;
                     foreach (wptType wpt in waypoints) {
                         lat = (double)wpt.lat;
                         lon = (double)wpt.lon;
