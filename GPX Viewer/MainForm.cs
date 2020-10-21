@@ -3,6 +3,7 @@ using GPXViewer.Dialogs;
 using GPXViewer.KML;
 using GPXViewer.model;
 using KEUtils;
+using KEGpsUtils;
 using Newtonsoft.Json;
 using ScrolledText;
 using System;
@@ -26,7 +27,8 @@ namespace GPXViewer {
         public static readonly int INITIAL_TREE_LEVEL = 0;
         private int treeLevel = INITIAL_TREE_LEVEL;
 
-        private static ScrolledTextDialog textDlg;
+        private static ScrolledTextDialog logDialog;
+        private GpxTcxMenu gpxTcxMenu;
 
         public static readonly String NL = Environment.NewLine;
         private static readonly string SAVE_FILE_TAG = ".gpxv";
@@ -41,6 +43,11 @@ namespace GPXViewer {
 
         public MainForm() {
             InitializeComponent();
+
+            // Add GpxTcxMenu at position 3
+            gpxTcxMenu = new GpxTcxMenu();
+            gpxTcxMenu.GpxTcxEvent += onGpxTcxEvent;
+            gpxTcxMenu.createMenu(menuStrip1, 3);
 
             FileSet = new GpxFileSetModel(null);
             Files = FileSet.Files;
@@ -66,6 +73,37 @@ namespace GPXViewer {
                 }
             } catch (Exception ex) {
                 Utils.excMsg("Error setting startup files", ex);
+            }
+        }
+
+        private void onGpxTcxEvent(object sender, GpxTcxEventArgs e) {
+            string msg = e.Message;
+            switch (e.Type) {
+                case GpxTcxMenu.EventType.MSG:
+                    if (logDialog == null) {
+                        logDialog = new ScrolledTextDialog(
+                        Utils.getDpiAdjustedSize(this, new Size(600, 400)));
+                        logDialog.appendTextAndNL("GpxViewer Log");
+                    }
+                    logDialog.appendTextAndNL(msg);
+                    logDialog.Visible = true;
+                    break;
+                case GpxTcxMenu.EventType.INFO:
+                    Utils.infoMsg(msg);
+                    break;
+                case GpxTcxMenu.EventType.WARN:
+                    Utils.warnMsg(msg);
+                    break;
+                case GpxTcxMenu.EventType.ERR:
+                    Utils.errMsg(msg);
+                    break;
+                case GpxTcxMenu.EventType.EXC:
+                    Utils.excMsg(msg, e.Exception);
+                    break;
+                default:
+                    Utils.errMsg("Received unknown event type (" + e.Type
+                        + ") from GpsTcxMenu");
+                    break;
             }
         }
 
@@ -872,8 +910,10 @@ namespace GPXViewer {
         }
 
         private void OnToolsShowLogClick(object sender, EventArgs e) {
-            if (textDlg != null) {
-                textDlg.Visible = true;
+            if (logDialog != null) {
+                logDialog.Visible = true;
+            } else {
+                Utils.infoMsg("No log has been created yet");
             }
         }
 
@@ -911,7 +951,7 @@ namespace GPXViewer {
                         if (fileModel.IsTcx) {
                             fileName = Path.ChangeExtension(fileName, ".gpx");
                         }
-                        string saveFilename = getSaveName(fileName, SAVE_FILE_TAG);
+                        string saveFilename = GpxTcxMenu.getSaveName(fileName, SAVE_FILE_TAG);
                         if (saveFilename != null) gpx.Save(saveFilename);
                     }
                 }

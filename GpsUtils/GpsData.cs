@@ -21,6 +21,7 @@ using System.Diagnostics;
 namespace KEGpsUtils {
     public class GpsData {
         public static readonly String NL = Environment.NewLine;
+
         /// <summary>
         /// Used for StartTimeRounded.
         /// </summary>
@@ -745,6 +746,11 @@ namespace KEGpsUtils {
             return gpx;
         }
 
+        public static TrainingCenterDatabase recalculateTcx(string fileName) {
+            TrainingCenterDatabase tcx = TrainingCenterDatabase.Load(fileName);
+            return recalculateTcx(fileName, tcx);
+        }
+
         /// <summary>
         /// Used to recalculate items in the Polar TCX files if the tracks have
         /// been modified.  This is very definitely Polar-specific.
@@ -779,6 +785,12 @@ namespace KEGpsUtils {
             IList<Trackpoint_t> trackpointList;
 
             Position_t position;
+
+            // Get Author info
+            if (tcx.Author != null) {
+                AbstractSource_t author = tcx.Author;
+                data.Author = tcx.Author.Name;
+            }
 
             List<long> timeValsList = new List<long>();
             List<long> speedTimeValsList = new List<long>();
@@ -940,14 +952,35 @@ namespace KEGpsUtils {
                     lap.DistanceMeters = POLAR_DISTANCE_FACTOR * data.Distance;
                     // Corrected to match Polar convention.
                     lap.TotalTimeSeconds = data.Duration.TotalSeconds + 1;
-                    // Corrected to match Polar convention.
-                    lap.StartTime = data.StartTime.AddSeconds(-1).ToUniversalTime();
+                    // Corrected to match Polar convention
+                    if (data.StartTime != DateTime.MinValue) {
+                        lap.StartTime = data.StartTime.AddSeconds(-1).ToUniversalTime();
+                    } else {
+                        lap.StartTime = DateTime.MinValue;
+                    }
                     // Optional
+                    if(true) {
+                        // We aren't calculating calories so set this to remove
+                        // an existing value
+                        lap.Calories = 0;
+                    }
                     if (true && lap.AverageHeartRateBpm != null) {
-                        lap.AverageHeartRateBpm.Value = (byte)Math.Round(data.HrAvg);
+                        // The spec says a HeartReateInBeatsPerMin_t has
+                        // MinInclusive = 1, so zero is not allowed
+                        if ((byte)Math.Round(data.HrAvg) == 0) {
+                            lap.AverageHeartRateBpm.Value = 1;
+                        } else {
+                            lap.AverageHeartRateBpm.Value = (byte)Math.Round(data.HrAvg);
+                        }
                     }
                     if (true && lap.MaximumHeartRateBpm != null) {
-                        lap.MaximumHeartRateBpm.Value = (byte)data.HrMax;
+                        // The spec says a HeartReateInBeatsPerMin_t has
+                        // MinInclusive = 1, so zero is not allowed
+                        if ((byte)data.HrMax == 0) {
+                            lap.MaximumHeartRateBpm.Value = 1;
+                        } else {
+                            lap.AverageHeartRateBpm.Value = (byte)data.HrMax;
+                        }
                     }
                     if (true && lap.MaximumSpeed != null) {
                         // Assume m/sec
@@ -967,13 +1000,14 @@ namespace KEGpsUtils {
                         }
                     }
                 }  // End of laps
+                if (data.StartTime != DateTime.MinValue) {
+                    // TODO This won't be right if there is more than one activity
+                    activity.Id = data.StartTime;
+                } else {
+                    activity.Id = DateTime.MinValue;
+                }
             } // End of activities
             return tcx;
-        }
-
-        public static TrainingCenterDatabase recalculateTcx(string fileName) {
-            TrainingCenterDatabase tcx = TrainingCenterDatabase.Load(fileName);
-            return recalculateTcx(fileName, tcx);
         }
 
         /// <summary>

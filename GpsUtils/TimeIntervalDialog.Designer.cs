@@ -23,16 +23,15 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TimeIntervalDialog));
             this.tableLayoutPanelTop = new System.Windows.Forms.TableLayoutPanel();
             this.labelMsg = new System.Windows.Forms.Label();
+            this.labelStart = new System.Windows.Forms.Label();
+            this.textBoxStartDate = new System.Windows.Forms.TextBox();
+            this.labelEnd = new System.Windows.Forms.Label();
+            this.textBoxEndDate = new System.Windows.Forms.TextBox();
             this.flowLayoutPanelButtons = new System.Windows.Forms.FlowLayoutPanel();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonOk = new System.Windows.Forms.Button();
-            this.textBoxStartDate = new System.Windows.Forms.TextBox();
-            this.textBoxEndDate = new System.Windows.Forms.TextBox();
-            this.labelStart = new System.Windows.Forms.Label();
-            this.labelEnd = new System.Windows.Forms.Label();
             this.tableLayoutPanelTop.SuspendLayout();
             this.flowLayoutPanelButtons.SuspendLayout();
             this.SuspendLayout();
@@ -74,6 +73,42 @@
             this.labelMsg.Size = new System.Drawing.Size(633, 82);
             this.labelMsg.TabIndex = 3;
             this.labelMsg.Text = "Select a time interval (inclusive):";
+            // 
+            // labelStart
+            // 
+            this.labelStart.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.labelStart.AutoSize = true;
+            this.labelStart.Location = new System.Drawing.Point(3, 88);
+            this.labelStart.Name = "labelStart";
+            this.labelStart.Size = new System.Drawing.Size(83, 32);
+            this.labelStart.TabIndex = 5;
+            this.labelStart.Text = "Start:";
+            // 
+            // textBoxStartDate
+            // 
+            this.textBoxStartDate.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxStartDate.Location = new System.Drawing.Point(92, 85);
+            this.textBoxStartDate.Name = "textBoxStartDate";
+            this.textBoxStartDate.Size = new System.Drawing.Size(544, 38);
+            this.textBoxStartDate.TabIndex = 3;
+            // 
+            // labelEnd
+            // 
+            this.labelEnd.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.labelEnd.AutoSize = true;
+            this.labelEnd.Location = new System.Drawing.Point(3, 132);
+            this.labelEnd.Name = "labelEnd";
+            this.labelEnd.Size = new System.Drawing.Size(74, 32);
+            this.labelEnd.TabIndex = 6;
+            this.labelEnd.Text = "End:";
+            // 
+            // textBoxEndDate
+            // 
+            this.textBoxEndDate.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxEndDate.Location = new System.Drawing.Point(92, 129);
+            this.textBoxEndDate.Name = "textBoxEndDate";
+            this.textBoxEndDate.Size = new System.Drawing.Size(544, 38);
+            this.textBoxEndDate.TabIndex = 4;
             // 
             // flowLayoutPanelButtons
             // 
@@ -118,50 +153,15 @@
             this.buttonOk.UseVisualStyleBackColor = true;
             this.buttonOk.Click += new System.EventHandler(this.btn_clicked);
             // 
-            // textBoxStartDate
-            // 
-            this.textBoxStartDate.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxStartDate.Location = new System.Drawing.Point(92, 85);
-            this.textBoxStartDate.Name = "textBoxStartDate";
-            this.textBoxStartDate.Size = new System.Drawing.Size(544, 38);
-            this.textBoxStartDate.TabIndex = 3;
-            // 
-            // textBoxEndDate
-            // 
-            this.textBoxEndDate.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxEndDate.Location = new System.Drawing.Point(92, 129);
-            this.textBoxEndDate.Name = "textBoxEndDate";
-            this.textBoxEndDate.Size = new System.Drawing.Size(544, 38);
-            this.textBoxEndDate.TabIndex = 4;
-            // 
-            // labelStart
-            // 
-            this.labelStart.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.labelStart.AutoSize = true;
-            this.labelStart.Location = new System.Drawing.Point(3, 88);
-            this.labelStart.Name = "labelStart";
-            this.labelStart.Size = new System.Drawing.Size(83, 32);
-            this.labelStart.TabIndex = 5;
-            this.labelStart.Text = "Start:";
-            // 
-            // labelEnd
-            // 
-            this.labelEnd.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.labelEnd.AutoSize = true;
-            this.labelEnd.Location = new System.Drawing.Point(3, 132);
-            this.labelEnd.Name = "labelEnd";
-            this.labelEnd.Size = new System.Drawing.Size(74, 32);
-            this.labelEnd.TabIndex = 6;
-            this.labelEnd.Text = "End:";
-            // 
             // TimeIntervalDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(639, 253);
             this.Controls.Add(this.tableLayoutPanelTop);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.IsMdiContainer = true;
             this.Name = "TimeIntervalDialog";
+            this.ShowIcon = false;
             this.Text = "TimeIntervalDialog";
             this.tableLayoutPanelTop.ResumeLayout(false);
             this.tableLayoutPanelTop.PerformLayout();

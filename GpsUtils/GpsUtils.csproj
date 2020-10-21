@@ -7,8 +7,8 @@
     <ProjectGuid>{88A8918B-95A5-4E2B-A595-8C80A47B979D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GpsUtils</RootNamespace>
-    <AssemblyName>GpsUtils</AssemblyName>
+    <RootNamespace>KEGpsUtils</RootNamespace>
+    <AssemblyName>KEGpsUtils</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="GpsData.cs" />
     <Compile Include="gpx.xsd.cs" />
+    <Compile Include="GpxTcxMenu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TimeIntervalDialog.cs">
       <SubType>Form</SubType>

@@ -95,9 +95,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>FindNear.settings</DependentUpon>
     </Compile>
-    <Compile Include="GpxTcx.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Kml\KmlOptions.cs" />
     <Compile Include="Kml\KmlUtils.cs" />
     <Compile Include="MainForm.cs">
