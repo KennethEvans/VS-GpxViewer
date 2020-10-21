@@ -1,6 +1,4 @@
-﻿#undef FIX_POLAR_GPX_WITHOUT_PROMPT_TO_SAVE
-
-using System;
+﻿using System;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml.Linq;
@@ -111,7 +109,7 @@ namespace KEGpsUtils {
             formatXMLToolStripMenuItem.Name = "formatXMLToolStripMenuItem";
             formatXMLToolStripMenuItem.Size = new System.Drawing.Size(544, 54);
             formatXMLToolStripMenuItem.Text = "Format XML...";
-            formatTCXGPXToolStripMenuItem.Click +=
+            formatXMLToolStripMenuItem.Click +=
                 new System.EventHandler(OnGpxTcxFormatXmlClick);
             // 
             // toolStripSeparator1
@@ -127,7 +125,7 @@ namespace KEGpsUtils {
             convertGPXToTCXToolStripMenuItem.Size = new System.Drawing.Size(544, 54);
             convertGPXToTCXToolStripMenuItem.Text = "Convert GPX to TCX...";
             convertGPXToTCXToolStripMenuItem.Click +=
-                new System.EventHandler(OnGpxTcxConvertTCXToGpxClick);
+                new System.EventHandler(OnGpxTcxConvertGpxToTcxClick);
             // 
             // convertTCXToGPXToolStripMenuItem
             // 
@@ -135,7 +133,7 @@ namespace KEGpsUtils {
             convertTCXToGPXToolStripMenuItem.Size = new System.Drawing.Size(544, 54);
             convertTCXToGPXToolStripMenuItem.Text = "Convert TCX to GPX...";
             convertTCXToGPXToolStripMenuItem.Click +=
-                new System.EventHandler(OnGpxTcxConvertGpxToTcxClick);
+                new System.EventHandler(OnGpxTcxConvertTcxToGpxClick);
             // 
             // interpolateTCXFromGPXToolStripMenuItem (has subitems)
             // 
@@ -225,28 +223,32 @@ namespace KEGpsUtils {
                 }
                 string[] fileNames = dlg.FileNames;
                 foreach (string fileName in fileNames) {
-                    formatSingleTcxGpx(fileName);
+                    formatTcxGpx(fileName);
                 }
             }
         }
 
-        public void formatSingleTcxGpx(string fileName) {
+        public void formatTcxGpx(string fileName) {
             string ext = Path.GetExtension(fileName);
             if (ext == null) {
-                string msg = "formatSingleTcxGpx: Cannot handle files with no extension";
+                string msg = "Format TCX/GPX: Cannot handle files with no extension";
                 raiseGpxTcxEvent(new GpxTcxEventArgs(EventType.ERR, msg));
                 return;
             }
             if (ext.ToLower().Equals(".tcx")) {
                 TrainingCenterDatabase tcx = TrainingCenterDatabase.Load(fileName);
                 string saveFilename = getSaveName(fileName, ".formatted");
-                if (saveFilename != null) tcx.Save(saveFilename);
+                if (saveFilename != null) {
+                    tcx.Save(saveFilename);
+                }
             } else if (ext.ToLower().Equals(".gpx")) {
                 gpx gpx = gpx.Load(fileName);
                 string saveFilename = getSaveName(fileName, ".formatted");
-                if (saveFilename != null) gpx.Save(saveFilename);
+                if (saveFilename != null) {
+                    gpx.Save(saveFilename);
+                }
             } else {
-                string msg = "Not a supported extension: " + ext;
+                string msg = "Format TCX/GPX: Not a supported extension: " + ext;
                 raiseGpxTcxEvent(new GpxTcxEventArgs(EventType.ERR, msg));
                 return;
             }
@@ -273,43 +275,14 @@ namespace KEGpsUtils {
         public void formatXml(string fileName) {
             string ext = Path.GetExtension(fileName);
             if (ext == null) {
-                string msg = "formatXml: Cannot handle files with no extension";
+                string msg = "Format XML: Cannot handle files with no extension";
                 raiseGpxTcxEvent(new GpxTcxEventArgs(EventType.ERR, msg));
                 return;
             }
             XDocument doc = XDocument.Load(fileName);
             string saveFilename = getSaveName(fileName, ".formatted-xml");
-            if (saveFilename != null) doc.Save(saveFilename);
-        }
-
-        /// <summary>
-        /// Prompts for a filename using a SaveFileDialog.
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="tag">String to be added before the extension,
-        /// e.g. ".test".</param>
-        /// <returns>The filename or null on cancel or failure.</returns>
-        public static string getSaveName(string fileName, string tag) {
-            SaveFileDialog dlg = new SaveFileDialog();
-            dlg.Title = "Select saved file";
-            string directory = Path.GetDirectoryName(fileName);
-            string ext = Path.GetExtension(fileName);
-            string name = Path.GetFileNameWithoutExtension(fileName);
-            dlg.InitialDirectory = directory;
-            dlg.FileName = name + tag + ext;
-            if (ext.ToLower().Equals(".tcx")) {
-                dlg.Filter = "TCX|*.tcx";
-            } else if (ext.ToLower().Equals(".gpx")) {
-                dlg.Filter = "GPX|*.gpx";
-            } else if (ext.ToLower().Equals(".xml")) {
-                dlg.Filter = "XML|*.xml";
-            } else {
-                dlg.Filter = "All files|*.*";
-            }
-            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
-                return dlg.FileName;
-            } else {
-                return null;
+            if (saveFilename != null) {
+                doc.Save(saveFilename);
             }
         }
 
@@ -326,12 +299,12 @@ namespace KEGpsUtils {
                 }
                 string[] fileNames = dlg.FileNames;
                 foreach (string fileName in fileNames) {
-                    convertGpxToTcxSingle(fileName);
+                    convertGpxToTcx(fileName);
                 }
             }
         }
 
-        public static void convertGpxToTcxSingle(string fileName) {
+        public static void convertGpxToTcx(string fileName) {
             gpx gpx = gpx.Load(fileName);
             TrainingCenterDatabase tcx = GpsData.convertGpxToTcx(gpx);
             if (tcx != null) {
@@ -356,12 +329,12 @@ namespace KEGpsUtils {
                 }
                 string[] fileNames = dlg.FileNames;
                 foreach (string fileName in fileNames) {
-                    convertTcxToGpxSingle(fileName);
+                    convertTcxToGpx(fileName);
                 }
             }
         }
 
-        public static void convertTcxToGpxSingle(string fileName) {
+        public static void convertTcxToGpx(string fileName) {
             TrainingCenterDatabase tcx = TrainingCenterDatabase.Load(fileName);
             gpx gpx = GpsData.convertTcxToGpx(tcx);
             if (gpx != null) {
@@ -394,15 +367,15 @@ namespace KEGpsUtils {
         public void getSingleFileInfo(string fileName) {
             string ext = Path.GetExtension(fileName);
             if (ext == null) {
-                string msg = "getSingleFileInfo: Cannot handle files with no extension";
+                string msg = "Get Single Fle Info:: Cannot handle files with no extension";
                 raiseGpxTcxEvent(new GpxTcxEventArgs(EventType.ERR, msg));
                 return;
             }
             if (ext.ToLower().Equals(".tcx")) {
                 try {
                     GpsData data = GpsData.processTcx(fileName);
-                    string msg = NL + data.info();
-                    raiseGpxTcxEvent(new GpxTcxEventArgs(EventType.MSG, msg));
+                    string msg = data.info();
+                    raiseGpxTcxEvent(new GpxTcxEventArgs(EventType.MSG, NL + msg));
                 } catch (Exception ex) {
                     string msg = "Error getting TCX single file info";
                     raiseGpxTcxEvent(new GpxTcxEventArgs(EventType.EXC, msg, ex));
@@ -411,8 +384,8 @@ namespace KEGpsUtils {
             } else if (ext.ToLower().Equals(".gpx")) {
                 try {
                     GpsData data = GpsData.processGpx(fileName);
-                    string msg = NL + data.info();
-                    raiseGpxTcxEvent(new GpxTcxEventArgs(EventType.MSG, msg));
+                    string msg = data.info();
+                    raiseGpxTcxEvent(new GpxTcxEventArgs(EventType.MSG, NL + msg));
                 } catch (Exception ex) {
                     string msg = "Error getting GPX single file info";
                     raiseGpxTcxEvent(new GpxTcxEventArgs(EventType.EXC, msg, ex));
@@ -449,9 +422,9 @@ namespace KEGpsUtils {
                 string saveFileName = getSaveName(fileName, ".recalculated");
                 if (saveFileName != null) {
                     tcx.Save(saveFileName);
-                    string msg = NL + "Recalculated " + fileName + NL
+                    string msg = "Recalculate TCX: Recalculated " + fileName + NL
                         + "  Output is " + saveFileName;
-                    raiseGpxTcxEvent(new GpxTcxEventArgs(EventType.MSG, msg));
+                    raiseGpxTcxEvent(new GpxTcxEventArgs(EventType.MSG, NL + msg));
                 } else {
                     return;
                 }
@@ -470,7 +443,7 @@ namespace KEGpsUtils {
             dlg1.Multiselect = false;
             if (dlg1.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
                 if (dlg1.FileName == null) {
-                    string msg = "Interpolate TCX fro GPX: Failed to open" +
+                    string msg = "Interpolate TCX from GPX: Failed to open" +
                         " file in which to interpolate";
                     raiseGpxTcxEvent(new GpxTcxEventArgs(EventType.WARN, msg));
                     return;
@@ -512,11 +485,11 @@ namespace KEGpsUtils {
                 string saveFileName = getSaveName(tcxFile, ".interpolated");
                 if (saveFileName != null) {
                     tcxInterp.Save(saveFileName);
-                    string msg = NL + "Recalculated " + tcxFile + NL
-                        + "  from " + gpxFile + NL
+                    string msg = "Interpolate TCX from GPX: Recalculated "
+                        + tcxFile + NL + "  from " + gpxFile + NL
                         + "  Output is " + saveFileName
                         + NL + "  " + res.Message;
-                    raiseGpxTcxEvent(new GpxTcxEventArgs(EventType.MSG, msg));
+                    raiseGpxTcxEvent(new GpxTcxEventArgs(EventType.MSG, NL + msg));
                 } else {
                     return;
                 }
@@ -559,10 +532,10 @@ namespace KEGpsUtils {
                 string saveFileName = getSaveName(tcxFile, ".trimmed");
                 if (saveFileName != null) {
                     res.TCX.Save(saveFileName);
-                    string msg = NL + "Trimmed " + tcxFile + NL
+                    string msg = "Delete TCX Trackpoints: Trimmed " + tcxFile + NL
                         + "  Output is " + saveFileName
                         + NL + "  " + res.Message;
-                    raiseGpxTcxEvent(new GpxTcxEventArgs(EventType.MSG, msg));
+                    raiseGpxTcxEvent(new GpxTcxEventArgs(EventType.MSG, NL + msg));
                 } else {
                     return;
                 }
@@ -605,10 +578,10 @@ namespace KEGpsUtils {
                 string saveFileName = getSaveName(tcxFile, ".timechange");
                 if (saveFileName != null) {
                     res.TCX.Save(saveFileName);
-                    string msg = NL + "Changed times in " + tcxFile + NL
-                        + "  Output is " + saveFileName
+                    string msg = "Change TCX Times: Changed times in "
+                        + tcxFile + NL + "  Output is " + saveFileName
                         + NL + "  " + res.Message;
-                    raiseGpxTcxEvent(new GpxTcxEventArgs(EventType.MSG, msg));
+                    raiseGpxTcxEvent(new GpxTcxEventArgs(EventType.MSG, NL + msg));
                 } else {
                     return;
                 }
@@ -627,8 +600,8 @@ namespace KEGpsUtils {
             DialogResult res = MessageBox.Show(msg,
               "warning", MessageBoxButtons.YesNoCancel);
             if (res == DialogResult.Cancel) {
-                string msg1 = NL + "Fix Polar Access GPX: Cancelled";
-                raiseGpxTcxEvent(new GpxTcxEventArgs(EventType.MSG, msg1));
+                //string msg1 = "Fix Polar Access GPX: Canceled";
+                //raiseGpxTcxEvent(new GpxTcxEventArgs(EventType.MSG, NL + msg1));
                 return;
             }
             if (res == DialogResult.Yes) {
@@ -663,9 +636,9 @@ namespace KEGpsUtils {
                     return;
                 }
                 if (res.Message.StartsWith("Unmodified")) {
-                    string msg = NL + "Fix Polar Access GPX: No changes to" +
+                    string msg = "Fix Polar Access GPX: No changes to" +
                         " be made in " + gpxFile;
-                    raiseGpxTcxEvent(new GpxTcxEventArgs(EventType.MSG, msg));
+                    raiseGpxTcxEvent(new GpxTcxEventArgs(EventType.MSG, NL + msg));
                     return;
                 }
                 if (silent) {
@@ -673,20 +646,20 @@ namespace KEGpsUtils {
                     DateTime lastModifiedTime = File.GetLastWriteTime(gpxFile);
                     res.GPX.Save(gpxFile);
                     File.SetLastWriteTime(gpxFile, lastModifiedTime);
-                    string msg = NL + "Fix Polar Access GPX: Overwrote "
+                    string msg = "Fix Polar Access GPX: Overwrote "
                         + gpxFile + NL + res.Message;
-                    raiseGpxTcxEvent(new GpxTcxEventArgs(EventType.MSG, msg));
+                    raiseGpxTcxEvent(new GpxTcxEventArgs(EventType.MSG, NL + msg));
                 } else {
                     string saveFileName = getSaveName(gpxFile, ".fixed");
                     if (saveFileName != null) {
                         res.GPX.Save(saveFileName);
-                        string msg = NL + "Fix Polar Access GPX: Changed times in "
+                        string msg = "Fix Polar Access GPX: Changed times in "
                             + gpxFile + NL
                             + "  Output is " + saveFileName
                             + NL + "  " + res.Message;
-                        raiseGpxTcxEvent(new GpxTcxEventArgs(EventType.MSG, msg));
+                        raiseGpxTcxEvent(new GpxTcxEventArgs(EventType.MSG, NL + msg));
                     } else {
-                        string msg = NL + "Fix Polar Access GPX: Failed to change "
+                        string msg = "Fix Polar Access GPX: Failed to change "
                           + "times in " + gpxFile + NL;
                         raiseGpxTcxEvent(new GpxTcxEventArgs(EventType.MSG, msg));
                     }
@@ -696,6 +669,37 @@ namespace KEGpsUtils {
                     + gpxFile;
                 raiseGpxTcxEvent(new GpxTcxEventArgs(EventType.EXC, msg, ex));
                 return;
+            }
+        }
+
+        /// <summary>
+        /// Prompts for a filename using a SaveFileDialog.
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="tag">String to be added before the extension,
+        /// e.g. ".test".</param>
+        /// <returns>The filename or null on cancel or failure.</returns>
+        public static string getSaveName(string fileName, string tag) {
+            SaveFileDialog dlg = new SaveFileDialog();
+            dlg.Title = "Select saved file";
+            string directory = Path.GetDirectoryName(fileName);
+            string ext = Path.GetExtension(fileName);
+            string name = Path.GetFileNameWithoutExtension(fileName);
+            dlg.InitialDirectory = directory;
+            dlg.FileName = name + tag + ext;
+            if (ext.ToLower().Equals(".tcx")) {
+                dlg.Filter = "TCX|*.tcx";
+            } else if (ext.ToLower().Equals(".gpx")) {
+                dlg.Filter = "GPX|*.gpx";
+            } else if (ext.ToLower().Equals(".xml")) {
+                dlg.Filter = "XML|*.xml";
+            } else {
+                dlg.Filter = "All files|*.*";
+            }
+            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
+                return dlg.FileName;
+            } else {
+                return null;
             }
         }
 
@@ -744,7 +748,7 @@ namespace KEGpsUtils {
             convertGpxToTcx();
         }
 
-        private void OnGpxTcxConvertTCXToGpxClick(object sender, EventArgs e) {
+        private void OnGpxTcxConvertTcxToGpxClick(object sender, EventArgs e) {
             convertTcxToGpx();
         }
     }
