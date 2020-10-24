@@ -6,6 +6,7 @@ namespace GPXViewer.model {
     public class GpxTrackSegmentModel : GpxModel {
         public trksegType Segment { get; set; }
         public List<GpxTrackpointModel> Trackpoints { get; set; }
+
         public GpxTrackSegmentModel(GpxModel parent, trksegType seg) {
             Parent = parent;
             if (seg == null) {
@@ -14,19 +15,23 @@ namespace GPXViewer.model {
                 Segment = seg;
             }
             Trackpoints = new List<GpxTrackpointModel>();
-            foreach (wptType tkp in Segment.trkpt) {
-                Trackpoints.Add(new GpxTrackpointModel(this, tkp));
+            if (Segment.trkpt != null) {
+                foreach (wptType tkp in Segment.trkpt) {
+                    Trackpoints.Add(new GpxTrackpointModel(this, tkp));
+                }
             }
         }
+
         public override string getLabel() {
             if (Parent is GpxTrackModel track) {
                 return "Segment " + (track.Segments.IndexOf(this) + 1);
             }
             return "Segment";
         }
+
         public override string info() {
             //synchronize();
-            string msg = this.GetType() + NL + this + NL;
+            string msg = this.GetType().Name + NL + this + NL;
             msg += "parent=" + Parent + NL;
             msg += "nTrackpoints=" + Trackpoints.Count + NL;
             msg += "nTrkpt=" + Segment.trkpt.Count + NL;

@@ -9,6 +9,9 @@ namespace ScrolledText {
         public ScrolledTextDialog(Size size, string text) {
             InitializeComponent();
 
+           // Do this to use as both model and modeless
+            this.DialogResult = DialogResult.None;
+
             // Resize the Form
             if (size != null) {
                 this.Size = size;
@@ -32,8 +35,40 @@ namespace ScrolledText {
             }
         }
 
+        public string getText() {
+            return this.textBox.Text;
+        }
+
+        public void setText(string text) {
+            textBox.Text = text;
+        }
+
         public void clear() {
-                this.textBox.Text = "";
+            this.textBox.Text = "";
+        }
+
+        public Button ButtonClear {
+            get {
+                return buttonClear;
+            }
+        }
+
+        public Button ButtonCancel {
+            get {
+                return buttonCancel;
+            }
+        }
+
+        public Button ButtonOK {
+            get {
+                return buttonOk;
+            }
+        }
+
+        public TextBox TextBox {
+            get {
+                return textBox;
+            }
         }
 
         private void OnFormClosing(object sender, FormClosingEventArgs e) {
@@ -44,12 +79,23 @@ namespace ScrolledText {
             }
         }
 
+        private void OnButtonClearClick(object sender, EventArgs e) {
+            this.clear();
+        }
+
         private void OnButtonCancelClick(object sender, EventArgs e) {
+            this.DialogResult = DialogResult.Cancel;
             this.Visible = false;
         }
 
-        private void OnButtonClearClick(object sender, EventArgs e) {
-            this.clear();
+        private void OnButtonOkClick(object sender, EventArgs e) {
+            this.DialogResult = DialogResult.OK;
+        }
+
+        private void OnVisibleChanged(object sender, EventArgs e) {
+            if(this.Visible) {
+                this.DialogResult = DialogResult.None;
+            }
         }
     }
 }

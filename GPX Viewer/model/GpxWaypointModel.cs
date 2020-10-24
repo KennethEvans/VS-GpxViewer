@@ -4,6 +4,7 @@ using www.topografix.com.GPX_1_1;
 namespace GPXViewer.model {
     public class GpxWaypointModel : GpxModel {
         public wptType Waypoint { get; set; }
+
         public GpxWaypointModel(GpxModel parent, wptType wpt) {
             Parent = parent;
             if (wpt == null) {
@@ -24,7 +25,7 @@ namespace GPXViewer.model {
 #endif
         }
         public override string info() {
-            string msg = this.GetType() + NL + this + NL;
+            string msg = this.GetType().Name + NL + this + NL;
             msg += "parent=" + Parent + NL;
             msg += "latitude=" + Waypoint.lat + " longitude=" + Waypoint.lon + NL;
             msg += "elevation=" + Waypoint.ele + NL;

@@ -15,6 +15,9 @@ using System.Reflection;
 using System.Windows.Forms;
 using www.topografix.com.GPX_1_1;
 using static GPXViewer.model.GpxModel;
+using System.Xml.Linq;
+using SharpKml.Dom;
+using System.Runtime.InteropServices;
 
 namespace GPXViewer {
     public partial class MainForm : Form {
@@ -85,6 +88,7 @@ namespace GPXViewer {
                         Utils.getDpiAdjustedSize(this, new Size(600, 400)));
                         logDialog.appendTextAndNL("GpxViewer Log");
                     }
+                    logDialog.ButtonCancel.Visible = false;
                     logDialog.appendTextAndNL(msg);
                     logDialog.Visible = true;
                     break;
@@ -361,12 +365,6 @@ namespace GPXViewer {
             string msg = "TreeListView" + NL;
             msg += "    Number of files=" + Files.Count + NL;
 
-#if false
-                msg += "    " + roots.GetType() + NL
-                + "    Roots Hash=" + roots.GetHashCode() + NL
-                + "    Files Hash=" + Files.GetHashCode() + NL
-                + "    " + roots.GetType() + NL
-#endif
             // Tree statistics
             int nObjs = 0, nFileSet = 0, nFile = 0, nTrk = 0, nSeg = 0;
             int nTkpt = 0, nWpt = 0, nRte = 0;
@@ -807,6 +805,155 @@ namespace GPXViewer {
             resetTree();
         }
 
+        private void edit() {
+            object x = treeListView.SelectedObject;
+            if (x == null) {
+                Utils.errMsg("Must be only one item selected to use this option");
+                return;
+            }
+            //if (x is GpxModel model) {
+            //    //Utils.infoMsg("Label=" + model.Label);
+            //    Utils.infoMsg(model.info());
+            //}
+            bool error = false;
+            try {
+                if (x is GpxFileModel fileModel) {
+                    // GpxFileModel
+                    fileModel.Parent.synchronize();
+                    XElement elem = fileModel.Gpx.Untyped;
+                    XElement newElem = getEditedXElement(elem);
+                    if (newElem == null) {
+                        error = true;
+                    } else {
+                        gpx newGpx = (gpx)newElem;
+                        if (fileModel.Parent is GpxFileSetModel fileSetModel) {
+                            int index = fileSetModel.Files.IndexOf(fileModel);
+                            fileSetModel.Files[index] = new GpxFileModel
+                                (fileModel.Parent, fileModel.FileName, newGpx);
+                            fileSetModel.synchronize();
+                        }
+                    }
+                } else if (x is GpxTrackModel trkModel) {
+                    // GpxTrackModel
+                    trkModel.Parent.synchronize();
+                    XElement elem = trkModel.Track.Untyped;
+                    XElement newElem = getEditedXElement(elem);
+                    if (newElem == null) {
+                        error = true;
+                    } else {
+                        trkType newTrack = (trkType)newElem;
+                        if (trkModel.Parent is GpxFileModel fileModel1) {
+                            int index = fileModel1.Tracks.IndexOf(trkModel);
+                            fileModel1.Tracks[index] = new GpxTrackModel
+                                (trkModel.Parent, newTrack);
+                            fileModel1.synchronize();
+                        }
+                    }
+                } else if (x is GpxTrackSegmentModel segModel) {
+                    // GpxTrackSegmentModel
+                    segModel.Parent.synchronize();
+                    XElement elem = segModel.Segment.Untyped;
+                    XElement newElem = getEditedXElement(elem);
+                    if (newElem == null) {
+                        error = true;
+                    } else {
+                        trksegType newSegment = (trksegType)newElem;
+                        if (segModel.Parent is GpxTrackModel trkModel1) {
+                            int index = trkModel1.Segments.IndexOf(segModel);
+                            trkModel1.Segments[index] = new GpxTrackSegmentModel
+                                (segModel.Parent, newSegment);
+                            trkModel1.synchronize();
+                        }
+                    }
+                } else if (x is GpxTrackpointModel trkptModel) {
+                    // GpxTrackpointModel
+                    trkptModel.Parent.synchronize();
+                    XElement elem = trkptModel.Trackpoint.Untyped;
+                    XElement newElem = getEditedXElement(elem);
+                    if (newElem == null) {
+                        error = true;
+                    } else {
+                        wptType newTrackpoint = (wptType)newElem;
+                        if (trkptModel.Parent is GpxTrackSegmentModel segModel1) {
+                            int index = segModel1.Trackpoints.IndexOf(trkptModel);
+                            segModel1.Trackpoints[index] = new GpxTrackpointModel
+                                (trkptModel.Parent, newTrackpoint);
+                            segModel1.synchronize();
+                        }
+                    }
+                } else if (x is GpxWaypointModel wptModel) {
+                    // GpxWaypointModel
+                    wptModel.Parent.synchronize();
+                    XElement elem = wptModel.Waypoint.Untyped;
+                    XElement newElem = getEditedXElement(elem);
+                    if (newElem == null) {
+                        error = true;
+                    } else {
+                        wptType newWaypoint = (wptType)newElem;
+                        if (wptModel.Parent is GpxFileModel fileModel1) {
+                            int index = fileModel1.Waypoints.IndexOf(wptModel);
+                            fileModel1.Waypoints[index] = new GpxWaypointModel
+                                (wptModel.Parent, newWaypoint);
+                            fileModel1.synchronize();
+                        } else if (wptModel.Parent is GpxRouteModel rteModel1) {
+                            int index = rteModel1.Waypoints.IndexOf(wptModel);
+                            rteModel1.Waypoints[index] = new GpxWaypointModel
+                                (wptModel.Parent, newWaypoint);
+                            rteModel1.synchronize();
+                        }
+                    }
+                } else if (x is GpxRouteModel rteModel) {
+                    // GpxRouteModel
+                    rteModel.Parent.synchronize();
+                    XElement elem = rteModel.Route.Untyped;
+                    XElement newElem = getEditedXElement(elem);
+                    if (newElem == null) {
+                        error = true;
+                    } else {
+                        rteType newRoute = (rteType)newElem;
+                        if (rteModel.Parent is GpxFileModel fileModel1) {
+                            int index = fileModel1.Routes.IndexOf(rteModel);
+                            fileModel1.Routes[index] = new GpxRouteModel
+                                (rteModel.Parent, newRoute);
+                            fileModel1.synchronize();
+                        }
+                    }
+                } else {
+                    // Unknown type, should not happen
+                    Utils.errMsg("Unexpected type found for edit: "
+                        + x.GetType().Name);
+                    return;
+                }
+            } catch (Exception ex) {
+                Utils.excMsg(x.GetType().Name + ": Error resetting tree", ex);
+            }
+            if (error) {
+                Utils.errMsg(x.GetType().Name
+                    + ": XML editing canceled or invalid edited XML");
+            }
+            resetTree();
+        }
+
+        /// <summary>
+        /// Brings up a ScrolledTextDialog to edit the XML from the given 
+        /// element and returns the element obtained from parsing the new XML
+        /// from the dialog.
+        /// </summary>
+        /// <param name="elem"></param>
+        /// <returns>The new XElement or null on failure.</returns>
+        private XElement getEditedXElement(XElement elem) {
+            try {
+                ScrolledTextDialog dlg = new ScrolledTextDialog(
+                    Utils.getDpiAdjustedSize(this, new Size(600, 400)));
+                dlg.setText(elem.ToString());
+                DialogResult res = dlg.ShowDialog();
+                if (res != DialogResult.OK) return null;
+                return XElement.Parse(dlg.getText());
+            } catch (Exception) {
+                return null;
+            }
+        }
+
         private void OnFormClosing(object sender, FormClosingEventArgs e) {
             Properties.FindNear.Default.Save();
         }
@@ -976,7 +1123,7 @@ namespace GPXViewer {
             }
         }
 
-        private void OnCellRightClick(object sender,
+        private void OnContextMenuClick(object sender,
             BrightIdeasSoftware.CellRightClickEventArgs e) {
             bool doItem = treeListView.SelectedItem != null;
             // Can't access SelectedItems here.
@@ -987,6 +1134,9 @@ namespace GPXViewer {
             contextMenuItemRemoveSelected.Enabled = doSelected;
             object x = e.Model;
             if (x != null) {
+                contextMenuItemEdit.Visible = x is GpxFileModel ||
+                    x is GpxTrackModel || x is GpxWaypointModel ||
+                    x is GpxRouteModel || x is GpxTrackSegmentModel || x is GpxTrackpointModel;
                 contextMenuItemAddFile.Visible = x is GpxFileModel;
                 contextMenuItemAddTrack.Visible = x is GpxFileModel ||
                     x is GpxTrackModel;
@@ -1000,8 +1150,6 @@ namespace GPXViewer {
                     x is GpxRouteModel || x is GpxWaypointModel;
             }
             e.MenuStrip = contextMenuStrip1;
-            //Utils.infoMsg("OnCellRightClick e.Model=" + e.Model.GetType()
-            //    + " e.MenuStrip=" + e.MenuStrip);
         }
 
         private void OnContextMenuInfoClicked(object sender, EventArgs e) {
@@ -1124,6 +1272,10 @@ namespace GPXViewer {
             json = JsonConvert.SerializeObject(fileNames);
             Properties.Settings.Default.StartupFiles = json;
             Properties.Settings.Default.Save();
+        }
+
+        private void OnContextMenuEditClicked(object sender, EventArgs e) {
+            edit();
         }
     }
 }

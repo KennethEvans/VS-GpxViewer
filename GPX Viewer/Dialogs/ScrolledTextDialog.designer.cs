@@ -25,10 +25,11 @@
         private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ScrolledTextDialog));
             this.flowLayoutPanelButtons1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.buttonClear = new System.Windows.Forms.Button();
+            this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonOk = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.textBox = new System.Windows.Forms.TextBox();
-            this.buttonClear = new System.Windows.Forms.Button();
             this.flowLayoutPanelButtons1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -39,25 +40,50 @@
             this.flowLayoutPanelButtons1.AutoSize = true;
             this.flowLayoutPanelButtons1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flowLayoutPanelButtons1.Controls.Add(this.buttonClear);
+            this.flowLayoutPanelButtons1.Controls.Add(this.buttonCancel);
             this.flowLayoutPanelButtons1.Controls.Add(this.buttonOk);
-            this.flowLayoutPanelButtons1.Location = new System.Drawing.Point(222, 849);
+            this.flowLayoutPanelButtons1.Location = new System.Drawing.Point(141, 849);
             this.flowLayoutPanelButtons1.Margin = new System.Windows.Forms.Padding(6);
             this.flowLayoutPanelButtons1.Name = "flowLayoutPanelButtons1";
-            this.flowLayoutPanelButtons1.Size = new System.Drawing.Size(324, 57);
+            this.flowLayoutPanelButtons1.Size = new System.Drawing.Size(486, 57);
             this.flowLayoutPanelButtons1.TabIndex = 5;
             this.flowLayoutPanelButtons1.WrapContents = false;
+            // 
+            // buttonClear
+            // 
+            this.buttonClear.AutoSize = true;
+            this.buttonClear.Location = new System.Drawing.Point(6, 6);
+            this.buttonClear.Margin = new System.Windows.Forms.Padding(6);
+            this.buttonClear.Name = "buttonClear";
+            this.buttonClear.Size = new System.Drawing.Size(150, 45);
+            this.buttonClear.TabIndex = 3;
+            this.buttonClear.Text = "Clear";
+            this.buttonClear.UseVisualStyleBackColor = true;
+            this.buttonClear.Click += new System.EventHandler(this.OnButtonClearClick);
+            // 
+            // buttonCancel
+            // 
+            this.buttonCancel.AutoSize = true;
+            this.buttonCancel.Location = new System.Drawing.Point(168, 6);
+            this.buttonCancel.Margin = new System.Windows.Forms.Padding(6);
+            this.buttonCancel.Name = "buttonCancel";
+            this.buttonCancel.Size = new System.Drawing.Size(150, 45);
+            this.buttonCancel.TabIndex = 4;
+            this.buttonCancel.Text = "Cancel";
+            this.buttonCancel.UseVisualStyleBackColor = true;
+            this.buttonCancel.Click += new System.EventHandler(this.OnButtonCancelClick);
             // 
             // buttonOk
             // 
             this.buttonOk.AutoSize = true;
-            this.buttonOk.Location = new System.Drawing.Point(168, 6);
+            this.buttonOk.Location = new System.Drawing.Point(330, 6);
             this.buttonOk.Margin = new System.Windows.Forms.Padding(6);
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(150, 45);
             this.buttonOk.TabIndex = 2;
             this.buttonOk.Text = "OK";
             this.buttonOk.UseVisualStyleBackColor = true;
-            this.buttonOk.Click += new System.EventHandler(this.OnButtonCancelClick);
+            this.buttonOk.Click += new System.EventHandler(this.OnButtonOkClick);
             // 
             // tableLayoutPanel1
             // 
@@ -86,18 +112,6 @@
             this.textBox.Size = new System.Drawing.Size(762, 837);
             this.textBox.TabIndex = 6;
             // 
-            // buttonClear
-            // 
-            this.buttonClear.AutoSize = true;
-            this.buttonClear.Location = new System.Drawing.Point(6, 6);
-            this.buttonClear.Margin = new System.Windows.Forms.Padding(6);
-            this.buttonClear.Name = "buttonClear";
-            this.buttonClear.Size = new System.Drawing.Size(150, 45);
-            this.buttonClear.TabIndex = 3;
-            this.buttonClear.Text = "Clear";
-            this.buttonClear.UseVisualStyleBackColor = true;
-            this.buttonClear.Click += new System.EventHandler(this.OnButtonClearClick);
-            // 
             // ScrolledTextDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
@@ -110,6 +124,7 @@
             this.Name = "ScrolledTextDialog";
             this.Text = "Overview";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OnFormClosing);
+            this.VisibleChanged += new System.EventHandler(this.OnVisibleChanged);
             this.flowLayoutPanelButtons1.ResumeLayout(false);
             this.flowLayoutPanelButtons1.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -125,5 +140,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TextBox textBox;
         private System.Windows.Forms.Button buttonClear;
+        private System.Windows.Forms.Button buttonCancel;
     }
 }

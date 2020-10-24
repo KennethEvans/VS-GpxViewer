@@ -6,6 +6,7 @@ namespace GPXViewer.model {
     public class GpxRouteModel : GpxModel {
         public rteType Route { get; set; }
         public List<GpxWaypointModel> Waypoints { get; set; }
+
         public GpxRouteModel(GpxModel parent, rteType rte) {
             Parent = parent;
             if (rte == null) {
@@ -15,15 +16,18 @@ namespace GPXViewer.model {
                 Route = rte;
             }
             Waypoints = new List<GpxWaypointModel>();
-            foreach (wptType wpt in Route.rtept) {
-                Waypoints.Add(new GpxWaypointModel(this, wpt));
+            if (Route.rtept != null) {
+                foreach (wptType wpt in Route.rtept) {
+                    Waypoints.Add(new GpxWaypointModel(this, wpt));
+                }
             }
         }
         public override string getLabel() {
             return Route.name != null ? Route.name : "Route";
         }
+
         public override string info() {
-            string msg = this.GetType() + NL + this + NL;
+            string msg = this.GetType().Name + NL + this + NL;
             msg += "parent=" + Parent + NL;
             msg += "nWaypoints=" + Waypoints.Count + NL;
             msg += "cmt=" + Route.cmt + NL;

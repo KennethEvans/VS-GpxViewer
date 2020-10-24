@@ -91,6 +91,8 @@
             this.contextMenuItemAddRoute = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuItemAddWaypoint = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuItemInfo = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuItemEdit = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.contextMenuItemRemove = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuItemRemoveSelected = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
@@ -126,7 +128,7 @@
             this.tableLayoutPanelTop.RowCount = 1;
             this.tableLayoutPanelTop.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanelTop.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanelTop.Size = new System.Drawing.Size(1627, 862);
+            this.tableLayoutPanelTop.Size = new System.Drawing.Size(1627, 865);
             this.tableLayoutPanelTop.TabIndex = 0;
             // 
             // treeListView
@@ -143,12 +145,12 @@
             this.treeListView.Name = "treeListView";
             this.treeListView.ShowGroups = false;
             this.treeListView.ShowImagesOnSubItems = true;
-            this.treeListView.Size = new System.Drawing.Size(1621, 856);
+            this.treeListView.Size = new System.Drawing.Size(1621, 859);
             this.treeListView.TabIndex = 0;
             this.treeListView.UseCompatibleStateImageBehavior = false;
             this.treeListView.View = System.Windows.Forms.View.Details;
             this.treeListView.VirtualMode = true;
-            this.treeListView.CellRightClick += new System.EventHandler<BrightIdeasSoftware.CellRightClickEventArgs>(this.OnCellRightClick);
+            this.treeListView.CellRightClick += new System.EventHandler<BrightIdeasSoftware.CellRightClickEventArgs>(this.OnContextMenuClick);
             // 
             // col1
             // 
@@ -169,7 +171,7 @@
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1627, 52);
+            this.menuStrip1.Size = new System.Drawing.Size(1627, 49);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -184,7 +186,7 @@
             this.toolStripSeparator2,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(87, 48);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(87, 45);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // openGPXTCXFileToolStripMenuItem
@@ -236,7 +238,7 @@
             this.expandToLevelToolStripMenuItem,
             this.collapseToolStripMenuItem});
             this.viewToolStripMenuItem1.Name = "viewToolStripMenuItem1";
-            this.viewToolStripMenuItem1.Size = new System.Drawing.Size(106, 48);
+            this.viewToolStripMenuItem1.Size = new System.Drawing.Size(106, 45);
             this.viewToolStripMenuItem1.Text = "View";
             // 
             // expandToLevelToolStripMenuItem
@@ -299,7 +301,7 @@
             this.toolStripSeparator8,
             this.showLogToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(111, 48);
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(111, 45);
             this.toolsToolStripMenuItem.Text = "Tools";
             // 
             // removeToolStripMenuItem
@@ -435,20 +437,20 @@
             this.statusToolStripMenuItem,
             this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(104, 48);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(104, 45);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // statusToolStripMenuItem
             // 
             this.statusToolStripMenuItem.Name = "statusToolStripMenuItem";
-            this.statusToolStripMenuItem.Size = new System.Drawing.Size(448, 54);
+            this.statusToolStripMenuItem.Size = new System.Drawing.Size(285, 54);
             this.statusToolStripMenuItem.Text = "Status...";
             this.statusToolStripMenuItem.Click += new System.EventHandler(this.OnHelpStatusClick);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(448, 54);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(285, 54);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.OnAboutClick);
             // 
@@ -460,7 +462,7 @@
             // 
             this.toolStripContainer1.ContentPanel.AutoScroll = true;
             this.toolStripContainer1.ContentPanel.Controls.Add(this.tableLayoutPanelTop);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1627, 862);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1627, 865);
             this.toolStripContainer1.LeftToolStripPanelVisible = false;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer1.Name = "toolStripContainer1";
@@ -493,7 +495,7 @@
             this.toolStripButtonExpand,
             this.toolStripButtonCollapse,
             this.toolStripButtonSendToGoogleEarth});
-            this.toolStrip1.Location = new System.Drawing.Point(8, 52);
+            this.toolStrip1.Location = new System.Drawing.Point(8, 49);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(682, 51);
             this.toolStrip1.TabIndex = 2;
@@ -634,6 +636,8 @@
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.contextMenuItemAdd,
             this.contextMenuItemInfo,
+            this.contextMenuItemEdit,
+            this.toolStripSeparator5,
             this.contextMenuItemRemove,
             this.contextMenuItemRemoveSelected,
             this.toolStripSeparator10,
@@ -642,7 +646,7 @@
             this.pasteToolStripMenuItem,
             this.pasteSpecialToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(406, 394);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(406, 503);
             // 
             // contextMenuItemAdd
             // 
@@ -705,6 +709,18 @@
             this.contextMenuItemInfo.Size = new System.Drawing.Size(405, 48);
             this.contextMenuItemInfo.Text = "Info";
             this.contextMenuItemInfo.Click += new System.EventHandler(this.OnContextMenuInfoClicked);
+            // 
+            // contextMenuItemEdit
+            // 
+            this.contextMenuItemEdit.Name = "contextMenuItemEdit";
+            this.contextMenuItemEdit.Size = new System.Drawing.Size(405, 48);
+            this.contextMenuItemEdit.Text = "Edit...";
+            this.contextMenuItemEdit.Click += new System.EventHandler(this.OnContextMenuEditClicked);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(402, 6);
             // 
             // contextMenuItemRemove
             // 
@@ -893,6 +909,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
         private System.Windows.Forms.ToolStripMenuItem resetTreeFromModelToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveSelectedFilesAsStartupPreferencesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem contextMenuItemEdit;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
     }
 }
 

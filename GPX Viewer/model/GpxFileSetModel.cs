@@ -15,7 +15,7 @@ namespace GPXViewer.model {
         }
 
         public override string info() {
-            string msg = this.GetType() + NL + this + NL;
+            string msg = this.GetType().Name + NL + this + NL;
             msg += "nFiles=" + Files.Count + NL;
             return msg;
         }
@@ -29,7 +29,9 @@ namespace GPXViewer.model {
         }
 
         public override void synchronize() {
-            throw new NotImplementedException();
+            foreach (GpxFileModel model in Files) {
+                model.synchronize();
+            }
         }
 
         public override GpxModel clone() {

@@ -6,6 +6,7 @@ namespace GPXViewer.model {
     public class GpxTrackModel : GpxModel {
         public trkType Track { get; set; }
         public List<GpxTrackSegmentModel> Segments { get; set; }
+
         public GpxTrackModel(GpxModel parent, trkType trk) {
             Parent = parent;
             if (trk == null) {
@@ -15,8 +16,10 @@ namespace GPXViewer.model {
                 Track = trk;
             }
             Segments = new List<GpxTrackSegmentModel>();
-            foreach (trksegType seg in Track.trkseg) {
-                Segments.Add(new GpxTrackSegmentModel(this, seg));
+            if (Track.trkseg != null) {
+                foreach (trksegType seg in Track.trkseg) {
+                    Segments.Add(new GpxTrackSegmentModel(this, seg));
+                }
             }
         }
         public override string getLabel() {
@@ -27,7 +30,7 @@ namespace GPXViewer.model {
             return "Track";
         }
         public override string info() {
-            string msg = this.GetType() + NL + this + NL;
+            string msg = this.GetType().Name + NL + this + NL;
             msg += "parent=" + Parent + NL;
             msg += "nSegments=" + Segments.Count + NL;
             msg += "cmt=" + Track.cmt + NL;
@@ -36,7 +39,11 @@ namespace GPXViewer.model {
             msg += "name=" + Track.name + NL;
             msg += "number=" + Track.number + NL;
             msg += "src=" + Track.src + NL;
-            msg += "nTrkSeg=" + Track.trkseg.Count + NL;
+            int nTkpts = 0;
+            foreach (trksegType seg in Track.trkseg) {
+                nTkpts += seg.trkpt.Count;
+            }
+            msg += "nTrkSeg=" + Track.trkseg.Count + " nTrkpt=" + nTkpts + NL;
             msg += "type=" + Track.type + NL;
             return msg;
         }

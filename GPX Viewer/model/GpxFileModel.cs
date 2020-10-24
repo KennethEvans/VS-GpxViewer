@@ -35,6 +35,7 @@ namespace GPXViewer.model {
 
         public GpxFileModel(GpxModel parent, string fileName, gpx gpx) {
             Parent = parent;
+            Gpx = gpx;
             FileName = fileName;
             reset();
         }
@@ -44,14 +45,20 @@ namespace GPXViewer.model {
             Waypoints = new List<GpxWaypointModel>();
             Routes = new List<GpxRouteModel>();
 
-            foreach (trkType trk in Gpx.trk) {
-                Tracks.Add(new GpxTrackModel(this, trk));
+            if (Gpx.trk != null) {
+                foreach (trkType trk in Gpx.trk) {
+                    Tracks.Add(new GpxTrackModel(this, trk));
+                }
             }
-            foreach (wptType wpt in Gpx.wpt) {
-                Waypoints.Add(new GpxWaypointModel(this, wpt));
+            if (Gpx.wpt != null) {
+                foreach (wptType wpt in Gpx.wpt) {
+                    Waypoints.Add(new GpxWaypointModel(this, wpt));
+                }
             }
-            foreach (rteType rte in Gpx.rte) {
-                Routes.Add(new GpxRouteModel(this, rte));
+            if (Gpx.rte != null) {
+                foreach (rteType rte in Gpx.rte) {
+                    Routes.Add(new GpxRouteModel(this, rte));
+                }
             }
         }
 
@@ -60,8 +67,8 @@ namespace GPXViewer.model {
         }
 
         public override string info() {
-            string msg = this.GetType() + NL + this + NL;
-            if(IsTcx) msg += "(Converted to GPX)" + NL;
+            string msg = this.GetType().Name + NL + this + NL;
+            if (IsTcx) msg += "(Converted to GPX)" + NL;
             msg += "parent=" + Parent + NL;
             msg += "nTracks=" + Tracks.Count + NL;
             msg += "nWaypoints=" + Waypoints.Count + NL;
