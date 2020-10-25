@@ -174,6 +174,18 @@
     <EmbeddedResource Include="icons\collapse.png" />
     <EmbeddedResource Include="icons\expand.png" />
     <Content Include="GPXInspector.ico" />
+    <Content Include="Help\book.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help\GPXViewer256.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help\GPXViewerScreenshot.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help\Overview.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="icons\GPXInspector.ico" />
     <Content Include="icons\GPXInspector16.png" />
     <Content Include="icons\GPXInspector256.png" />

@@ -18,6 +18,7 @@ using static GPXViewer.model.GpxModel;
 using System.Xml.Linq;
 using SharpKml.Dom;
 using System.Runtime.InteropServices;
+using ScrolledHTML;
 
 namespace GPXViewer {
     public partial class MainForm : Form {
@@ -30,6 +31,7 @@ namespace GPXViewer {
         public static readonly int INITIAL_TREE_LEVEL = 0;
         private int treeLevel = INITIAL_TREE_LEVEL;
 
+        private static ScrolledHTMLDialog overviewDlg;
         private static ScrolledTextDialog logDialog;
         private GpxTcxMenu gpxTcxMenu;
 
@@ -85,7 +87,8 @@ namespace GPXViewer {
                 case GpxTcxMenu.EventType.MSG:
                     if (logDialog == null) {
                         logDialog = new ScrolledTextDialog(
-                        Utils.getDpiAdjustedSize(this, new Size(600, 400)));
+                        Utils.getDpiAdjustedSize(this, new Size(600, 400)),
+                        "GPX Viewer Log");
                         logDialog.appendTextAndNL("GpxViewer Log");
                     }
                     logDialog.ButtonCancel.Visible = false;
@@ -928,8 +931,7 @@ namespace GPXViewer {
                 Utils.excMsg(x.GetType().Name + ": Error resetting tree", ex);
             }
             if (error) {
-                Utils.errMsg(x.GetType().Name
-                    + ": XML editing canceled or invalid edited XML");
+                Utils.errMsg(x.GetType().Name + ": XML editing canceled or invalid edited XML");
             }
             resetTree();
         }
@@ -944,7 +946,8 @@ namespace GPXViewer {
         private XElement getEditedXElement(XElement elem) {
             try {
                 ScrolledTextDialog dlg = new ScrolledTextDialog(
-                    Utils.getDpiAdjustedSize(this, new Size(600, 400)));
+                    Utils.getDpiAdjustedSize(this, new Size(600, 400)),
+                    "Edit");
                 dlg.setText(elem.ToString());
                 DialogResult res = dlg.ShowDialog();
                 if (res != DialogResult.OK) return null;
@@ -989,6 +992,18 @@ namespace GPXViewer {
             showStatus();
         }
 
+        private void OnHelpOverviewClick(object sender, EventArgs e) {
+            // Create, show, or set visible the overview dialog as appropriate
+            if (overviewDlg == null) {
+                MainForm app = (MainForm)FindForm().FindForm();
+                overviewDlg = new ScrolledHTMLDialog(
+                    Utils.getDpiAdjustedSize(app, new Size(800, 600)),
+                    "Overview");
+                overviewDlg.Show();
+            } else {
+                overviewDlg.Visible = true;
+            }
+        }
         private void OnResetModelFromTree(object sender, EventArgs e) {
             Utils.infoMsg("Not implemented yet");
         }

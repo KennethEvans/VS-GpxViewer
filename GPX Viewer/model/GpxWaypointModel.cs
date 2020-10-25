@@ -50,6 +50,11 @@ namespace GPXViewer.model {
             if (Parent != null && Parent is GpxFileModel fileModel &&
              fileModel.Waypoints != null) {
                 fileModel.Waypoints.Remove(this);
+            } else {
+                if (Parent != null && Parent is GpxRouteModel rteModel &&
+            rteModel.Waypoints != null) {
+                    rteModel.Waypoints.Remove(this);
+                }
             }
             Waypoint = null;
         }

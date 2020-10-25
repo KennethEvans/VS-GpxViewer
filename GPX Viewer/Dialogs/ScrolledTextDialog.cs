@@ -9,15 +9,14 @@ namespace ScrolledText {
         public ScrolledTextDialog(Size size, string text) {
             InitializeComponent();
 
-           // Do this to use as both model and modeless
+            this.Text = text;
+
+            // Do this to use as both model and modeless
             this.DialogResult = DialogResult.None;
 
             // Resize the Form
             if (size != null) {
                 this.Size = size;
-            }
-            if (!String.IsNullOrEmpty(text)) {
-                this.textBox.Text = text;
             }
         }
 
@@ -79,6 +78,12 @@ namespace ScrolledText {
             }
         }
 
+        private void OnVisibleChanged(object sender, EventArgs e) {
+            if (this.Visible) {
+                this.DialogResult = DialogResult.None;
+            }
+        }
+
         private void OnButtonClearClick(object sender, EventArgs e) {
             this.clear();
         }
@@ -90,12 +95,7 @@ namespace ScrolledText {
 
         private void OnButtonOkClick(object sender, EventArgs e) {
             this.DialogResult = DialogResult.OK;
-        }
-
-        private void OnVisibleChanged(object sender, EventArgs e) {
-            if(this.Visible) {
-                this.DialogResult = DialogResult.None;
-            }
+            this.Visible = false;
         }
     }
 }

@@ -94,7 +94,9 @@ namespace GPXViewer.model {
         public override void synchronize() {
             Route.rtept.Clear();
             foreach (GpxWaypointModel model in Waypoints) {
-                Route.rtept.Add(model.Waypoint);
+                if (model.Waypoint != null) {
+                    Route.rtept.Add(model.Waypoint);
+                }
             }
         }
 

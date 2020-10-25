@@ -4,8 +4,10 @@ using System.Windows.Forms;
 
 namespace ScrolledHTML {
     public partial class ScrolledHTMLDialog : Form {
-        public ScrolledHTMLDialog(Size size) {
+        public ScrolledHTMLDialog(Size size, string text) {
             InitializeComponent();
+
+            this.Text = text;
 
             // Resize the Form
             if (size != null) {

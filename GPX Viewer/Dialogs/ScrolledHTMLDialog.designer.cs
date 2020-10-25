@@ -23,7 +23,6 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ScrolledHTMLDialog));
             this.webBrowser = new System.Windows.Forms.WebBrowser();
             this.flowLayoutPanelButtons1 = new System.Windows.Forms.FlowLayoutPanel();
             this.buttonBack = new System.Windows.Forms.Button();
@@ -120,9 +119,9 @@
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(768, 912);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ScrolledHTMLDialog";
-            this.Text = "Overview";
+            this.ShowIcon = false;
+            this.Text = "ScrolledHTMLDialog";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OnFormClosing);
             this.flowLayoutPanelButtons1.ResumeLayout(false);
             this.flowLayoutPanelButtons1.PerformLayout();
