@@ -72,17 +72,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\GpsUtils\GpsUtils\bin\Release\TimeZoneNames.dll</HintPath>
     </Reference>
+    <Reference Include="Utils">
+      <HintPath>..\..\Utils\Utils\bin\Release\Utils.dll</HintPath>
+    </Reference>
     <Reference Include="Xml.Schema.Linq, Version=2.0.2.56002, Culture=neutral, PublicKeyToken=47d0c84d0ebb13e5, processorArchitecture=MSIL">
       <HintPath>..\packages\LinqToXsd.2.0.2\lib\Xml.Schema.Linq.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dialogs\AboutBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Dialogs\AboutBox.Designer.cs">
-      <DependentUpon>AboutBox.cs</DependentUpon>
-    </Compile>
     <Compile Include="Dialogs\FindFilesNearDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -113,22 +110,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Kml\RainbowColorScheme.cs" />
-    <Compile Include="Dialogs\ScrolledHTMLDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Dialogs\ScrolledHTMLDialog.designer.cs">
-      <DependentUpon>ScrolledHTMLDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\ScrolledTextDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Dialogs\ScrolledTextDialog.designer.cs">
-      <DependentUpon>ScrolledTextDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Utils.cs" />
-    <EmbeddedResource Include="Dialogs\AboutBox.resx">
-      <DependentUpon>AboutBox.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\FindFilesNearDialog.resx">
       <DependentUpon>FindFilesNearDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -145,12 +126,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Dialogs\ScrolledHTMLDialog.resx">
-      <DependentUpon>ScrolledHTMLDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Dialogs\ScrolledTextDialog.resx">
-      <DependentUpon>ScrolledTextDialog.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Properties\FindNear.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

@@ -1,11 +1,12 @@
-﻿using About;
-using GPXViewer.Dialogs;
+﻿using GPXViewer.Dialogs;
 using GPXViewer.KML;
 using GPXViewer.model;
-using KEUtils;
 using KEGpsUtils;
+using KEUtils.About;
+using KEUtils.ScrolledHTML;
+using KEUtils.ScrolledText;
+using KEUtils.Utils;
 using Newtonsoft.Json;
-using ScrolledText;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,12 +14,9 @@ using System.Drawing;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
+using System.Xml.Linq;
 using www.topografix.com.GPX_1_1;
 using static GPXViewer.model.GpxModel;
-using System.Xml.Linq;
-using SharpKml.Dom;
-using System.Runtime.InteropServices;
-using ScrolledHTML;
 
 namespace GPXViewer {
     public partial class MainForm : Form {
@@ -966,7 +964,14 @@ namespace GPXViewer {
         }
 
         private void OnAboutClick(object sender, EventArgs e) {
-            AboutBox dlg = new AboutBox();
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            Image image = null;
+            try {
+                image = Image.FromFile(@".\Help\GPXViewer256.png");
+            } catch (Exception ex) {
+                Utils.excMsg("Failed to get AbutBox image", ex);
+            }
+            AboutBox dlg = new AboutBox("About Utils Demo", image, assembly);
             dlg.ShowDialog();
         }
 

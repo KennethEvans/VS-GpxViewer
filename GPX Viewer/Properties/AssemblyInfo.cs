@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("GPX Viewer")]
 [assembly: AssemblyDescription("If this program works, it was written by Kenneth Evans.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("kenevans.net")]
 [assembly: AssemblyProduct("GPX Viewer")]
 [assembly: AssemblyCopyright("Copyright © Kenneth Evans 2020")]
 [assembly: AssemblyTrademark("")]

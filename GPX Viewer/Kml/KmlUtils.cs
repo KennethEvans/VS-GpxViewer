@@ -1,6 +1,7 @@
 ﻿using GPXViewer.model;
 using KEGpsUtils;
 using KEUtils;
+using KEUtils.Utils;
 using SharpKml.Base;
 using SharpKml.Dom;
 using SharpKml.Dom.GX;
