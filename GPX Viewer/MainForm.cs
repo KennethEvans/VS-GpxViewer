@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
@@ -1009,6 +1010,15 @@ namespace GPXViewer {
                 overviewDlg.Visible = true;
             }
         }
+
+        private void OnHelpOverviewOnlineClick(object sender, EventArgs e) {
+            try {
+                Process.Start("https://kenevans.net/opensource/GPXViewer/Help/Overview.html");
+            } catch (Exception ex) {
+                Utils.excMsg("Failed to start browser", ex);
+            }
+        }
+
         private void OnResetModelFromTree(object sender, EventArgs e) {
             Utils.infoMsg("Not implemented yet");
         }
