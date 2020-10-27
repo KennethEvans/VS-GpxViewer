@@ -6,57 +6,141 @@
 <title>GPX Viewer</title>
 </head>
 <body>
-<h1 align="center"><strong><img src="GPXViewer256.png" alt="Logo" width="256" height="256" align="middle" /> GPX Viewer Overview</strong></h1>
-<p align="left">CSP Brush Info is designed to read a Clip Studio Paint brush configuration and display it in a readable form. It can also compare two brushes and show the differences. This can be useful for seeing the structure of the brush parameters and to easily compare the differences between two brushes. It is easier to compare brushes this way than by hunting through the brush properties dialog in Clip Studio Paint, but it is not as pretty. There is also some other information, such as the names of brush tip and textures, that is not in the Clip Stusio Paint interface. </p>
+<h1 align="center"><strong><img src="GPXViewer256.png" alt="Logo" width="96" height="96" align="middle" /> GPX Viewer Overview</strong></h1>
+<p align="left">GPX Viewer allows you to examine and edit GPS Exchange Format (GPX) files through a graphical user interface. You can open multiple files, which will be shown in a tree view. You can expand the tree to see the tracks, waypoints, and routes, and further to see their sub-elements. You can send selected files to Google Earth to view the tracks, waypoints, and routes there. You can edit by using Cut, Copy, and Paste on the elements of the tree, and you can also edit the XML directly for each element.</p>
+<p align="left"> Elements in the tree can be both checked and selected. Most operations operate on selected elements, but the checkboxes are used for sending to Google Earth. </p>
+<p align="left">Currently only GPX 1.1 is supported. Extensions, such as Garmin's TrackPointExtensionv2, that give heart rate and cadence are supported. You can also read Training Center Database (TCX) files, but they will be converted to GPX internally. </p>
+<p align="left">There is a menu with a number of GPX and TCX utilities, which is independent  of the loaded files. </p>
 <p align="left"><a href="#Acknowledgements">Acknowledgements</a> are at the end of the page. </p>
-<h3 align="left">How it Works</h3>
-<p>The following information has been determined by observation on Windows 10 with the 1.8.8 English version of Clip Studio Paint. It may change with later versions and may be different for your system, but it should not be hard to find the equivalent locations. </p>
-<p> Clip Studio Paint configuration in general uses SQLite databases. For a default installation these can be found in the working directory, Documents\CELSYS,  and in the installation directory, Program Files\CELSYS. You may also have a  Documents\CELSYS_EN directory from a previous installation. The Documents\CELSYS directory is the current state and is updated when Clip Studio Paint exits. If Clip Studio Paint crashes or is closed in an unusual way, the state will not be saved. There is also a database in the installation directory, presumably the default brushes. There are many SQLite files in these directories. The one of interest for brushes is EditImageTool.todb. Brush files with the SUT extension are also SQLite databases. CSP Brush Info can process all of these database files as well as SUT files:</p>
-<ul>
-  <li>Documents\CELSYS\CLIPStudioPaintVer1_5_0\Tool\EditImageTool.todb</li>
-  <li>Program Files\CELSYS\CLIP STUDIO 1.5\CLIP STUDIO PAINT\Settings\PAINT\Tool\english\EditImageTool.todb</li>
-  <li>Documents\CELSYS_EN\CLIPStudioPaintVer1_5_0\Tool\EditImageTool.todb</li>
-  <li>SUT files</li>
-  <li>Any of the above on another computer on your network. </li>
-</ul>
-<p>These databases include tables for Node and Variant. The Node table has columns NodeName (the name of the brush or other tool), NodeVariantId (the variant corresponding to the current settings), and NodeInitVariantId (the variant corresponding to the default settings you get when restoring). The Node table has a column VariantId and many other columns representing the tool parameters. The brushes (as opposed to other tools) appear to be those where the NodeVariantId and NodeInitVariantId are non-zero, and the values of these can be used as the VariantId to find the brush parameters for the given NodeName in the Variant table. That is essentially what this program does. </p>
-<h3>The Interface</h3>
-<p>The interface has a place to enter the names of two databases. You can then choose the brush from the available brushes in the database, and you can choose whether to use the NodeVariantId or the NodeInitVariantId. The buttons at the bottom process either the first or second brush, showing all the parameters, Compare, showing just the parameters that are different, or Quit.</p>
-<p>Some of the database items are binary. Some of these, especially Effectors, have been partially decoded. The binary data as well as an interpretation of the data is in the output, including images for the Effectors. The interpretations are not based on information from Celsys and are not guaranteed to be correct. The binary data format for these items changes with the versions of Clip Studio Paint. The interpretation appears to work for some older versions but is more like to work for the recent ones. </p>
-<p>This is a screen shot of the CSP Brush Info interface.</p>
+<h2 align="left">The Interface</h2>
+<p>The interface has menus, a toolbar, and the tree view of the files. This is a screen shot of the GPX Viewer interface.</p>
 <p align="center"><img src="GPXViewerScreenshot.jpg" alt="GPX Viewer Screenshot" width="95%" /></p>
-<h3>File Menu </h3>
+<h2>Toolbar</h2>
+<p>The tool bar icons are, in the order seen in the screen shot above:</p>
 <blockquote>
-  <h3>Show Tool Hierarchy</h3>
-  <p>(There are submenus that determine which of the databases to use.) These will bring up a window showing all of your SubTools and how they are grouped into  Tools, Tool Groups, and SubTools. Brushes are a SubTool, but there are other kinds of SubTools, and this shows all of them. For example, the Pen Tool typically has two groups, Pen and Marker. The G-pen is a SubTool in the Pen group, and the Milli pen is SubTool in the Marker group. This option will not be useful for a SUT file, only for the  EditImageTool.todb database. This is a way to see all your brushes in one place in case you want to organize them or find where one is located. It also shows orphans (in the database but not in the hierarchy) and duplicate brush names. (Orphans and duplicates should not interfere with the operation of Clip Studio Paint.) </p>
-  <h3>Save Info as RTF</h3>
-  <p>Saves the output area on the main screen as RTF. You will prompted for the file name. </p>
-  <h3>Quit</h3>
+<p><strong>Open</strong> Opens files. (Same as Open GPX / TCX on the File menu.) </p>
+<p><strong>Save</strong>   Saves selected files. (Same as Save Selected Files on the File menu.) </p>
+<p><strong>Cut</strong> (Same as Cut on the Context menu.) </p>
+<p><strong>Copy</strong> (Same as Copy on the Context menu.) </p>
+<p><strong>Paste</strong>    (Same as Paste on the Context menu.) </p>
+<p><strong>Help</strong> Shows the Overview. (Same as Overview on the Help menu.) </p>
+<p><strong>Remove</strong> Removes selected items from the tree. (Multiple items of different types may be selected.) </p>
+<p><strong>Remove All</strong> Removes all items from the tree.</p>
+<p><strong>Expand</strong> Expands the tree one level.</p>
+<p><strong>Collapse</strong> Collapses the tree one level.</p>
+<p><strong>KML</strong> Sends the checked file to Google Earth. (Same as Send to Google Earth on the File menu.) </p>
+</blockquote>
+<h2>File Menu </h2>
+<blockquote>
+  <h3>Open GPX / TCX File </h3>
+  <p>Brings up a file dialog to open GP or TCX files.  You can select multiple files. They will then appear in the tree. The Open item in the toolbar also does this. TCX files will be converted to GPX. </p>
+  <h3>Save Selected Files </h3>
+  <p>Saves the selected files. You will prompted for the file names. The Save item in the toolbar also does this. </p>
+  <h3>Send to Google Earth  </h3>
+  <p>Converts the checked (not selected) files to KML and sends them to Google Earth. There is also a KML on the toolbar to do this. </p>
+  <h3>Exit</h3>
   <p>Exits the application. </p>
 </blockquote>
-<h3>Help Menu </h3>
+<h2>View Menu </h2>
 <blockquote>
+  <h3><strong>Expand to Level </strong></h3>
+  <p>Expands the tree to the selected level. </p>
+  <h3><strong>Collapse All </strong></h3>
+  <p>Collapses the tree to show just the files. </p>
+</blockquote>
+<h2>Tools Menu </h2>
+<blockquote>
+  <h3><strong>Remove </strong></h3>
+  <p>Removes either the elected files or all files, depending on which sub-item is selected. </p>
+  <h3><strong>Check</strong></h3>
+  <p>Checks all files, no files, everything, or nothing, depending on which sub-item is selected. </p>
+  <h3><strong>Reset Tree from Model</strong></h3>
+  <p>Resets the tree from the internal information. This is usually done automatically when needed. </p>
+  <h3>Synchronize</h3>
+  <p>If elements in the tree are changed, synchronizes the references to them. For example, a track has a list of track segments. If you delete a segment, this list needs to reflect that change. This menu item synchronizes everything in the entire tree. This is usually done automatically when needed. </p>
+  <h3>Save Selected Files as Startup Preferences </h3>
+  <p>Saves the selected files so they will be loaded automatically the next time GPX VIewer starts. </p>
+  <h3>Find Files Near </h3>
+  <p>This option allows you find all the files in a given directory that have tracks or waypoints that are within a specified distance of the specified latitude and longitude. It brings up this dialog:</p>
+  <p><img src="FindFilesNearScreenshot.jpg" alt="Find Files Near Dialog" width="50%" /> </p>
+  <p>You can copy a placemark in Google Earth and paste it here to get its latitude or longitude. You can also copy the latitude and longitude in the dialog into a placemark that can then be pasted into Google Earth to, say, mark the point that you used to select files after you send them to Google Earth. Copy Circle works the same way, but also shows a circle with the radius used. </p>
+  <h3>Show Log </h3>
+  <p>Output from some of the operations, especially on the GPX / TCX menu, is shown in a dialog with scrolled text. This is a modeless dialog, and retains everything entered, unless it is cleared. If the dialog is not visible, this makes it visible. However, visible does not mean it is on top. If it has become covered by other windows, you will have to find it. It becomes hidden (not visible) only when you click OK, but it still retains its contents. If no information has been sent yet, there will be no log.</p>
+</blockquote>
+<h2>GPX / TCX  Menu </h2>
+<blockquote>
+  <h3 align="left">Format TCX/GPX</h3>
+  <p align="left">Formats a TCX or GPX file in a form that is easily read by humans. </p>
+  <h3 align="left">Format XML</h3>
+  <p align="left">Formats any XML file, including TCX and GPX,  in a form that is easily read by humans. The output for TCX and GPX files should be the same as above, but a different calculation method using XDocument is used. </p>
+  <h3 align="left">Convert GPX to TCX </h3>
+  <p align="left">Converts all the selected GPX files to TCX files. You will be prompted for where to save them. </p>
+  <h3 align="left">Convert TCX to GPX </h3>
+  <p align="left">Converts all the selected TCX files to GPX files. You will be prompted for where to save them. </p>
+  <h3 align="left">Interpolate TCX from GPX</h3>
+  <p align="left">Allows you to modify a TCX file using the latitude and longitude from a GPX patch file. It is a way to fix tracks that are in the wrong place owing to, say, inaccurate GPS or a GPS dropout. The trackpoints in the TCX file are modified to use the latitude and longitude from the GPX patch file. The result is that the times are retained, but the latitude and longitude values are interpolated from the GPX patch file proportional to the elapsed time in the interval used in the TCX file. This results in a constant speed for the processed points. This speed is the simple average speed = distance / time elapsed. This is hence a method of correcting trackpoints that will least affect the overall speed calculations. </p>
+  <p align="left">You will have to find a GPX file that goes where you went with the TCX exercise. The time in the GPX file is not used. There is an application, <a href="https://github.com/KennethEvans/maplines">Map Lines</a>, that will allow you to draw a path that can be saved as a GPX. It requires having a calibrated map of the area so you can see where to draw.</p>
+  <p align="left">Only the first Activity, Lap, and Track in the TCX file are processed. </p>
+  <p align="left">There are two modes. In both modes you will have a dialog to chose a start and end time. The TCX file will only be corrected in this interval (including the start and end times). The start and end times need to be specified in UTC time, which is the time listed in the TCX and GPX file. The initial times are the start and end times of the TCX file. You can edit these. There are three decimal points to prevent round off if you are unsure. Only time values actually in the TCX file are used so that this relationship holds.</p>
+  <p align="left" class="Code"> start &lt;= actualStart &lt; actualEnd &lt;= end </p>
+  <p align="left">There are two sub items</p>
+	<blockquote>
+  <p align="left"><strong><em> MatchLatLon Mode</em></strong></p>
+  <p align="left">Determines the actual interval by matching the latitude and longitude of the start and end points from the GPX file in the TCX file.  If no match is found for the start (because the GPS was inaccurate at the start), it starts at the start time you specified. It will not go past the specified end time. </p>
+  <p align="left"><strong><em>UseInterval</em></strong></p>
+  <p align="left">Uses the interval as specified. </p>
+	</blockquote>
+  <h3 align="left">Delete TCX Trackpoints</h3>
+  <p align="left">Deletes trackpoints from a TCX file. There is a dialog where you can choose the start and end times for the deletion. These are displayed in UTC time, the same as is used in the file. Only the first Activity, Lap, and Track in the TCX file are processed. </p>
+  <h3 align="left">Change TCX Times</h3>
+  <p align="left">Recalculates the times for a TCX file.   There is a dialog where you can choose the new start time, and it then adds the difference between the new and old start times to all the trackpoint times. The Activity Id, which is a string and may or may not be the old start time, is not changed. (For Polar Beat TCX files the Id is the start time, so it will not be consistent with the new times. It can be changed manually if desired. Use the Lap start time, which is just below.) It will default to saving the new file with the old file name with &quot;.tcx&quot; replaced by&quot;.timechange.tcx&quot;. If there is date and time information in the file name, be sure to change it before clicking &quot;Save&quot;. Only the first Activity, Lap, and Track in the TCX file are processed. </p>
+  <h3 align="left">Recalculate TCX</h3>
+  <p align="left">This program was designed to handle TCX files from <a href="https://flow.polar.com/">Polar Flow</a>. These files have other information besides the latitude, longitude, and time for the trackpoints. This information includes StartTime, TotalTimeSeconds, DistanceMeters, AverageHeartRateBpm, MaximumHeartRateBpm, MaximumSpeed, and AvgSpeed for the Laps, and it includes DistanceMeters for the Trackpoints. These numbers change if the positions of the trackpoints change or if they are deleted. This option recalculates them from the trackpoints currently in the file.</p>
+  <p align="left">What is actually contained in these elements is not specified in the TCX (TrainingCenterDatabasev2) <a href="https://www8.garmin.com/xmlschemas/TrainingCenterDatabasev2.xsd">specification</a>. The recalculation uses values as used by Polar. The MaximumSpeed does not not agree with the Polar calculation. (It is not published how they do that calculation, but it probably involves low-pass filtering that is not done here.) Note that what is contained in these elements can be obtained from the trackpoints anyway. That is what the GPX / TCX Utilities do. If you do not use these data and do not care if they are consistent with the data, then you do not need to do this.</p>
+  <p align="left">This step is automatically done at the end of the delete and interpolate calculations above. </p>
+  <h3 align="left">Fix Polar Access GPX</h3>
+  <p align="left">Polar Access produces GPX files with the time given in the form 2020-04-13T13:29:18.002. It is the local time, not the UTC time as required by the GPX specification. The UTC time typically ends in a Z. The corrected version of this time would be 2020-04-13T17:29:18.002Z. To determine this it is necessary to determine the time zone corresponding to the incorrect time, otherwise there is no way to know the UTC offset. The GPX / TCX Utilities do this using the latitude and longitude to get the time zone.  (In the example the actual time zone where the exercise occurred was EDT with a UTC offset of -4.) </p>
+  <p align="left">This menu item will fix the local times to be UTC and will also add category and location elements to the metadata, if this can be determined by the name. The file is corrected in place and the modified time is retained. The corrected file will be formatted. If you are uncertain this procedure will work, you should back up your files somewhere else before running it. </p>
+  <p align="left">In the event Polar Access fixes this issue, this menu item will only add the category and location if it can. If no changes are necessary, the file will not be modified, so it should be safe to run it on files that have already been fixed or that do not have the time issue. </p>
+  <h3 align="left">Single File Info </h3>
+  <p align="left">Shows extensive information from the selected files. This information is shown in the log dialog. </p>
+</blockquote>
+<h2>Help Menu </h2>
+<blockquote>
+  <h3><strong>Status</strong></h3>
+  <p>Brings up a dialog with information about the interface. This is primarily intended for debugging. </p>
   <h3><strong>Overview</strong></h3>
   <p>Brings up a window with this HTML file. It works as a rudimentary browser with links and Back and Forward buttons. </p>
   <h3>About</h3>
   <p>Gives information about this application including the version. </p>
 </blockquote>
-<h3>Context Menus</h3>
-<p>There are context (right-click) menus on the output area on the main screen (which has Rich Text) and also on all the text entries and larger text areas. They have Cut, Copy, Paste, and other items that should be common or self explanatory. </p>
-<h3>Installation</h3>
-<p>If you are installing from a download, just unzip the files into a directory somewhere convenient. Then run it from there. If you are installing from a build, copy these files and directories from the bin/Release directory to a convenient directory.</p>
-<ul><li>CSPBrushInfo.exe</li>
-  <li>EntityFramework.dll</li>
-  <li>EntityFramework.SqlServer.dll</li>
-  <li>System.Data.SQLite.dll</li>
-  <li>System.Data.SQLite.EF6.dll</li>
-  <li>System.Data.SQLite.Linq.dll</li>
-  <li>Help (directory) </li>
-  <li>x64 (directory) </li>
-  <li>x86  (directory) </li>
-</ul>
+<h2>Context Menu</h2>
+<p>There is a context (right-click) menus on the tree area. Some of the possbile items may not be available, depending on the element clicked.</p>
+<blockquote>
+<h3><strong>Add</strong></h3>
+<p>Allows you to add a new item to the selected element. The choices in the submenu will be appropriate for the element selected. </p>
+<h3><strong>Info</strong></h3>
+<p>Brings up a dialog with information about the selected element.  </p>
+<h3>Edit</h3>
+<p>Allows you to edit the XML for the selected element. This is a way to make more extensive changes than Cut, Copy, and Paste. </p>
+<h3>Remove Item </h3>
+<p>Remove the seleted item. </p>
+<h3>Remove Selected Items </h3>
+<p>Removes all selected items, not necessarily the one where you clicked. </p>
+<h3>Cut</h3>
+<p>Removes the selected item and puts it in the internal clipboard. (It is an internal clipboard, not the System clipboard.) </p>
+<h3>Copy</h3>
+<p>Copies the selected item into the internal clipboard.  (It is an internal clipboard, not the System clipboard.)</p>
+<h3>Paste</h3>
+<p>Pastes the contents of the internal clipboard depending on the element clicked and the contents of the clipboard. If the clipboard contents are the same type of element as the one selected then the contents are added at the end of these elements. If the selected element is an appropriate parent of the type of the elements in the clipboard, then the contents are added at the end of the children of the same type as this element. For example, if there are waypoints in the clipboard, then if you select Paste on a waypoint, it pastes the contents to the end of these waypoints. If you select Paste on a file, then it pastes the contents to the end of the list of waypoints for this file, and if you select Paste on a route, then it pastes the contents to the end of the list of waypoints for this route. </p>
+<h3>Paste Special </h3>
+<p>Works like Paste but you can select Begining, Before, After, and End. Before and After refer to the element where you clicked, and they are not relevant if you clicked on an parent of the type of elements in the clipboard.</p>
+</blockquote>
+<h2>Installation</h2>
+<p>If you are installing from a download, just unzip the files into a directory somewhere convenient. Then run it from there. If you are installing from a build, copy all the files and directories from the bin/Release directory into a directory somewhere convenient.</p>
 <p>To uninstall, just delete these files.</p>
-<p><a name="Acknowledgements" id="Acknowledgements"></a><strong>Acknowledgements</strong></p>
-<p>CSP Brush Info uses the NuGet package System.Data.SQLite. Clip Studio Paint is a product of <a href="https://www.celsys.co.jp/en/">Celsys</a>. </p>
+<h2><a name="Acknowledgements" id="Acknowledgements"></a><strong>Acknowledgements</strong></h2>
+<p>GPX Viewer is available from GitHub at <a href="https://github.com/KennethEvans/VS-GpxViewer">https://github.com/KennethEvans/VS-GpxViewer</a>.</p>
+<p>It  uses the NuGet packages GeoTimeZone, LinqToXsd, Newtonsoft.Json, ObjectListView.Official, SharpKml.Core, TimeZoneConverter, and TimeZoneNames as well as the class library Utils.dll from <a href="https://github.com/KennethEvans/VS-Utils">https://github.com/KennethEvans/VS-Utils</a>.</p>
 </body>
 </html>
