@@ -87,6 +87,12 @@
     <Compile Include="Dialogs\FindFilesNearDialog.Designer.cs">
       <DependentUpon>FindFilesNearDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\KmlOptionsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\KmlOptionsDialog.Designer.cs">
+      <DependentUpon>KmlOptionsDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\FindNear.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -114,6 +120,9 @@
     <EmbeddedResource Include="Dialogs\FindFilesNearDialog.resx">
       <DependentUpon>FindFilesNearDialog.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\KmlOptionsDialog.resx">
+      <DependentUpon>KmlOptionsDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -122,6 +131,11 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <Compile Include="Properties\KmlSettings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>KmlSettings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
@@ -136,6 +150,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
+    <None Include="Properties\KmlSettings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>KmlSettings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -160,6 +178,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Help\GPXViewerScreenshot.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help\KmlOptionsDialogScreenshot.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Help\Overview.html">

@@ -12,10 +12,9 @@ namespace GPXViewer.Dialogs {
         public static readonly String NL = Environment.NewLine;
         public List<string> FoundFiles { get; set; }
 
-
         public FindFilesNearDialog() {
             InitializeComponent();
-            getSettingsFromSettings();
+            getControlsFromSettings();
         }
 
         private bool findFilesNear() {
@@ -103,7 +102,7 @@ namespace GPXViewer.Dialogs {
             return false;
         }
 
-        private void OnDirectoryBrowseClick(object sender, EventArgs e) {
+        private void OnBrowseFileClick(object sender, EventArgs e) {
             FolderBrowserDialog dlg = new FolderBrowserDialog();
             dlg.Description = "Select a Directory to search";
             string fileName = "";
@@ -117,7 +116,7 @@ namespace GPXViewer.Dialogs {
             }
         }
 
-        private void getSettingsFromSettings() {
+        private void getControlsFromSettings() {
             textBoxDirectory.Text = Properties.FindNear.Default.Directory;
             textBoxLatitude.Text = Properties.FindNear.Default.Latitude.ToString();
             textBoxLongitude.Text = Properties.FindNear.Default.Longitude.ToString();

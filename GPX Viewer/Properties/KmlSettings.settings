@@ -1,0 +1,78 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="GPXViewer.Properties" GeneratedClassName="KmlSettings">
+  <Profiles />
+  <Settings>
+    <Setting Name="KmlFileName" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="TrkLineWidth" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="UseTrkIcon" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="UseTrkTrack" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="TrkIconUrl" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://maps.google.com/mapfiles/kml/pushpin/wht-pushpin.png</Value>
+    </Setting>
+    <Setting Name="RteLineWidth" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="UseRteIcon" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="WptLineWidth" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="UseWptIcon" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="PromptToOverwrite" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="SendToGoogleEarth" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="Setting" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="IconScale" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="TrkColor" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ff0000</Value>
+    </Setting>
+    <Setting Name="TrkAlpha" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ff</Value>
+    </Setting>
+    <Setting Name="TrkColorMode" Type="System.String" Scope="User">
+      <Value Profile="(Default)">RAINBOW</Value>
+    </Setting>
+    <Setting Name="RteColor" Type="System.String" Scope="User">
+      <Value Profile="(Default)">0000ff</Value>
+    </Setting>
+    <Setting Name="RteAlpha" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ff</Value>
+    </Setting>
+    <Setting Name="RteColorMode" Type="System.String" Scope="User">
+      <Value Profile="(Default)">COLOR</Value>
+    </Setting>
+    <Setting Name="RteIconUrl" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://maps.google.com/mapfiles/kml/paddle/wht-circle.png</Value>
+    </Setting>
+    <Setting Name="WptColor" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ffcc66</Value>
+    </Setting>
+    <Setting Name="WptAlpha" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ff</Value>
+    </Setting>
+    <Setting Name="WptColorMode" Type="System.String" Scope="User">
+      <Value Profile="(Default)">COLOR</Value>
+    </Setting>
+    <Setting Name="WptIconUrl" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://maps.google.com/mapfiles/kml/paddle/wht-circle.png</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

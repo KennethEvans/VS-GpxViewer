@@ -66,6 +66,7 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.overviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.overviewOnlineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -105,7 +106,6 @@
             this.beforeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.afterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.endToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.overviewOnlineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanelTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.treeListView)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -130,7 +130,7 @@
             this.tableLayoutPanelTop.RowCount = 1;
             this.tableLayoutPanelTop.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanelTop.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanelTop.Size = new System.Drawing.Size(1627, 862);
+            this.tableLayoutPanelTop.Size = new System.Drawing.Size(1627, 865);
             this.tableLayoutPanelTop.TabIndex = 0;
             // 
             // treeListView
@@ -147,7 +147,7 @@
             this.treeListView.Name = "treeListView";
             this.treeListView.ShowGroups = false;
             this.treeListView.ShowImagesOnSubItems = true;
-            this.treeListView.Size = new System.Drawing.Size(1621, 856);
+            this.treeListView.Size = new System.Drawing.Size(1621, 859);
             this.treeListView.TabIndex = 0;
             this.treeListView.UseCompatibleStateImageBehavior = false;
             this.treeListView.View = System.Windows.Forms.View.Details;
@@ -172,7 +172,7 @@
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1627, 52);
+            this.menuStrip1.Size = new System.Drawing.Size(1627, 49);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -187,7 +187,7 @@
             this.toolStripSeparator2,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(87, 48);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(87, 45);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // openGPXTCXFileToolStripMenuItem
@@ -239,7 +239,7 @@
             this.expandToLevelToolStripMenuItem,
             this.collapseToolStripMenuItem});
             this.viewToolStripMenuItem1.Name = "viewToolStripMenuItem1";
-            this.viewToolStripMenuItem1.Size = new System.Drawing.Size(106, 48);
+            this.viewToolStripMenuItem1.Size = new System.Drawing.Size(106, 45);
             this.viewToolStripMenuItem1.Text = "View";
             // 
             // expandToLevelToolStripMenuItem
@@ -302,7 +302,7 @@
             this.toolStripSeparator8,
             this.showLogToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(111, 48);
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(111, 45);
             this.toolsToolStripMenuItem.Text = "Tools";
             // 
             // removeToolStripMenuItem
@@ -440,27 +440,34 @@
             this.overviewOnlineToolStripMenuItem,
             this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(104, 48);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(104, 45);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // statusToolStripMenuItem
             // 
             this.statusToolStripMenuItem.Name = "statusToolStripMenuItem";
-            this.statusToolStripMenuItem.Size = new System.Drawing.Size(448, 54);
+            this.statusToolStripMenuItem.Size = new System.Drawing.Size(440, 54);
             this.statusToolStripMenuItem.Text = "Status...";
             this.statusToolStripMenuItem.Click += new System.EventHandler(this.OnHelpStatusClick);
             // 
             // overviewToolStripMenuItem
             // 
             this.overviewToolStripMenuItem.Name = "overviewToolStripMenuItem";
-            this.overviewToolStripMenuItem.Size = new System.Drawing.Size(448, 54);
+            this.overviewToolStripMenuItem.Size = new System.Drawing.Size(440, 54);
             this.overviewToolStripMenuItem.Text = "Overview...";
             this.overviewToolStripMenuItem.Click += new System.EventHandler(this.OnHelpOverviewClick);
+            // 
+            // overviewOnlineToolStripMenuItem
+            // 
+            this.overviewOnlineToolStripMenuItem.Name = "overviewOnlineToolStripMenuItem";
+            this.overviewOnlineToolStripMenuItem.Size = new System.Drawing.Size(440, 54);
+            this.overviewOnlineToolStripMenuItem.Text = "Overview (Online)...";
+            this.overviewOnlineToolStripMenuItem.Click += new System.EventHandler(this.OnHelpOverviewOnlineClick);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(448, 54);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(440, 54);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.OnAboutClick);
             // 
@@ -472,7 +479,7 @@
             // 
             this.toolStripContainer1.ContentPanel.AutoScroll = true;
             this.toolStripContainer1.ContentPanel.Controls.Add(this.tableLayoutPanelTop);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1627, 862);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1627, 865);
             this.toolStripContainer1.LeftToolStripPanelVisible = false;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer1.Name = "toolStripContainer1";
@@ -505,10 +512,10 @@
             this.toolStripButtonExpand,
             this.toolStripButtonCollapse,
             this.toolStripButtonSendToGoogleEarth});
-            this.toolStrip1.Location = new System.Drawing.Point(8, 52);
+            this.toolStrip1.Location = new System.Drawing.Point(8, 49);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(682, 51);
-            this.toolStrip1.TabIndex = 2;
+            this.toolStrip1.TabIndex = 0;
             // 
             // openToolStripButton
             // 
@@ -811,13 +818,6 @@
             this.endToolStripMenuItem.Size = new System.Drawing.Size(318, 54);
             this.endToolStripMenuItem.Text = "End";
             this.endToolStripMenuItem.Click += new System.EventHandler(this.OnPasteClick);
-            // 
-            // overviewOnlineToolStripMenuItem
-            // 
-            this.overviewOnlineToolStripMenuItem.Name = "overviewOnlineToolStripMenuItem";
-            this.overviewOnlineToolStripMenuItem.Size = new System.Drawing.Size(448, 54);
-            this.overviewOnlineToolStripMenuItem.Text = "Overview (Online)...";
-            this.overviewOnlineToolStripMenuItem.Click += new System.EventHandler(this.OnHelpOverviewOnlineClick);
             // 
             // MainForm
             // 

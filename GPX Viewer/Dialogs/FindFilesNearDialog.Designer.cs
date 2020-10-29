@@ -23,6 +23,7 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            this.components = new System.ComponentModel.Container();
             this.tableLayoutPanelTop = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanelDirectory = new System.Windows.Forms.TableLayoutPanel();
             this.labelDirectory = new System.Windows.Forms.Label();
@@ -47,6 +48,7 @@
             this.flowLayoutPanelButtons = new System.Windows.Forms.FlowLayoutPanel();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonOk = new System.Windows.Forms.Button();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanelTop.SuspendLayout();
             this.tableLayoutPanelDirectory.SuspendLayout();
             this.tableLayoutPanelParameters.SuspendLayout();
@@ -71,7 +73,7 @@
             this.tableLayoutPanelTop.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelTop.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelTop.Size = new System.Drawing.Size(1039, 376);
-            this.tableLayoutPanelTop.TabIndex = 1;
+            this.tableLayoutPanelTop.TabIndex = 0;
             // 
             // tableLayoutPanelDirectory
             // 
@@ -91,7 +93,7 @@
             this.tableLayoutPanelDirectory.RowCount = 1;
             this.tableLayoutPanelDirectory.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelDirectory.Size = new System.Drawing.Size(1033, 48);
-            this.tableLayoutPanelDirectory.TabIndex = 2;
+            this.tableLayoutPanelDirectory.TabIndex = 1;
             // 
             // labelDirectory
             // 
@@ -105,6 +107,7 @@
             this.labelDirectory.TabIndex = 0;
             this.labelDirectory.Text = "Directory:";
             this.labelDirectory.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.toolTip.SetToolTip(this.labelDirectory, "The directory to search for files.");
             // 
             // textBoxDirectory
             // 
@@ -113,6 +116,7 @@
             this.textBoxDirectory.Name = "textBoxDirectory";
             this.textBoxDirectory.Size = new System.Drawing.Size(760, 38);
             this.textBoxDirectory.TabIndex = 1;
+            this.toolTip.SetToolTip(this.textBoxDirectory, "The directory to search for files.");
             // 
             // buttonBrowse
             // 
@@ -125,8 +129,9 @@
             this.buttonBrowse.Size = new System.Drawing.Size(119, 42);
             this.buttonBrowse.TabIndex = 2;
             this.buttonBrowse.Text = "Browse";
+            this.toolTip.SetToolTip(this.buttonBrowse, "Browse for the directory.");
             this.buttonBrowse.UseVisualStyleBackColor = false;
-            this.buttonBrowse.Click += new System.EventHandler(this.OnDirectoryBrowseClick);
+            this.buttonBrowse.Click += new System.EventHandler(this.OnBrowseFileClick);
             // 
             // tableLayoutPanelParameters
             // 
@@ -160,7 +165,8 @@
             this.tableLayoutPanelParameters.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelParameters.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelParameters.Size = new System.Drawing.Size(1033, 249);
-            this.tableLayoutPanelParameters.TabIndex = 0;
+            this.tableLayoutPanelParameters.TabIndex = 2;
+            this.toolTip.SetToolTip(this.tableLayoutPanelParameters, "Latitude of the search center.");
             // 
             // labelLatitiude
             // 
@@ -174,6 +180,7 @@
             this.labelLatitiude.TabIndex = 0;
             this.labelLatitiude.Text = "Latitude:";
             this.labelLatitiude.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.toolTip.SetToolTip(this.labelLatitiude, "Latitude of the search center.");
             // 
             // textBoxLatitude
             // 
@@ -182,6 +189,7 @@
             this.textBoxLatitude.Name = "textBoxLatitude";
             this.textBoxLatitude.Size = new System.Drawing.Size(303, 38);
             this.textBoxLatitude.TabIndex = 1;
+            this.toolTip.SetToolTip(this.textBoxLatitude, "Latitude of the search center.");
             // 
             // labelLongitude
             // 
@@ -192,9 +200,10 @@
             this.labelLongitude.Location = new System.Drawing.Point(518, 0);
             this.labelLongitude.Name = "labelLongitude";
             this.labelLongitude.Size = new System.Drawing.Size(150, 44);
-            this.labelLongitude.TabIndex = 3;
+            this.labelLongitude.TabIndex = 2;
             this.labelLongitude.Text = "Longitude:";
             this.labelLongitude.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.toolTip.SetToolTip(this.labelLongitude, "Longitude of the search center.");
             // 
             // textBoxLongitude
             // 
@@ -202,7 +211,8 @@
             this.textBoxLongitude.Location = new System.Drawing.Point(724, 3);
             this.textBoxLongitude.Name = "textBoxLongitude";
             this.textBoxLongitude.Size = new System.Drawing.Size(306, 38);
-            this.textBoxLongitude.TabIndex = 4;
+            this.textBoxLongitude.TabIndex = 3;
+            this.toolTip.SetToolTip(this.textBoxLongitude, "Longitude of the search center.");
             // 
             // labelRadius
             // 
@@ -213,9 +223,10 @@
             this.labelRadius.Location = new System.Drawing.Point(3, 44);
             this.labelRadius.Name = "labelRadius";
             this.labelRadius.Size = new System.Drawing.Size(112, 45);
-            this.labelRadius.TabIndex = 5;
+            this.labelRadius.TabIndex = 4;
             this.labelRadius.Text = "Radius:";
             this.labelRadius.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.toolTip.SetToolTip(this.labelRadius, "Radius from the center.");
             // 
             // textBoxRadius
             // 
@@ -223,7 +234,8 @@
             this.textBoxRadius.Location = new System.Drawing.Point(209, 47);
             this.textBoxRadius.Name = "textBoxRadius";
             this.textBoxRadius.Size = new System.Drawing.Size(303, 38);
-            this.textBoxRadius.TabIndex = 6;
+            this.textBoxRadius.TabIndex = 5;
+            this.toolTip.SetToolTip(this.textBoxRadius, "Radius from the center.");
             // 
             // comboBoxUnits
             // 
@@ -237,7 +249,8 @@
             this.comboBoxUnits.Location = new System.Drawing.Point(518, 47);
             this.comboBoxUnits.Name = "comboBoxUnits";
             this.comboBoxUnits.Size = new System.Drawing.Size(200, 39);
-            this.comboBoxUnits.TabIndex = 11;
+            this.comboBoxUnits.TabIndex = 6;
+            this.toolTip.SetToolTip(this.comboBoxUnits, "Units of the radius.");
             // 
             // labelFileFilter
             // 
@@ -248,9 +261,10 @@
             this.labelFileFilter.Location = new System.Drawing.Point(3, 89);
             this.labelFileFilter.Name = "labelFileFilter";
             this.labelFileFilter.Size = new System.Drawing.Size(134, 44);
-            this.labelFileFilter.TabIndex = 8;
+            this.labelFileFilter.TabIndex = 7;
             this.labelFileFilter.Text = "FileFilter:";
             this.labelFileFilter.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.toolTip.SetToolTip(this.labelFileFilter, "Filter to use when searching for files.\r\nWildcards are accepted.");
             // 
             // textBoxFilter
             // 
@@ -259,7 +273,8 @@
             this.textBoxFilter.Location = new System.Drawing.Point(209, 92);
             this.textBoxFilter.Name = "textBoxFilter";
             this.textBoxFilter.Size = new System.Drawing.Size(509, 38);
-            this.textBoxFilter.TabIndex = 9;
+            this.textBoxFilter.TabIndex = 8;
+            this.toolTip.SetToolTip(this.textBoxFilter, "Filter to use when searching for files.\r\nWildcards are accepted.");
             // 
             // checkBoxWaypoints
             // 
@@ -268,8 +283,9 @@
             this.checkBoxWaypoints.Location = new System.Drawing.Point(3, 136);
             this.checkBoxWaypoints.Name = "checkBoxWaypoints";
             this.checkBoxWaypoints.Size = new System.Drawing.Size(186, 36);
-            this.checkBoxWaypoints.TabIndex = 2;
+            this.checkBoxWaypoints.TabIndex = 9;
             this.checkBoxWaypoints.Text = "Waypoints";
+            this.toolTip.SetToolTip(this.checkBoxWaypoints, "Whether to look for waypoints.");
             this.checkBoxWaypoints.UseVisualStyleBackColor = true;
             // 
             // checkBoxTracks
@@ -279,8 +295,9 @@
             this.checkBoxTracks.Location = new System.Drawing.Point(518, 136);
             this.checkBoxTracks.Name = "checkBoxTracks";
             this.checkBoxTracks.Size = new System.Drawing.Size(137, 36);
-            this.checkBoxTracks.TabIndex = 7;
+            this.checkBoxTracks.TabIndex = 10;
             this.checkBoxTracks.Text = "Tracks";
+            this.toolTip.SetToolTip(this.checkBoxTracks, "Whether to look for tracks.");
             this.checkBoxTracks.UseVisualStyleBackColor = true;
             // 
             // flowLayoutPanelPlacemark
@@ -297,7 +314,7 @@
             this.flowLayoutPanelPlacemark.Location = new System.Drawing.Point(3, 178);
             this.flowLayoutPanelPlacemark.Name = "flowLayoutPanelPlacemark";
             this.flowLayoutPanelPlacemark.Size = new System.Drawing.Size(660, 68);
-            this.flowLayoutPanelPlacemark.TabIndex = 10;
+            this.flowLayoutPanelPlacemark.TabIndex = 11;
             this.flowLayoutPanelPlacemark.WrapContents = false;
             // 
             // buttonPastePlacemark
@@ -308,8 +325,10 @@
             this.buttonPastePlacemark.Location = new System.Drawing.Point(3, 3);
             this.buttonPastePlacemark.Name = "buttonPastePlacemark";
             this.buttonPastePlacemark.Size = new System.Drawing.Size(239, 42);
-            this.buttonPastePlacemark.TabIndex = 2;
+            this.buttonPastePlacemark.TabIndex = 0;
             this.buttonPastePlacemark.Text = "Paste Placemark";
+            this.toolTip.SetToolTip(this.buttonPastePlacemark, "You can copy a placemark in Google Earth and paste it here.\r\nIt will set the lati" +
+        "tide and longitude of the placemark.");
             this.buttonPastePlacemark.UseVisualStyleBackColor = true;
             this.buttonPastePlacemark.Click += new System.EventHandler(this.OnPastePlacemarkClick);
             // 
@@ -323,6 +342,8 @@
             this.buttonCopyPlacemark.Size = new System.Drawing.Size(232, 42);
             this.buttonCopyPlacemark.TabIndex = 1;
             this.buttonCopyPlacemark.Text = "Copy Placemark";
+            this.toolTip.SetToolTip(this.buttonCopyPlacemark, "You can copy a placemark to paste into Google Earth\r\nto show the center of where " +
+        "you searched.");
             this.buttonCopyPlacemark.UseVisualStyleBackColor = true;
             this.buttonCopyPlacemark.Click += new System.EventHandler(this.OnCopyPlacemarkClick);
             // 
@@ -334,8 +355,10 @@
             this.buttonCopyCircle.Location = new System.Drawing.Point(486, 3);
             this.buttonCopyCircle.Name = "buttonCopyCircle";
             this.buttonCopyCircle.Size = new System.Drawing.Size(171, 42);
-            this.buttonCopyCircle.TabIndex = 0;
+            this.buttonCopyCircle.TabIndex = 2;
             this.buttonCopyCircle.Text = "Copy Circle";
+            this.toolTip.SetToolTip(this.buttonCopyCircle, "You can copy a placemark and a circle representing the radius to paste into Googl" +
+        "e Earth to show the where you searched.");
             this.buttonCopyCircle.UseVisualStyleBackColor = true;
             this.buttonCopyCircle.Click += new System.EventHandler(this.OnCopyCircleClick);
             // 
@@ -364,6 +387,7 @@
             this.buttonCancel.Size = new System.Drawing.Size(114, 42);
             this.buttonCancel.TabIndex = 1;
             this.buttonCancel.Text = "Cancel";
+            this.toolTip.SetToolTip(this.buttonCancel, "Cancel");
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.OnCancelClick);
             // 
@@ -377,6 +401,7 @@
             this.buttonOk.Size = new System.Drawing.Size(66, 42);
             this.buttonOk.TabIndex = 0;
             this.buttonOk.Text = "OK";
+            this.toolTip.SetToolTip(this.buttonOk, "Ok, perform the search.");
             this.buttonOk.UseVisualStyleBackColor = true;
             this.buttonOk.Click += new System.EventHandler(this.OnOkClick);
             // 
@@ -387,6 +412,7 @@
             this.ClientSize = new System.Drawing.Size(1039, 376);
             this.Controls.Add(this.tableLayoutPanelTop);
             this.Name = "FindFilesNearDialog";
+            this.ShowIcon = false;
             this.Text = "Find Files Near";
             this.tableLayoutPanelTop.ResumeLayout(false);
             this.tableLayoutPanelTop.PerformLayout();
@@ -429,5 +455,6 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelButtons;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.Button buttonOk;
+        private System.Windows.Forms.ToolTip toolTip;
     }
 }

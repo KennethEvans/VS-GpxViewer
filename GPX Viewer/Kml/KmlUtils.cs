@@ -24,6 +24,7 @@ namespace GPXViewer.KML {
         /// The delta used to determine d(lat)/d(radius) and d(lon)/d(radius).
         private static readonly double DELTA_LATLON = .0001;
         /// Set of hard-coded line colorSetColors. it will cycle through these.
+        /// Red, Green, Blue, Cyan, Magenta, Yellow, Orange, Purple.
         private static readonly String[] colorSetColors = {"0000ff", "00ff00",
         "ff0000", "ffff00", "ff00ff", "00ffff", "0077ff", "ff0077"};
         /** Array to hold the track colors, values depend on the mode. */
@@ -381,7 +382,7 @@ namespace GPXViewer.KML {
 
             // Create the file
             String kmlFileName = kmlOptions.KmlFileName;
-            string outFile = kmlFileName;
+            string outFile = Environment.ExpandEnvironmentVariables(kmlFileName);
             if (kmlOptions.PromptToOverwrite && File.Exists(outFile)) {
                 DialogResult dr = MessageBox.Show("File exists: " + outFile
                     + "\nOK to overwrite?", "File Exists",
@@ -401,7 +402,7 @@ namespace GPXViewer.KML {
             }
 
             // Send it to Google Earth
-            if (kmlOptions.SendToGoogle) {
+            if (kmlOptions.SendToGoogleEarth) {
                 Process result;
                 try {
                     result = Process.Start(outFile);

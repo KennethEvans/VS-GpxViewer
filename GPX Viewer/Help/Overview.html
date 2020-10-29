@@ -14,7 +14,7 @@
 <p align="left"><a href="#Acknowledgements">Acknowledgements</a> are at the end of the page. </p>
 <h2 align="left">The Interface</h2>
 <p>The interface has menus, a toolbar, and the tree view of the files. This is a screen shot of the GPX Viewer interface.</p>
-<p align="center"><img src="GPXViewerScreenshot.jpg" alt="GPX Viewer Screenshot" width="95%" /></p>
+<p align="center"><img src="GPXViewerScreenshot.jpg" alt="GPX Viewer Screenshot" width="80%" /></p>
 <h2>Toolbar</h2>
 <p>The tool bar icons are, in the order seen in the screen shot above:</p>
 <blockquote>
@@ -37,7 +37,7 @@
   <h3>Save Selected Files </h3>
   <p>Saves the selected files. You will prompted for the file names. The Save item in the toolbar also does this. </p>
   <h3>Send to Google Earth  </h3>
-  <p>Converts the checked (not selected) files to KML and sends them to Google Earth. There is also a KML on the toolbar to do this. </p>
+  <p>Converts the checked (not selected) files to KML and sends them to Google Earth. There is also a KML on the toolbar to do this. There will be a dialog with all the KML options so that you can change them first. See <a href="#KMLOptions">KML Options</a>. Note that you can use this menu item to just save the KML file also. The setting to not send to Google Earth is in the dialog. </p>
   <h3>Exit</h3>
   <p>Exits the application. </p>
 </blockquote>
@@ -62,7 +62,7 @@
   <p>Saves the selected files so they will be loaded automatically the next time GPX VIewer starts. </p>
   <h3>Find Files Near </h3>
   <p>This option allows you find all the files in a given directory that have tracks or waypoints that are within a specified distance of the specified latitude and longitude. It brings up this dialog:</p>
-  <p><img src="FindFilesNearScreenshot.jpg" alt="Find Files Near Dialog" width="50%" /> </p>
+  <p><img src="FindFilesNearScreenshot.jpg" alt="Find Files Near Dialog" width="51%" /> </p>
   <p>You can copy a placemark in Google Earth and paste it here to get its latitude or longitude. You can also copy the latitude and longitude in the dialog into a placemark that can then be pasted into Google Earth to, say, mark the point that you used to select files after you send them to Google Earth. Copy Circle works the same way, but also shows a circle with the radius used. </p>
   <h3>Show Log </h3>
   <p>Output from some of the operations, especially on the GPX / TCX menu, is shown in a dialog with scrolled text. This is a modeless dialog, and retains everything entered, unless it is cleared. If the dialog is not visible, this makes it visible. However, visible does not mean it is on top. If it has become covered by other windows, you will have to find it. It becomes hidden (not visible) only when you click OK, but it still retains its contents. If no information has been sent yet, there will be no log.</p>
@@ -136,7 +136,31 @@
 <h3>Paste Special </h3>
 <p>Works like Paste but you can select Begining, Before, After, and End. Before and After refer to the element where you clicked, and they are not relevant if you clicked on an parent of the type of elements in the clipboard.</p>
 </blockquote>
-<h2>Installation</h2>
+<h2><a name="KMLOptions" id="KMLOptions"></a>KML Options</h2>
+<p>There are a number of KML options you can set before saving or sending to Google Earth. There is a dialog that appears when you select <strong>Send to Google Earth</strong> which allows you to set these options first and optionlly save them as defaults. The values shown in the image are the default values. </p>
+<p><img src="KMLOptionsDialogScreenshot.jpg" alt="KMLOptionsDialog" width="54%"/> </p>
+<p>All of the items in this dialog have Tooltips that explain their use. The key points are:</p>
+<ul>
+  <li>The <strong>File Name</strong> can have environment strings, such as %TEMP% in it. The example shown will be saved in the temp directory as gpxviewer.kml. </li>
+  <li>Select <strong>Send to Google Earth</strong> if you want to do that, otherwise only the file is saved. </li>
+  <li>The icon URL is the symbol you can use for the icon. See <a href="http://kml4earth.appspot.com/icons.html">http://kml4earth.appspot.com/icons.html</a> for more information on what is available. The icon appears at the start of a track or route and for waypoints. </li>
+  <li>There are three ColorMode's:
+    <ul>
+      <li><strong>COLOR</strong>: Use the specified color.</li>
+      <li><strong>COLORSET</strong>: Cycle through  Red, Green, Blue, Cyan, Magenta, Yellow, Orange, and Purple.</li>
+      <li><strong>RAINBOW</strong>: Use rainbow colors.   Red is newest, Blue is oldest.</li>
+    </ul>
+  </li>
+  <li>Alpha (or transparency) is expressed with two case-insensitive hexadecimal digits. FF is opaque, and 00 is fully transparent.</li>
+  <li>KML colors are given as case-insensitive hexadecimal digits in the form BBGGRR. (Note this is backward from how they are expressed in most other applications.)  </li>
+  <li><strong>Use Defaults</strong> loads the default settings.</li>
+  <li><strong>Use Saved</strong> loads the saved settings.</li>
+  <li><strong>Save</strong> sets the stored settings.</li>
+</ul>
+
+<p>The options you set will remain throughout the session. When GPX Viewer is restarted, the options will be the saved ones. </p>
+<h2 align="left">Installation</h2>
+
 <p>If you are installing from a download, just unzip the files into a directory somewhere convenient. Then run it from there. If you are installing from a build, copy all the files and directories from the bin/Release directory into a directory somewhere convenient.</p>
 <p>To uninstall, just delete these files.</p>
 <h2><a name="Acknowledgements" id="Acknowledgements"></a><strong>Acknowledgements</strong></h2>

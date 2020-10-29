@@ -44,9 +44,17 @@ namespace GPXViewer {
         public ImageList TreeImageList { get; set; }
         public Size TreeImageSize { get; set; }
         public PointF DPI { get; set; }
+        public KmlOptions kmlOptions { get; set; }
 
         public MainForm() {
             InitializeComponent();
+
+            // Set KmlOptions from Settings
+            try {
+                kmlOptions = KmlOptionsDialog.getOptionsFromSettings();
+            } catch(Exception ex) {
+                Utils.excMsg("Error getting KmlOptions from Settings", ex);
+            }
 
             // Add GpxTcxMenu at position 3
             gpxTcxMenu = new GpxTcxMenu();
@@ -1079,8 +1087,11 @@ namespace GPXViewer {
         }
         private void OnFileSendToGoogleEarth(object sender, EventArgs e) {
             try {
-                KmlOptions options = new KmlOptions();
-                KmlUtils.createKml(FileSet, options);
+                KmlOptionsDialog dlg = new KmlOptionsDialog(kmlOptions);
+                DialogResult res = dlg.ShowDialog();
+                if (res != DialogResult.OK) return;
+                kmlOptions = dlg.KmlOptions;
+                KmlUtils.createKml(FileSet, kmlOptions);
             } catch (Exception ex) {
                 Utils.excMsg("Failed to send checked files to Google Earth", ex);
             }

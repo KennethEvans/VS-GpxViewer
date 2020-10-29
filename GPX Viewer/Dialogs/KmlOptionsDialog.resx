@@ -120,10 +120,10 @@
   <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
+  <data name="checkBoxUseTrkTrack.ToolTip" xml:space="preserve">
+    <value>Whether to have a Track element that allows you to play the track in time.
+The KML will have a Track and a Track Lines which can be tooggled off/on.
+The Track Lines shows all the time.
+The Track only shows as far as you have played it.</value>
+  </data>
 </root>
