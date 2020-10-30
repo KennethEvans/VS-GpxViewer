@@ -33,6 +33,9 @@
             this.openGPXTCXFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveSelectedFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.openFileSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveCheckedAsFileSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.sendToGoogleEarthToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -106,6 +109,7 @@
             this.beforeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.afterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.endToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveCheckedFilesAsStartupPreferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanelTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.treeListView)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -130,7 +134,7 @@
             this.tableLayoutPanelTop.RowCount = 1;
             this.tableLayoutPanelTop.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanelTop.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanelTop.Size = new System.Drawing.Size(1627, 843);
+            this.tableLayoutPanelTop.Size = new System.Drawing.Size(1627, 865);
             this.tableLayoutPanelTop.TabIndex = 0;
             // 
             // treeListView
@@ -147,7 +151,7 @@
             this.treeListView.Name = "treeListView";
             this.treeListView.ShowGroups = false;
             this.treeListView.ShowImagesOnSubItems = true;
-            this.treeListView.Size = new System.Drawing.Size(1621, 837);
+            this.treeListView.Size = new System.Drawing.Size(1621, 859);
             this.treeListView.TabIndex = 0;
             this.treeListView.UseCompatibleStateImageBehavior = false;
             this.treeListView.View = System.Windows.Forms.View.Details;
@@ -183,54 +187,76 @@
             this.openGPXTCXFileToolStripMenuItem,
             this.saveSelectedFilesToolStripMenuItem,
             this.toolStripSeparator4,
+            this.openFileSetToolStripMenuItem,
+            this.saveCheckedAsFileSetToolStripMenuItem,
+            this.toolStripSeparator6,
             this.sendToGoogleEarthToolStripMenuItem,
             this.toolStripSeparator1,
             this.toolStripSeparator2,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(87, 45);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(87, 48);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // openGPXTCXFileToolStripMenuItem
             // 
             this.openGPXTCXFileToolStripMenuItem.Name = "openGPXTCXFileToolStripMenuItem";
-            this.openGPXTCXFileToolStripMenuItem.Size = new System.Drawing.Size(468, 54);
+            this.openGPXTCXFileToolStripMenuItem.Size = new System.Drawing.Size(528, 54);
             this.openGPXTCXFileToolStripMenuItem.Text = "Open GPX/TCX File...";
             this.openGPXTCXFileToolStripMenuItem.Click += new System.EventHandler(this.OnFileOpenGpxClick);
             // 
             // saveSelectedFilesToolStripMenuItem
             // 
             this.saveSelectedFilesToolStripMenuItem.Name = "saveSelectedFilesToolStripMenuItem";
-            this.saveSelectedFilesToolStripMenuItem.Size = new System.Drawing.Size(468, 54);
+            this.saveSelectedFilesToolStripMenuItem.Size = new System.Drawing.Size(528, 54);
             this.saveSelectedFilesToolStripMenuItem.Text = "Save Selected Files...";
             this.saveSelectedFilesToolStripMenuItem.Click += new System.EventHandler(this.OnFileSaveSelectedFilesClick);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(465, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(525, 6);
+            // 
+            // openFileSetToolStripMenuItem
+            // 
+            this.openFileSetToolStripMenuItem.Name = "openFileSetToolStripMenuItem";
+            this.openFileSetToolStripMenuItem.Size = new System.Drawing.Size(528, 54);
+            this.openFileSetToolStripMenuItem.Text = "Open File Set...";
+            this.openFileSetToolStripMenuItem.Click += new System.EventHandler(this.OnFileOpenFileSet);
+            // 
+            // saveCheckedAsFileSetToolStripMenuItem
+            // 
+            this.saveCheckedAsFileSetToolStripMenuItem.Name = "saveCheckedAsFileSetToolStripMenuItem";
+            this.saveCheckedAsFileSetToolStripMenuItem.Size = new System.Drawing.Size(528, 54);
+            this.saveCheckedAsFileSetToolStripMenuItem.Text = "Save Checked as File Set...";
+            this.saveCheckedAsFileSetToolStripMenuItem.Click += new System.EventHandler(this.OnFileSaveFileSet);
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(525, 6);
             // 
             // sendToGoogleEarthToolStripMenuItem
             // 
             this.sendToGoogleEarthToolStripMenuItem.Name = "sendToGoogleEarthToolStripMenuItem";
-            this.sendToGoogleEarthToolStripMenuItem.Size = new System.Drawing.Size(468, 54);
+            this.sendToGoogleEarthToolStripMenuItem.Size = new System.Drawing.Size(528, 54);
             this.sendToGoogleEarthToolStripMenuItem.Text = "Send to Google Earth";
             this.sendToGoogleEarthToolStripMenuItem.Click += new System.EventHandler(this.OnFileSendToGoogleEarth);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(465, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(525, 6);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(465, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(525, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(468, 54);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(528, 54);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.OnFileExitClick);
             // 
@@ -240,7 +266,7 @@
             this.expandToLevelToolStripMenuItem,
             this.collapseToolStripMenuItem});
             this.viewToolStripMenuItem1.Name = "viewToolStripMenuItem1";
-            this.viewToolStripMenuItem1.Size = new System.Drawing.Size(106, 45);
+            this.viewToolStripMenuItem1.Size = new System.Drawing.Size(106, 48);
             this.viewToolStripMenuItem1.Text = "View";
             // 
             // expandToLevelToolStripMenuItem
@@ -297,13 +323,14 @@
             this.toolStripSeparator11,
             this.resetTreeFromModelToolStripMenuItem,
             this.synchronizeToolStripMenuItem,
+            this.saveCheckedFilesAsStartupPreferencesToolStripMenuItem,
             this.saveSelectedFilesAsStartupPreferencesToolStripMenuItem,
             this.toolStripSeparator7,
             this.findFilesNearToolStripMenuItem,
             this.toolStripSeparator8,
             this.showLogToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(111, 45);
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(111, 48);
             this.toolsToolStripMenuItem.Text = "Tools";
             // 
             // removeToolStripMenuItem
@@ -312,7 +339,7 @@
             this.allFilesToolStripMenuItem2,
             this.allSelectedToolStripMenuItem});
             this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(733, 54);
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(735, 54);
             this.removeToolStripMenuItem.Text = "Remove";
             // 
             // allFilesToolStripMenuItem2
@@ -337,7 +364,7 @@
             this.everythingToolStripMenuItem,
             this.nothingToolStripMenuItem});
             this.checkToolStripMenuItem.Name = "checkToolStripMenuItem";
-            this.checkToolStripMenuItem.Size = new System.Drawing.Size(733, 54);
+            this.checkToolStripMenuItem.Size = new System.Drawing.Size(735, 54);
             this.checkToolStripMenuItem.Text = "Check";
             // 
             // allFilesToolStripMenuItem
@@ -386,50 +413,50 @@
             // toolStripSeparator11
             // 
             this.toolStripSeparator11.Name = "toolStripSeparator11";
-            this.toolStripSeparator11.Size = new System.Drawing.Size(730, 6);
+            this.toolStripSeparator11.Size = new System.Drawing.Size(732, 6);
             // 
             // resetTreeFromModelToolStripMenuItem
             // 
             this.resetTreeFromModelToolStripMenuItem.Name = "resetTreeFromModelToolStripMenuItem";
-            this.resetTreeFromModelToolStripMenuItem.Size = new System.Drawing.Size(733, 54);
+            this.resetTreeFromModelToolStripMenuItem.Size = new System.Drawing.Size(735, 54);
             this.resetTreeFromModelToolStripMenuItem.Text = "Reset Tree from Model";
             this.resetTreeFromModelToolStripMenuItem.Click += new System.EventHandler(this.OnResetTreeFromModel);
             // 
             // synchronizeToolStripMenuItem
             // 
             this.synchronizeToolStripMenuItem.Name = "synchronizeToolStripMenuItem";
-            this.synchronizeToolStripMenuItem.Size = new System.Drawing.Size(733, 54);
+            this.synchronizeToolStripMenuItem.Size = new System.Drawing.Size(735, 54);
             this.synchronizeToolStripMenuItem.Text = "Synchronize";
             this.synchronizeToolStripMenuItem.Click += new System.EventHandler(this.OnToolsSynchronizeClick);
             // 
             // saveSelectedFilesAsStartupPreferencesToolStripMenuItem
             // 
             this.saveSelectedFilesAsStartupPreferencesToolStripMenuItem.Name = "saveSelectedFilesAsStartupPreferencesToolStripMenuItem";
-            this.saveSelectedFilesAsStartupPreferencesToolStripMenuItem.Size = new System.Drawing.Size(733, 54);
+            this.saveSelectedFilesAsStartupPreferencesToolStripMenuItem.Size = new System.Drawing.Size(735, 54);
             this.saveSelectedFilesAsStartupPreferencesToolStripMenuItem.Text = "Save Selected Files as Startup Preferences";
             this.saveSelectedFilesAsStartupPreferencesToolStripMenuItem.Click += new System.EventHandler(this.OnSaveSelectedFilesAsStartupPreferences);
             // 
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(730, 6);
+            this.toolStripSeparator7.Size = new System.Drawing.Size(732, 6);
             // 
             // findFilesNearToolStripMenuItem
             // 
             this.findFilesNearToolStripMenuItem.Name = "findFilesNearToolStripMenuItem";
-            this.findFilesNearToolStripMenuItem.Size = new System.Drawing.Size(733, 54);
+            this.findFilesNearToolStripMenuItem.Size = new System.Drawing.Size(735, 54);
             this.findFilesNearToolStripMenuItem.Text = "Find Files Near...";
             this.findFilesNearToolStripMenuItem.Click += new System.EventHandler(this.OnToolsFindFilesNearClick);
             // 
             // toolStripSeparator8
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(730, 6);
+            this.toolStripSeparator8.Size = new System.Drawing.Size(732, 6);
             // 
             // showLogToolStripMenuItem
             // 
             this.showLogToolStripMenuItem.Name = "showLogToolStripMenuItem";
-            this.showLogToolStripMenuItem.Size = new System.Drawing.Size(733, 54);
+            this.showLogToolStripMenuItem.Size = new System.Drawing.Size(735, 54);
             this.showLogToolStripMenuItem.Text = "Show Log...";
             this.showLogToolStripMenuItem.Click += new System.EventHandler(this.OnToolsShowLogClick);
             // 
@@ -441,7 +468,7 @@
             this.overviewOnlineToolStripMenuItem,
             this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(104, 45);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(104, 48);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // statusToolStripMenuItem
@@ -480,7 +507,7 @@
             // 
             this.toolStripContainer1.ContentPanel.AutoScroll = true;
             this.toolStripContainer1.ContentPanel.Controls.Add(this.tableLayoutPanelTop);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1627, 843);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1627, 865);
             this.toolStripContainer1.LeftToolStripPanelVisible = false;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer1.Name = "toolStripContainer1";
@@ -820,6 +847,13 @@
             this.endToolStripMenuItem.Text = "End";
             this.endToolStripMenuItem.Click += new System.EventHandler(this.OnPasteClick);
             // 
+            // saveCheckedFilesAsStartupPreferencesToolStripMenuItem
+            // 
+            this.saveCheckedFilesAsStartupPreferencesToolStripMenuItem.Name = "saveCheckedFilesAsStartupPreferencesToolStripMenuItem";
+            this.saveCheckedFilesAsStartupPreferencesToolStripMenuItem.Size = new System.Drawing.Size(735, 54);
+            this.saveCheckedFilesAsStartupPreferencesToolStripMenuItem.Text = "Save Checked Files as Startup Preferences";
+            this.saveCheckedFilesAsStartupPreferencesToolStripMenuItem.Click += new System.EventHandler(this.OnSaveCheckedFilesAsStartupPreferences);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
@@ -932,6 +966,10 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripMenuItem overviewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem overviewOnlineToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openFileSetToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveCheckedAsFileSetToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.ToolStripMenuItem saveCheckedFilesAsStartupPreferencesToolStripMenuItem;
     }
 }
 

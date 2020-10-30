@@ -52,7 +52,7 @@ namespace GPXViewer {
             // Set KmlOptions from Settings
             try {
                 kmlOptions = KmlOptionsDialog.getOptionsFromSettings();
-            } catch(Exception ex) {
+            } catch (Exception ex) {
                 Utils.excMsg("Error getting KmlOptions from Settings", ex);
             }
 
@@ -964,6 +964,54 @@ namespace GPXViewer {
             }
         }
 
+        private void addFilesFromFileSet(string fileName) {
+            List<string> failedList = new List<string>();
+            try {
+                foreach (string newFileName in File.ReadAllLines(fileName)) {
+                    if (File.Exists(newFileName)) {
+                        try {
+                            Files.Add(new GpxFileModel(FileSet, newFileName));
+                        } catch (Exception) {
+                            failedList.Add(newFileName);
+                        }
+                    } else {
+                        failedList.Add("Does not exist: " + newFileName);
+                    }
+                }
+            } catch (Exception ex) {
+                Utils.excMsg("Failed to read " + fileName, ex);
+            }
+            if (failedList.Count > 0) {
+                string msg = "Failed to read:" + NL;
+                foreach (string newFileName in failedList) {
+                    msg += newFileName + NL;
+                }
+                Utils.errMsg(msg);
+            }
+        }
+
+        private void saveFilesToFileSet(string setFileName) {
+            List<string> filesToSave = new List<string>();
+            foreach (GpxFileModel model in FileSet.Files) {
+                if (model.Checked) filesToSave.Add(model.FileName);
+            }
+            if (filesToSave.Count == 0) {
+                Utils.warnMsg("There are no checked files to save in a file set");
+                return;
+            }
+            try {
+                using (StreamWriter outputFile = File.CreateText(setFileName)) {
+                    foreach (string fileName1 in filesToSave) {
+                        outputFile.WriteLine(fileName1);
+                    }
+                    outputFile.Close();
+                }
+            } catch (Exception ex) {
+                Utils.excMsg("Error writing" + setFileName, ex);
+                return;
+            }
+        }
+
         private void OnFormClosing(object sender, FormClosingEventArgs e) {
             Properties.FindNear.Default.Save();
         }
@@ -994,10 +1042,12 @@ namespace GPXViewer {
                     Utils.warnMsg("Failed to open files to process");
                     return;
                 }
+                Cursor.Current = Cursors.WaitCursor;
                 string[] fileNames = dlg.FileNames;
                 foreach (string fileName in fileNames) {
                     Files.Add(new GpxFileModel(FileSet, fileName));
                 }
+                Cursor.Current = Cursors.Default;
                 resetTree();
             }
         }
@@ -1315,8 +1365,53 @@ namespace GPXViewer {
             Properties.Settings.Default.Save();
         }
 
+        private void OnSaveCheckedFilesAsStartupPreferences(object sender, EventArgs e) {
+            string json;
+            List<string> fileNames = new List<string>();
+            foreach (GpxFileModel fileModel in Files) {
+                if (fileModel.Checked) {
+                    fileNames.Add(fileModel.FileName);
+                }
+            }
+            json = JsonConvert.SerializeObject(fileNames);
+            Properties.Settings.Default.StartupFiles = json;
+            Properties.Settings.Default.Save();
+        }
+
         private void OnContextMenuEditClicked(object sender, EventArgs e) {
             edit();
+        }
+
+        private void OnFileOpenFileSet(object sender, EventArgs e) {
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Filter = "File Set|*.gpxfg";
+            dlg.Title = "Select file sets to open";
+            dlg.Multiselect = true;
+            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
+                if (dlg.FileNames == null) {
+                    Utils.warnMsg("Failed to open files sets");
+                    return;
+                }
+                Cursor.Current = Cursors.WaitCursor;
+                string[] fileNames = dlg.FileNames;
+                foreach (string fileName in fileNames) {
+                    addFilesFromFileSet(fileName);
+                }
+                Cursor.Current = Cursors.Default;
+                resetTree();
+            }
+        }
+
+        private void OnFileSaveFileSet(object sender, EventArgs e) {
+            SaveFileDialog dlg = new SaveFileDialog();
+            dlg.Filter = "File Set|*.gpxfg";
+            dlg.Title = "Select file set to write";
+            dlg.CheckFileExists = false;
+            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
+                Cursor.Current = Cursors.WaitCursor;
+                saveFilesToFileSet(dlg.FileName);
+                Cursor.Current = Cursors.Default;
+            }
         }
     }
 }

@@ -19,18 +19,29 @@ namespace GPXViewer.model {
             if (Trackpoint.name != null) {
                 info += Trackpoint.name + " ";
             }
-            info += Trackpoint.lon + ", " + Trackpoint.lat + ", " + Trackpoint.time;
+            string timeVal = "UnknownTime";
+            if (Trackpoint.time != null) {
+                timeVal = ((DateTime)Trackpoint.time).
+                    ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'");
+            }
+            info += Trackpoint.lon + ", " + Trackpoint.lat + ", " + timeVal;
             if (Parent is GpxTrackSegmentModel segment) {
                 info += " (" + (segment.Trackpoints.IndexOf(this) + 1) + ")";
             }
             return info;
         }
+
         public override string info() {
             string msg = this.GetType().Name + NL + this + NL;
+            string timeVal = "unknown";
+            if(Trackpoint.time != null) {
+                timeVal = ((DateTime)Trackpoint.time).
+                    ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'");
+            }
             msg += "parent=" + Parent + NL;
             msg += "latitude=" + Trackpoint.lat + " longitude=" + Trackpoint.lon + NL;
             msg += "elevation=" + Trackpoint.ele + NL;
-            msg += "time=" + Trackpoint.time + NL;
+            msg += "time=" + timeVal + NL;
             msg += "description=" + Trackpoint.desc + NL;
             msg += "symbol=" + Trackpoint.sym + NL;
             msg += "cmt=" + Trackpoint.cmt + NL;
