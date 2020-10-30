@@ -130,7 +130,7 @@
             this.tableLayoutPanelTop.RowCount = 1;
             this.tableLayoutPanelTop.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanelTop.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanelTop.Size = new System.Drawing.Size(1627, 865);
+            this.tableLayoutPanelTop.Size = new System.Drawing.Size(1627, 843);
             this.tableLayoutPanelTop.TabIndex = 0;
             // 
             // treeListView
@@ -147,7 +147,7 @@
             this.treeListView.Name = "treeListView";
             this.treeListView.ShowGroups = false;
             this.treeListView.ShowImagesOnSubItems = true;
-            this.treeListView.Size = new System.Drawing.Size(1621, 859);
+            this.treeListView.Size = new System.Drawing.Size(1621, 837);
             this.treeListView.TabIndex = 0;
             this.treeListView.UseCompatibleStateImageBehavior = false;
             this.treeListView.View = System.Windows.Forms.View.Details;
@@ -164,6 +164,7 @@
             // menuStrip1
             // 
             this.menuStrip1.Dock = System.Windows.Forms.DockStyle.None;
+            this.menuStrip1.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(40, 40);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
@@ -479,7 +480,7 @@
             // 
             this.toolStripContainer1.ContentPanel.AutoScroll = true;
             this.toolStripContainer1.ContentPanel.Controls.Add(this.tableLayoutPanelTop);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1627, 865);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1627, 843);
             this.toolStripContainer1.LeftToolStripPanelVisible = false;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer1.Name = "toolStripContainer1";

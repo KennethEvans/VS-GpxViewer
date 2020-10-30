@@ -200,7 +200,7 @@
     <EmbeddedResource Include="icons\waypoint.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GpsUtils\GpsUtils.csproj">
+    <ProjectReference Include="..\..\GPS Utils\GpsUtils\GpsUtils.csproj">
       <Project>{88a8918b-95a5-4e2b-a595-8c80a47b979d}</Project>
       <Name>GpsUtils</Name>
     </ProjectReference>
