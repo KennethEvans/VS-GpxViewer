@@ -10,7 +10,9 @@ using System.Threading.Tasks;
 
 namespace GPXViewer.model {
     public abstract class GpxModel {
-        public static readonly String NL = Environment.NewLine;
+        public static readonly string NL = Environment.NewLine;
+        public static readonly string UTC_FORMAT =
+            "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'";
         /// Specifies how a paste special is to be done.
         public enum PasteMode {
             BEGINNING, BEFORE, AFTER, END,
@@ -66,6 +68,15 @@ namespace GPXViewer.model {
 
         public override string ToString() {
             return getLabel();
+        }
+
+        public static string utcTime(DateTime? time) {
+            string timeVal = "NA";
+            if (time != null) {
+                timeVal = ((DateTime)time).
+                    ToString(UTC_FORMAT);
+            }
+            return timeVal;
         }
     }
 }

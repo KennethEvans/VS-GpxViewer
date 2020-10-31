@@ -26,15 +26,10 @@ namespace GPXViewer.model {
         }
         public override string info() {
             string msg = this.GetType().Name + NL + this + NL;
-            string timeVal = "unknown";
-            if (Waypoint.time != null) {
-                timeVal = ((DateTime)Waypoint.time).
-                    ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'");
-            }
             msg += "parent=" + Parent + NL;
             msg += "latitude=" + Waypoint.lat + " longitude=" + Waypoint.lon + NL;
             msg += "elevation=" + Waypoint.ele + NL;
-            msg += "time=" + timeVal + NL;
+            msg += "time=" + utcTime(Waypoint.time) + NL;
             msg += "description=" + Waypoint.desc + NL;
             msg += "symbol=" + Waypoint.sym + NL;
             msg += "cmt=" + Waypoint.cmt + NL;

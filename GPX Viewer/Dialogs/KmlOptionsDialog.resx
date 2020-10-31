@@ -121,8 +121,8 @@
     <value>17, 17</value>
   </metadata>
   <data name="checkBoxUseTrkTrack.ToolTip" xml:space="preserve">
-    <value>Whether to have a Track element that allows you to play the track in time.
-The KML will have a Track and a Track Lines which can be tooggled off/on.
+    <value>Whether to have a Track element that allows you to play the track using the time slider.
+The KML Track will have Track and Track Lines elements which can be tooggled off/on.
 The Track Lines shows all the time.
 The Track only shows as far as you have played it.</value>
   </data>

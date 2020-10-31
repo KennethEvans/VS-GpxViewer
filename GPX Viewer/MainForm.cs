@@ -1384,7 +1384,7 @@ namespace GPXViewer {
 
         private void OnFileOpenFileSet(object sender, EventArgs e) {
             OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Filter = "File Set|*.gpxfg";
+            dlg.Filter = "File Set|*.gpxfs;*.gpxfg";
             dlg.Title = "Select file sets to open";
             dlg.Multiselect = true;
             if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
@@ -1404,7 +1404,7 @@ namespace GPXViewer {
 
         private void OnFileSaveFileSet(object sender, EventArgs e) {
             SaveFileDialog dlg = new SaveFileDialog();
-            dlg.Filter = "File Set|*.gpxfg";
+            dlg.Filter = "File Set|*.gpxfs";
             dlg.Title = "Select file set to write";
             dlg.CheckFileExists = false;
             if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK) {

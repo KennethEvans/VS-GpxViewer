@@ -240,8 +240,10 @@ namespace GPXViewer.KML {
                     // Make a Placemark with MultiGeometry
                     placemark = new Placemark() {
                         Name = trackModel.Label + " Lines",
+                        Visibility = kmlOptions.UseTrkTrack && !kmlOptions.UseTrkLines ? 
+                        false:true,
                         StyleUrl = new Uri("#trk" + trkColors[nTrack % nTrkColors],
-                            UriKind.Relative),
+                            UriKind.Relative)
                     };
                     trackFolder.AddFeature(placemark);
                     // Need MultiGeometry to handle non-connected segments
@@ -289,6 +291,7 @@ namespace GPXViewer.KML {
                                 useTrackIconFirst = false;
                                 trackFolder.AddFeature(new Placemark() {
                                     Name = trackModel.Label,
+                                    // The Track has its own icon
                                     Visibility = !kmlOptions.UseTrkTrack,
                                     StyleUrl = new Uri("#trk" + trkColors[nTrack % nTrkColors],
                                     UriKind.Relative),
@@ -355,7 +358,7 @@ namespace GPXViewer.KML {
                         }
                         if (useRteIconFirst) {
                             // Make a Placemark with an Icon at the first point
-                            // on the track
+                            // on the route
                             useRteIconFirst = false;
                             routeFolder.AddFeature(new Placemark() {
                                 Name = routeModel.Label,

@@ -101,6 +101,7 @@
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonOK = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.checkBoxUseTrkLines = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanelTop.SuspendLayout();
             this.groupBoxFile.SuspendLayout();
             this.tableLayoutPanelFile.SuspendLayout();
@@ -155,7 +156,7 @@
             this.tableLayoutPanelTop.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelTop.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelTop.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanelTop.Size = new System.Drawing.Size(1089, 1152);
+            this.tableLayoutPanelTop.Size = new System.Drawing.Size(1089, 1203);
             this.tableLayoutPanelTop.TabIndex = 0;
             // 
             // groupBoxFile
@@ -510,7 +511,7 @@
             this.groupBoxTrk.Location = new System.Drawing.Point(3, 433);
             this.groupBoxTrk.Name = "groupBoxTrk";
             this.groupBoxTrk.Padding = new System.Windows.Forms.Padding(20);
-            this.groupBoxTrk.Size = new System.Drawing.Size(1083, 208);
+            this.groupBoxTrk.Size = new System.Drawing.Size(1083, 250);
             this.groupBoxTrk.TabIndex = 3;
             this.groupBoxTrk.TabStop = false;
             this.groupBoxTrk.Text = "Tracks";
@@ -528,15 +529,16 @@
             this.tableLayoutPanelTrk.Controls.Add(this.tableLayoutPanelTrackLinewidth, 1, 1);
             this.tableLayoutPanelTrk.Controls.Add(this.checkBoxUseTrkIcon, 0, 2);
             this.tableLayoutPanelTrk.Controls.Add(this.checkBoxUseTrkTrack, 1, 2);
+            this.tableLayoutPanelTrk.Controls.Add(this.checkBoxUseTrkLines, 1, 3);
             this.tableLayoutPanelTrk.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelTrk.Location = new System.Drawing.Point(20, 51);
             this.tableLayoutPanelTrk.Name = "tableLayoutPanelTrk";
-            this.tableLayoutPanelTrk.RowCount = 3;
+            this.tableLayoutPanelTrk.RowCount = 4;
             this.tableLayoutPanelTrk.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelTrk.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelTrk.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelTrk.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanelTrk.Size = new System.Drawing.Size(1043, 137);
+            this.tableLayoutPanelTrk.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelTrk.Size = new System.Drawing.Size(1043, 179);
             this.tableLayoutPanelTrk.TabIndex = 0;
             // 
             // tableLayoutPanelTrackAlpha
@@ -758,7 +760,7 @@
             this.groupBoxWpt.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.groupBoxWpt.Controls.Add(this.tableLayoutPanelWpt);
             this.groupBoxWpt.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBoxWpt.Location = new System.Drawing.Point(3, 647);
+            this.groupBoxWpt.Location = new System.Drawing.Point(3, 689);
             this.groupBoxWpt.Name = "groupBoxWpt";
             this.groupBoxWpt.Padding = new System.Windows.Forms.Padding(20);
             this.groupBoxWpt.Size = new System.Drawing.Size(1083, 208);
@@ -996,7 +998,7 @@
             this.groupBoxRoutes.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.groupBoxRoutes.Controls.Add(this.tableLayoutPanelRoutes);
             this.groupBoxRoutes.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBoxRoutes.Location = new System.Drawing.Point(3, 861);
+            this.groupBoxRoutes.Location = new System.Drawing.Point(3, 903);
             this.groupBoxRoutes.Name = "groupBoxRoutes";
             this.groupBoxRoutes.Padding = new System.Windows.Forms.Padding(20);
             this.groupBoxRoutes.Size = new System.Drawing.Size(1083, 208);
@@ -1240,7 +1242,7 @@
             this.flowLayoutPanelButtons.Controls.Add(this.buttonPreferences);
             this.flowLayoutPanelButtons.Controls.Add(this.buttonCancel);
             this.flowLayoutPanelButtons.Controls.Add(this.buttonOK);
-            this.flowLayoutPanelButtons.Location = new System.Drawing.Point(196, 1092);
+            this.flowLayoutPanelButtons.Location = new System.Drawing.Point(196, 1134);
             this.flowLayoutPanelButtons.Margin = new System.Windows.Forms.Padding(3, 20, 3, 20);
             this.flowLayoutPanelButtons.Name = "flowLayoutPanelButtons";
             this.flowLayoutPanelButtons.Size = new System.Drawing.Size(697, 46);
@@ -1322,11 +1324,23 @@
             this.buttonOK.UseVisualStyleBackColor = true;
             this.buttonOK.Click += new System.EventHandler(this.OnOkClick);
             // 
+            // checkBoxUseTrkLines
+            // 
+            this.checkBoxUseTrkLines.AutoSize = true;
+            this.checkBoxUseTrkLines.Location = new System.Drawing.Point(524, 140);
+            this.checkBoxUseTrkLines.Name = "checkBoxUseTrkLines";
+            this.checkBoxUseTrkLines.Size = new System.Drawing.Size(226, 36);
+            this.checkBoxUseTrkLines.TabIndex = 6;
+            this.checkBoxUseTrkLines.Text = "Use Trk Lines";
+            this.toolTip.SetToolTip(this.checkBoxUseTrkLines, "If UseTrkTrack is set, determines whether the Track Lines are initially visible o" +
+        "r not.\r\n");
+            this.checkBoxUseTrkLines.UseVisualStyleBackColor = true;
+            // 
             // KmlOptionsDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1089, 1152);
+            this.ClientSize = new System.Drawing.Size(1089, 1203);
             this.Controls.Add(this.tableLayoutPanelTop);
             this.Name = "KmlOptionsDialog";
             this.ShowIcon = false;
@@ -1472,5 +1486,6 @@
         private System.Windows.Forms.Button buttonUseSaved;
         private System.Windows.Forms.Button buttonUseDefaults;
         private System.Windows.Forms.ToolTip toolTip;
+        private System.Windows.Forms.CheckBox checkBoxUseTrkLines;
     }
 }

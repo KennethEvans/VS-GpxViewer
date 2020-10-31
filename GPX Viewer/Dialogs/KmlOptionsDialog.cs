@@ -53,6 +53,7 @@ namespace GPXViewer.Dialogs {
                 options.TrkColorMode.ToString());
             checkBoxUseTrkIcon.Checked = options.UseTrkIcon;
             checkBoxUseTrkTrack.Checked = options.UseTrkTrack;
+            checkBoxUseTrkLines.Checked = options.UseTrkLines;
             textBoxTrkIconUrl.Text = options.TrkIconUrl;
 
             textBoxRteColor.Text = options.RteColor;
@@ -89,6 +90,7 @@ namespace GPXViewer.Dialogs {
             setValidColorMode(comboBoxTrkColorMode, options.TrkColorMode);
             checkBoxUseTrkIcon.Checked = options.UseTrkIcon;
             checkBoxUseTrkTrack.Checked = options.UseTrkTrack;
+            checkBoxUseTrkLines.Checked = options.UseTrkLines;
             setValidString(textBoxTrkIconUrl, options.TrkIconUrl);
 
             setValidString(textBoxRteColor, options.RteColor);
@@ -122,6 +124,7 @@ namespace GPXViewer.Dialogs {
             options.TrkColorMode = getValidColorMode(comboBoxTrkColorMode);
             options.UseTrkIcon = checkBoxUseTrkIcon.Checked;
             options.UseTrkTrack = checkBoxUseTrkTrack.Checked;
+            options.UseTrkLines = checkBoxUseTrkLines.Checked;
             options.TrkIconUrl = getValidString(textBoxTrkIconUrl);
 
             options.RteColor = getValidString(textBoxRteColor);
@@ -159,6 +162,7 @@ namespace GPXViewer.Dialogs {
                 Properties.KmlSettings.Default.TrkColorMode);
             checkBoxUseTrkIcon.Checked = Properties.KmlSettings.Default.UseTrkIcon;
             checkBoxUseTrkTrack.Checked = Properties.KmlSettings.Default.UseTrkTrack;
+            checkBoxUseTrkLines.Checked = Properties.KmlSettings.Default.UseTrkLines;
             textBoxTrkIconUrl.Text = Properties.KmlSettings.Default.TrkIconUrl;
 
             textBoxRteColor.Text = Properties.KmlSettings.Default.RteColor;
@@ -199,6 +203,7 @@ namespace GPXViewer.Dialogs {
             }
             options.UseTrkIcon = Properties.KmlSettings.Default.UseTrkIcon;
             options.UseTrkTrack = Properties.KmlSettings.Default.UseTrkTrack;
+            options.UseTrkLines = Properties.KmlSettings.Default.UseTrkLines;
             options.TrkIconUrl = Properties.KmlSettings.Default.TrkIconUrl;
 
             options.RteColor = Properties.KmlSettings.Default.RteColor;
@@ -253,6 +258,7 @@ namespace GPXViewer.Dialogs {
             }
             Properties.KmlSettings.Default.UseTrkIcon = checkBoxUseTrkIcon.Checked;
             Properties.KmlSettings.Default.UseTrkTrack = checkBoxUseTrkTrack.Checked;
+            Properties.KmlSettings.Default.UseTrkLines = checkBoxUseTrkLines.Checked;
             Properties.KmlSettings.Default.TrkIconUrl = textBoxTrkIconUrl.Text;
 
             Properties.KmlSettings.Default.RteColor = textBoxRteColor.Text;

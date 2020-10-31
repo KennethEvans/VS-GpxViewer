@@ -37,6 +37,54 @@ namespace GPXViewer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public double IconScale {
+            get {
+                return ((double)(this["IconScale"]));
+            }
+            set {
+                this["IconScale"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ff")]
+        public string TrkAlpha {
+            get {
+                return ((string)(this["TrkAlpha"]));
+            }
+            set {
+                this["TrkAlpha"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ff0000")]
+        public string TrkColor {
+            get {
+                return ((string)(this["TrkColor"]));
+            }
+            set {
+                this["TrkColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("RAINBOW")]
+        public string TrkColorMode {
+            get {
+                return ((string)(this["TrkColorMode"]));
+            }
+            set {
+                this["TrkColorMode"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("2")]
         public double TrkLineWidth {
             get {
@@ -73,6 +121,18 @@ namespace GPXViewer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UseTrkLines {
+            get {
+                return ((bool)(this["UseTrkLines"]));
+            }
+            set {
+                this["UseTrkLines"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("http://maps.google.com/mapfiles/kml/pushpin/wht-pushpin.png")]
         public string TrkIconUrl {
             get {
@@ -80,6 +140,42 @@ namespace GPXViewer.Properties {
             }
             set {
                 this["TrkIconUrl"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ff")]
+        public string RteAlpha {
+            get {
+                return ((string)(this["RteAlpha"]));
+            }
+            set {
+                this["RteAlpha"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0000ff")]
+        public string RteColor {
+            get {
+                return ((string)(this["RteColor"]));
+            }
+            set {
+                this["RteColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("COLOR")]
+        public string RteColorMode {
+            get {
+                return ((string)(this["RteColorMode"]));
+            }
+            set {
+                this["RteColorMode"] = value;
             }
         }
         
@@ -109,6 +205,54 @@ namespace GPXViewer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://maps.google.com/mapfiles/kml/paddle/wht-circle.png")]
+        public string RteIconUrl {
+            get {
+                return ((string)(this["RteIconUrl"]));
+            }
+            set {
+                this["RteIconUrl"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ff")]
+        public string WptAlpha {
+            get {
+                return ((string)(this["WptAlpha"]));
+            }
+            set {
+                this["WptAlpha"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ffcc66")]
+        public string WptColor {
+            get {
+                return ((string)(this["WptColor"]));
+            }
+            set {
+                this["WptColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("COLOR")]
+        public string WptColorMode {
+            get {
+                return ((string)(this["WptColorMode"]));
+            }
+            set {
+                this["WptColorMode"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("2")]
         public double WptLineWidth {
             get {
@@ -133,6 +277,18 @@ namespace GPXViewer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://maps.google.com/mapfiles/kml/paddle/wht-circle.png")]
+        public string WptIconUrl {
+            get {
+                return ((string)(this["WptIconUrl"]));
+            }
+            set {
+                this["WptIconUrl"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool PromptToOverwrite {
             get {
@@ -152,162 +308,6 @@ namespace GPXViewer.Properties {
             }
             set {
                 this["SendToGoogleEarth"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool Setting {
-            get {
-                return ((bool)(this["Setting"]));
-            }
-            set {
-                this["Setting"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        public double IconScale {
-            get {
-                return ((double)(this["IconScale"]));
-            }
-            set {
-                this["IconScale"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("ff0000")]
-        public string TrkColor {
-            get {
-                return ((string)(this["TrkColor"]));
-            }
-            set {
-                this["TrkColor"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("ff")]
-        public string TrkAlpha {
-            get {
-                return ((string)(this["TrkAlpha"]));
-            }
-            set {
-                this["TrkAlpha"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("RAINBOW")]
-        public string TrkColorMode {
-            get {
-                return ((string)(this["TrkColorMode"]));
-            }
-            set {
-                this["TrkColorMode"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0000ff")]
-        public string RteColor {
-            get {
-                return ((string)(this["RteColor"]));
-            }
-            set {
-                this["RteColor"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("ff")]
-        public string RteAlpha {
-            get {
-                return ((string)(this["RteAlpha"]));
-            }
-            set {
-                this["RteAlpha"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("COLOR")]
-        public string RteColorMode {
-            get {
-                return ((string)(this["RteColorMode"]));
-            }
-            set {
-                this["RteColorMode"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://maps.google.com/mapfiles/kml/paddle/wht-circle.png")]
-        public string RteIconUrl {
-            get {
-                return ((string)(this["RteIconUrl"]));
-            }
-            set {
-                this["RteIconUrl"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("ffcc66")]
-        public string WptColor {
-            get {
-                return ((string)(this["WptColor"]));
-            }
-            set {
-                this["WptColor"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("ff")]
-        public string WptAlpha {
-            get {
-                return ((string)(this["WptAlpha"]));
-            }
-            set {
-                this["WptAlpha"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("COLOR")]
-        public string WptColorMode {
-            get {
-                return ((string)(this["WptColorMode"]));
-            }
-            set {
-                this["WptColorMode"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://maps.google.com/mapfiles/kml/paddle/wht-circle.png")]
-        public string WptIconUrl {
-            get {
-                return ((string)(this["WptIconUrl"]));
-            }
-            set {
-                this["WptIconUrl"] = value;
             }
         }
     }

@@ -3,8 +3,7 @@
 <head>
 <link href="book.css" rel="stylesheet" type="text/css" />
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title>GPX Viewer</title>
-</head>
+<title>GPX Viewer</title></head>
 <body>
 <h1 align="center"><strong><img src="GPXViewer256.png" alt="Logo" width="96" height="96" align="middle" /> GPX Viewer Overview</strong></h1>
 <p align="left">GPX Viewer allows you to examine and edit GPS Exchange Format (GPX) files through a graphical user interface. You can open multiple files, which will be shown in a tree view. You can expand the tree to see the tracks, waypoints, and routes, and further to see their sub-elements. You can send selected files to Google Earth to view the tracks, waypoints, and routes there. You can edit by using Cut, Copy, and Paste on the elements of the tree, and you can also edit the XML directly for each element.</p>
@@ -160,6 +159,9 @@
   </li>
   <li>Alpha (or transparency) is expressed with two case-insensitive hexadecimal digits. FF is opaque, and 00 is fully transparent.</li>
   <li>KML colors are given as case-insensitive hexadecimal digits in the form BBGGRR. (Note this is backward from how they are expressed in most other applications.)  </li>
+  <li><strong>Use Trk Track</strong> specifies whether to have a Track element that allows you to play the track using a time slider.
+    The track will have Track and Track Lines elements which can be separately tooggled off/on. The Track element only shows as far as you have played it using the time slider. When on, the Track Lines shows the entire track all the time.    </li>
+  <li><strong>Use Trk Lines </strong> determines whether the Track Lines element is initially visible or <strong>not. </strong>. It is only relevant if <strong>Use Trk Track</strong> is checked. Otherwise the Track Lines are initially on and the entire track is showing. </li>
   <li><strong>Use Defaults</strong> loads the default settings.</li>
   <li><strong>Use Saved</strong> loads the saved settings.</li>
   <li><strong>Save</strong> sets the stored settings.</li>

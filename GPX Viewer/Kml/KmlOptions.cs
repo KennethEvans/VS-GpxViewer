@@ -12,6 +12,7 @@ namespace GPXViewer.KML {
         public KmlColorMode TrkColorMode { get; set; }
         public bool UseTrkIcon { get; set; }
         public bool UseTrkTrack { get; set; }
+        public bool UseTrkLines { get; set; }
         public string TrkIconUrl { get; set; }
 
         public string RteColor { get; set; }
@@ -45,6 +46,7 @@ namespace GPXViewer.KML {
             TrkColorMode = KmlColorMode.RAINBOW;
             UseTrkIcon = true;
             UseTrkTrack = false;
+            UseTrkLines = false;
             TrkIconUrl = "http://maps.google.com/mapfiles/kml/pushpin/wht-pushpin.png";
             RteColor = "0000ff";
             RteAlpha = "ff";
