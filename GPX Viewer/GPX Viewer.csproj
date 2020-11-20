@@ -74,7 +74,7 @@
     </Reference>
     <Reference Include="Utils, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Utils\Utils\bin\Release\Utils.dll</HintPath>
+      <HintPath>..\..\Utils\Utils\bin\Release\net47\Utils.dll</HintPath>
     </Reference>
     <Reference Include="Xml.Schema.Linq, Version=2.0.2.56002, Culture=neutral, PublicKeyToken=47d0c84d0ebb13e5, processorArchitecture=MSIL">
       <HintPath>..\packages\LinqToXsd.2.0.2\lib\Xml.Schema.Linq.dll</HintPath>

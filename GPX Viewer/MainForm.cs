@@ -1026,9 +1026,9 @@ namespace GPXViewer {
             try {
                 image = Image.FromFile(@".\Help\GPXViewer256.png");
             } catch (Exception ex) {
-                Utils.excMsg("Failed to get AbutBox image", ex);
+                Utils.excMsg("Failed to get AboutBox image", ex);
             }
-            AboutBox dlg = new AboutBox("About Utils Demo", image, assembly);
+            AboutBox dlg = new AboutBox(image, assembly);
             dlg.ShowDialog();
         }
 
@@ -1407,7 +1407,7 @@ namespace GPXViewer {
             dlg.Filter = "File Set|*.gpxfs";
             dlg.Title = "Select file set to write";
             dlg.CheckFileExists = false;
-            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
+            if (dlg.ShowDialog() == DialogResult.OK) {
                 Cursor.Current = Cursors.WaitCursor;
                 saveFilesToFileSet(dlg.FileName);
                 Cursor.Current = Cursors.Default;

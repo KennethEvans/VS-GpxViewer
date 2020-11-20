@@ -64,6 +64,7 @@
             this.textBoxTrkLinewidth = new System.Windows.Forms.TextBox();
             this.checkBoxUseTrkIcon = new System.Windows.Forms.CheckBox();
             this.checkBoxUseTrkTrack = new System.Windows.Forms.CheckBox();
+            this.checkBoxUseTrkLines = new System.Windows.Forms.CheckBox();
             this.groupBoxWpt = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanelWpt = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanelWptAlpha = new System.Windows.Forms.TableLayoutPanel();
@@ -101,7 +102,6 @@
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonOK = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.checkBoxUseTrkLines = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanelTop.SuspendLayout();
             this.groupBoxFile.SuspendLayout();
             this.tableLayoutPanelFile.SuspendLayout();
@@ -754,6 +754,18 @@
             this.toolTip.SetToolTip(this.checkBoxUseTrkTrack, resources.GetString("checkBoxUseTrkTrack.ToolTip"));
             this.checkBoxUseTrkTrack.UseVisualStyleBackColor = true;
             // 
+            // checkBoxUseTrkLines
+            // 
+            this.checkBoxUseTrkLines.AutoSize = true;
+            this.checkBoxUseTrkLines.Location = new System.Drawing.Point(524, 140);
+            this.checkBoxUseTrkLines.Name = "checkBoxUseTrkLines";
+            this.checkBoxUseTrkLines.Size = new System.Drawing.Size(226, 36);
+            this.checkBoxUseTrkLines.TabIndex = 6;
+            this.checkBoxUseTrkLines.Text = "Use Trk Lines";
+            this.toolTip.SetToolTip(this.checkBoxUseTrkLines, "If UseTrkTrack is set, determines whether the Track Lines are initially visible o" +
+        "r not.\r\n");
+            this.checkBoxUseTrkLines.UseVisualStyleBackColor = true;
+            // 
             // groupBoxWpt
             // 
             this.groupBoxWpt.AutoSize = true;
@@ -1323,18 +1335,6 @@
             this.toolTip.SetToolTip(this.buttonOK, "Ok. The changed settings will be available.");
             this.buttonOK.UseVisualStyleBackColor = true;
             this.buttonOK.Click += new System.EventHandler(this.OnOkClick);
-            // 
-            // checkBoxUseTrkLines
-            // 
-            this.checkBoxUseTrkLines.AutoSize = true;
-            this.checkBoxUseTrkLines.Location = new System.Drawing.Point(524, 140);
-            this.checkBoxUseTrkLines.Name = "checkBoxUseTrkLines";
-            this.checkBoxUseTrkLines.Size = new System.Drawing.Size(226, 36);
-            this.checkBoxUseTrkLines.TabIndex = 6;
-            this.checkBoxUseTrkLines.Text = "Use Trk Lines";
-            this.toolTip.SetToolTip(this.checkBoxUseTrkLines, "If UseTrkTrack is set, determines whether the Track Lines are initially visible o" +
-        "r not.\r\n");
-            this.checkBoxUseTrkLines.UseVisualStyleBackColor = true;
             // 
             // KmlOptionsDialog
             // 
