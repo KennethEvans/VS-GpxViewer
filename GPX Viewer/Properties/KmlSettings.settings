@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="KmlFileName" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">%temp%\gpxviewer.kml</Value>
     </Setting>
     <Setting Name="IconScale" Type="System.Double" Scope="User">
       <Value Profile="(Default)">1</Value>
