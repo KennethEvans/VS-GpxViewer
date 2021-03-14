@@ -1045,7 +1045,12 @@ namespace GPXViewer {
                 Cursor.Current = Cursors.WaitCursor;
                 string[] fileNames = dlg.FileNames;
                 foreach (string fileName in fileNames) {
-                    Files.Add(new GpxFileModel(FileSet, fileName));
+                    try {
+                        Files.Add(new GpxFileModel(FileSet, fileName));
+                    } catch(Exception ex) {
+                        string msg = "Failed to open " + fileName;
+                        Utils.excMsg(msg, ex);
+                    }
                 }
                 Cursor.Current = Cursors.Default;
                 resetTree();
