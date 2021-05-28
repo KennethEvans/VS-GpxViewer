@@ -134,7 +134,7 @@ namespace GPXViewer.Dialogs {
             options.UseRteIcon = checkBoxUseRteIcon.Checked;
             options.RteIconUrl = getValidString(textBoxRteIconUrl);
 
-            options.WptColor = getValidString(textBoxWptLinewidth);
+            options.WptColor = getValidString(textBoxWptColor);
             options.WptAlpha = getValidString(textBoxWptAlpha);
             options.WptIconUrl = getValidString(textBoxWptIconUrl);
             options.WptLineWidth = getValidDouble(textBoxWptLinewidth);
