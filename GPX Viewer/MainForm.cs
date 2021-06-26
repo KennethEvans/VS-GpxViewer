@@ -272,6 +272,7 @@ namespace GPXViewer {
 
         private void resetTree() {
             treeListView.Roots = Files;
+            treeListView.SelectedIndices.Clear();
             treeListView.Refresh();
         }
 
@@ -1047,7 +1048,7 @@ namespace GPXViewer {
                 foreach (string fileName in fileNames) {
                     try {
                         Files.Add(new GpxFileModel(FileSet, fileName));
-                    } catch(Exception ex) {
+                    } catch (Exception ex) {
                         string msg = "Failed to open " + fileName;
                         Utils.excMsg(msg, ex);
                     }

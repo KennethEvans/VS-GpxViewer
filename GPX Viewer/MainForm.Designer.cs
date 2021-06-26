@@ -701,7 +701,7 @@
             this.pasteToolStripMenuItem,
             this.pasteSpecialToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(406, 448);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(406, 503);
             // 
             // contextMenuItemAdd
             // 
