@@ -1401,6 +1401,10 @@ namespace GPXViewer {
                 Cursor.Current = Cursors.WaitCursor;
                 string[] fileNames = dlg.FileNames;
                 foreach (string fileName in fileNames) {
+                    // Skip blank lines
+                    if (String.IsNullOrEmpty(fileName)) continue;
+                    // Skip comments
+                    if (fileName.StartsWith("#")) continue;
                     addFilesFromFileSet(fileName);
                 }
                 Cursor.Current = Cursors.Default;
