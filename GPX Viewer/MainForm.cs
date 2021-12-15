@@ -832,8 +832,9 @@ namespace GPXViewer {
                     // GpxFileModel
                     fileModel.Parent.synchronize();
                     XElement elem = fileModel.Gpx.Untyped;
-                    XElement newElem = getEditedXElement(elem);
-                    if (newElem == null) {
+                    EditResult res = getEditedXElement(elem);
+                    XElement newElem = res.Element;
+                    if (res.Result == DialogResult.OK && newElem == null) {
                         error = true;
                     } else {
                         gpx newGpx = (gpx)newElem;
@@ -848,8 +849,11 @@ namespace GPXViewer {
                     // GpxTrackModel
                     trkModel.Parent.synchronize();
                     XElement elem = trkModel.Track.Untyped;
-                    XElement newElem = getEditedXElement(elem);
-                    if (newElem == null) {
+                    EditResult res = getEditedXElement(elem);
+                    XElement newElem = res.Element;
+                    if (res.Result == DialogResult.Cancel) {
+                        return;
+                    } else if (newElem == null) {
                         error = true;
                     } else {
                         trkType newTrack = (trkType)newElem;
@@ -864,8 +868,11 @@ namespace GPXViewer {
                     // GpxTrackSegmentModel
                     segModel.Parent.synchronize();
                     XElement elem = segModel.Segment.Untyped;
-                    XElement newElem = getEditedXElement(elem);
-                    if (newElem == null) {
+                    EditResult res = getEditedXElement(elem);
+                    XElement newElem = res.Element;
+                    if (res.Result == DialogResult.Cancel) {
+                        return;
+                    } else if (newElem == null) {
                         error = true;
                     } else {
                         trksegType newSegment = (trksegType)newElem;
@@ -880,8 +887,11 @@ namespace GPXViewer {
                     // GpxTrackpointModel
                     trkptModel.Parent.synchronize();
                     XElement elem = trkptModel.Trackpoint.Untyped;
-                    XElement newElem = getEditedXElement(elem);
-                    if (newElem == null) {
+                    EditResult res = getEditedXElement(elem);
+                    XElement newElem = res.Element;
+                    if (res.Result == DialogResult.Cancel) {
+                        return;
+                    } else if (newElem == null) {
                         error = true;
                     } else {
                         wptType newTrackpoint = (wptType)newElem;
@@ -896,8 +906,11 @@ namespace GPXViewer {
                     // GpxWaypointModel
                     wptModel.Parent.synchronize();
                     XElement elem = wptModel.Waypoint.Untyped;
-                    XElement newElem = getEditedXElement(elem);
-                    if (newElem == null) {
+                    EditResult res = getEditedXElement(elem);
+                    XElement newElem = res.Element;
+                    if (res.Result == DialogResult.Cancel) {
+                        return;
+                    } else if (newElem == null) {
                         error = true;
                     } else {
                         wptType newWaypoint = (wptType)newElem;
@@ -917,8 +930,11 @@ namespace GPXViewer {
                     // GpxRouteModel
                     rteModel.Parent.synchronize();
                     XElement elem = rteModel.Route.Untyped;
-                    XElement newElem = getEditedXElement(elem);
-                    if (newElem == null) {
+                    EditResult res = getEditedXElement(elem);
+                    XElement newElem = res.Element;
+                    if (res.Result == DialogResult.Cancel) {
+                        return;
+                    } else if (newElem == null) {
                         error = true;
                     } else {
                         rteType newRoute = (rteType)newElem;
@@ -939,7 +955,7 @@ namespace GPXViewer {
                 Utils.excMsg(x.GetType().Name + ": Error resetting tree", ex);
             }
             if (error) {
-                Utils.errMsg(x.GetType().Name + ": XML editing canceled or invalid edited XML");
+                Utils.errMsg(x.GetType().Name + ": Invalid edited XML");
             }
             resetTree();
         }
@@ -951,17 +967,19 @@ namespace GPXViewer {
         /// </summary>
         /// <param name="elem"></param>
         /// <returns>The new XElement or null on failure.</returns>
-        private XElement getEditedXElement(XElement elem) {
+        private EditResult getEditedXElement(XElement elem) {
             try {
                 ScrolledTextDialog dlg = new ScrolledTextDialog(
                     Utils.getDpiAdjustedSize(this, new Size(600, 400)),
                     "Edit");
                 dlg.setText(elem.ToString());
                 DialogResult res = dlg.ShowDialog();
-                if (res != DialogResult.OK) return null;
-                return XElement.Parse(dlg.getText());
+                if (res != DialogResult.OK && res != DialogResult.Cancel) {
+                    return new EditResult(null, res);
+                }
+                return new EditResult(XElement.Parse(dlg.getText()), res);
             } catch (Exception) {
-                return null;
+                return new EditResult(null, DialogResult.Abort);
             }
         }
 
@@ -1421,6 +1439,19 @@ namespace GPXViewer {
                 Cursor.Current = Cursors.WaitCursor;
                 saveFilesToFileSet(dlg.FileName);
                 Cursor.Current = Cursors.Default;
+            }
+        }
+
+        /// <summary>
+        /// Class to handle getting both a value and a DialogResult from editing.
+        /// </summary>
+        private class EditResult {
+            public XElement Element { get; }
+            public DialogResult Result { get; }
+
+            public EditResult(XElement element, DialogResult result) {
+                Element = element;
+                Result = result;
             }
         }
     }
