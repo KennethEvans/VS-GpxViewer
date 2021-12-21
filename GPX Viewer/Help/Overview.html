@@ -3,7 +3,8 @@
 <head>
 <link href="book.css" rel="stylesheet" type="text/css" />
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title>GPX Viewer</title></head>
+<title>GPX Viewer</title>
+</head>
 <body>
 <h1 align="center"><strong><img src="GPXViewer256.png" alt="Logo" width="96" height="96" align="middle" /> GPX Viewer Overview</strong></h1>
 <p align="left">GPX Viewer allows you to examine and edit GPS Exchange Format (GPX) files through a graphical user interface. You can open multiple files, which will be shown in a tree view. You can expand the tree to see the tracks, waypoints, and routes, and further to see their sub-elements. You can send selected files to Google Earth to view the tracks, waypoints, and routes there. You can edit by using Cut, Copy, and Paste on the elements of the tree, and you can also edit the XML directly for each element.</p>
@@ -73,45 +74,9 @@
   <h3>Show Log </h3>
   <p>Output from some of the operations, especially on the GPX / TCX menu, is shown in a dialog with scrolled text. This is a modeless dialog, and retains everything entered, unless it is cleared. If the dialog is not visible, this makes it visible. However, visible does not mean it is on top. If it has become covered by other windows, you will have to find it. It becomes hidden (not visible) only when you click OK, but it still retains its contents. If no information has been sent yet, there will be no log.</p>
 </blockquote>
-<h2>GPX / TCX  Menu </h2>
+<h2>GPX / TCX  Menu</h2>
 <blockquote>
-  <h3 align="left">Format TCX/GPX</h3>
-  <p align="left">Formats a TCX or GPX file in a form that is easily read by humans. </p>
-  <h3 align="left">Format XML</h3>
-  <p align="left">Formats any XML file, including TCX and GPX,  in a form that is easily read by humans. The output for TCX and GPX files should be the same as above, but a different calculation method using XDocument is used. </p>
-  <h3 align="left">Convert GPX to TCX </h3>
-  <p align="left">Converts all the selected GPX files to TCX files. You will be prompted for where to save them. </p>
-  <h3 align="left">Convert TCX to GPX </h3>
-  <p align="left">Converts all the selected TCX files to GPX files. You will be prompted for where to save them. </p>
-  <h3 align="left">Interpolate TCX from GPX</h3>
-  <p align="left">Allows you to modify a TCX file using the latitude and longitude from a GPX patch file. It is a way to fix tracks that are in the wrong place owing to, say, inaccurate GPS or a GPS dropout. The trackpoints in the TCX file are modified to use the latitude and longitude from the GPX patch file. The result is that the times are retained, but the latitude and longitude values are interpolated from the GPX patch file proportional to the elapsed time in the interval used in the TCX file. This results in a constant speed for the processed points. This speed is the simple average speed = distance / time elapsed. This is hence a method of correcting trackpoints that will least affect the overall speed calculations. </p>
-  <p align="left">You will have to find a GPX file that goes where you went with the TCX exercise. The time in the GPX file is not used. There is an application, <a href="https://github.com/KennethEvans/maplines">Map Lines</a>, that will allow you to draw a path that can be saved as a GPX. It requires having a calibrated map of the area so you can see where to draw.</p>
-  <p align="left">Only the first Activity, Lap, and Track in the TCX file are processed. </p>
-  <p align="left">There are two modes. In both modes you will have a dialog to chose a start and end time. The TCX file will only be corrected in this interval (including the start and end times). The start and end times need to be specified in UTC time, which is the time listed in the TCX and GPX file. The initial times are the start and end times of the TCX file. You can edit these. There are three decimal points to prevent round off if you are unsure. Only time values actually in the TCX file are used so that this relationship holds.</p>
-  <p align="left" class="Code"> start &lt;= actualStart &lt; actualEnd &lt;= end </p>
-  <p align="left">There are two sub items</p>
-	<blockquote>
-  <p align="left"><strong><em> MatchLatLon Mode</em></strong></p>
-  <p align="left">Determines the actual interval by matching the latitude and longitude of the start and end points from the GPX file in the TCX file.  If no match is found for the start (because the GPS was inaccurate at the start), it starts at the start time you specified. It will not go past the specified end time. </p>
-  <p align="left"><strong><em>UseInterval</em></strong></p>
-  <p align="left">Uses the interval as specified. </p>
-	</blockquote>
-  <h3 align="left">Delete TCX Trackpoints</h3>
-  <p align="left">Deletes trackpoints from a TCX file. There is a dialog where you can choose the start and end times for the deletion. These are displayed in UTC time, the same as is used in the file. Only the first Activity, Lap, and Track in the TCX file are processed. </p>
-  <h3 align="left">Change TCX Times</h3>
-  <p align="left">Recalculates the times for a TCX file.   There is a dialog where you can choose the new start time, and it then adds the difference between the new and old start times to all the trackpoint times. The Activity Id, which is a string and may or may not be the old start time, is not changed. (For Polar Beat TCX files the Id is the start time, so it will not be consistent with the new times. It can be changed manually if desired. Use the Lap start time, which is just below.) It will default to saving the new file with the old file name with &quot;.tcx&quot; replaced by&quot;.timechange.tcx&quot;. If there is date and time information in the file name, be sure to change it before clicking &quot;Save&quot;. Only the first Activity, Lap, and Track in the TCX file are processed. </p>
-  <h3 align="left">Recalculate TCX</h3>
-  <p align="left">This program was designed to handle TCX files from <a href="https://flow.polar.com/">Polar Flow</a>. These files have other information besides the latitude, longitude, and time for the trackpoints. This information includes StartTime, TotalTimeSeconds, DistanceMeters, AverageHeartRateBpm, MaximumHeartRateBpm, MaximumSpeed, and AvgSpeed for the Laps, and it includes DistanceMeters for the Trackpoints. These numbers change if the positions of the trackpoints change or if they are deleted. This option recalculates them from the trackpoints currently in the file.</p>
-  <p align="left">What is actually contained in these elements is not specified in the TCX (TrainingCenterDatabasev2) <a href="https://www8.garmin.com/xmlschemas/TrainingCenterDatabasev2.xsd">specification</a>. The recalculation uses values as used by Polar. The MaximumSpeed does not not agree with the Polar calculation. (It is not published how they do that calculation, but it probably involves low-pass filtering that is not done here.) Note that what is contained in these elements can be obtained from the trackpoints anyway. That is what the GPX / TCX Utilities do. If you do not use these data and do not care if they are consistent with the data, then you do not need to do this.</p>
-  <p align="left">This step is automatically done at the end of the delete and interpolate calculations above. </p>
-  <h3 align="left">Fix Polar Access GPX</h3>
-  <p align="left">Polar Access produces GPX files with the time given in the form 2020-04-13T13:29:18.002. It is the local time, not the UTC time as required by the GPX specification. The UTC time typically ends in a Z. The corrected version of this time would be 2020-04-13T17:29:18.002Z. To determine this it is necessary to determine the time zone corresponding to the incorrect time, otherwise there is no way to know the UTC offset. The GPX / TCX Utilities do this using the latitude and longitude to get the time zone.  (In the example the actual time zone where the exercise occurred was EDT with a UTC offset of -4.) </p>
-  <p align="left">This menu item will fix the local times to be UTC and will also add category and location elements to the metadata, if this can be determined by the name. The file is corrected in place and the modified time is retained. The corrected file will be formatted. If you are uncertain this procedure will work, you should back up your files somewhere else before running it. </p>
-  <p align="left">In the event Polar Access fixes this issue, this menu item will only add the category and location if it can. If no changes are necessary, the file will not be modified, so it should be safe to run it on files that have already been fixed or that do not have the time issue. </p>
-  <h3 align="left">Find POI Near GPX</h3>
-  <p align="left">Calculates which of a set of Points of Interest (POI)  are within a specified distance of the tracks and/or routes in a GPX file. You will be prompted for the GPX file with the tracks/routes, then for the GPX file with waypoints representing the POI's, and then for the distance. (The POI file can be the same as the one with the tracks/routes.) The distance is specified as a number plus a space plus the units, which may be ft, mi, m, or km. (Example: 10 mi) It will find all the POI's that are within the given distance from any track or route point in the tracks/routes file. (Typically, however, there would only be one track or route, your choice.) The results are saved in a GPX file with the found POI's. It interpolates points along the track or route at a distance along the track or route of 1/3 the specified distance in case the track or route points are far apart. It only checks for POI's within a circle from those points, though, so some POI's along the outer limits could be missed if they lie where the circles do not overlap. All points within 89% of the specified distance should be within the overlapping circles. </p>
-  <h3 align="left">Single File Info </h3>
-  <p align="left">Shows extensive information from the selected files. This information is shown in the log dialog. </p>
+  <p align="left">The GPX / TCX Menu is a menu that provides a number of useful utility methods for manipulating GPX files and TCX files in general, not specific to this application. It is maintained as a separate C# class library. The same menu is used in multiple applications. For more information on the available commands and how to use them see <a href="https://kenevans.net/opensource/GPSUtils/Help/Overview.html">https://kenevans.net/opensource/GPSUtils/Help/Overview.html</a>.</p>
 </blockquote>
 <h2>Help Menu </h2>
 <blockquote>
