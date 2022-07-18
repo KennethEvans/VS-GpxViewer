@@ -12,7 +12,7 @@ namespace GPXViewer.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.7.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.2.0.0")]
     internal sealed partial class FindNear : global::System.Configuration.ApplicationSettingsBase {
         
         private static FindNear defaultInstance = ((FindNear)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new FindNear())));
