@@ -1174,6 +1174,7 @@ namespace GPXViewer {
         private void OnToolsShowLogClick(object sender, EventArgs e) {
             if (logDialog != null) {
                 logDialog.Visible = true;
+                logDialog.BringToFront();
             } else {
                 Utils.infoMsg("No log has been created yet");
             }
